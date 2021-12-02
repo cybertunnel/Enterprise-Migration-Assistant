@@ -11,6 +11,13 @@
 		818122452745A74300BBE9A3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818122442745A74300BBE9A3 /* ContentView.swift */; };
 		818122472745A74500BBE9A3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 818122462745A74500BBE9A3 /* Assets.xcassets */; };
 		8181224A2745A74500BBE9A3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 818122492745A74500BBE9A3 /* Preview Assets.xcassets */; };
+		818122522745A76B00BBE9A3 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 818122512745A76B00BBE9A3 /* README.md */; };
+		818122542745A89000BBE9A3 /* Disk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818122532745A89000BBE9A3 /* Disk.swift */; };
+		818122562745A8D900BBE9A3 /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818122552745A8D900BBE9A3 /* Credentials.swift */; };
+		818122582745BF7F00BBE9A3 /* MigrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818122572745BF7F00BBE9A3 /* MigrationController.swift */; };
+		8181225A2746E0C000BBE9A3 /* DiskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818122592746E0C000BBE9A3 /* DiskView.swift */; };
+		8181225C2746E61A00BBE9A3 /* InstructionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8181225B2746E61A00BBE9A3 /* InstructionView.swift */; };
+		818122602747013800BBE9A3 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8181225F2747013800BBE9A3 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +27,13 @@
 		818122462745A74500BBE9A3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		818122492745A74500BBE9A3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		8181224B2745A74500BBE9A3 /* Enterprise_Migration_Assistant.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Enterprise_Migration_Assistant.entitlements; sourceTree = "<group>"; };
+		818122512745A76B00BBE9A3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		818122532745A89000BBE9A3 /* Disk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Disk.swift; sourceTree = "<group>"; };
+		818122552745A8D900BBE9A3 /* Credentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
+		818122572745BF7F00BBE9A3 /* MigrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationController.swift; sourceTree = "<group>"; };
+		818122592746E0C000BBE9A3 /* DiskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskView.swift; sourceTree = "<group>"; };
+		8181225B2746E61A00BBE9A3 /* InstructionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionView.swift; sourceTree = "<group>"; };
+		8181225F2747013800BBE9A3 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +68,13 @@
 			children = (
 				818122422745A74300BBE9A3 /* Enterprise_Migration_AssistantApp.swift */,
 				818122442745A74300BBE9A3 /* ContentView.swift */,
+				818122512745A76B00BBE9A3 /* README.md */,
+				818122532745A89000BBE9A3 /* Disk.swift */,
+				818122592746E0C000BBE9A3 /* DiskView.swift */,
+				8181225B2746E61A00BBE9A3 /* InstructionView.swift */,
+				818122552745A8D900BBE9A3 /* Credentials.swift */,
+				8181225F2747013800BBE9A3 /* User.swift */,
+				818122572745BF7F00BBE9A3 /* MigrationController.swift */,
 				818122462745A74500BBE9A3 /* Assets.xcassets */,
 				8181224B2745A74500BBE9A3 /* Enterprise_Migration_Assistant.entitlements */,
 				818122482745A74500BBE9A3 /* Preview Content */,
@@ -127,6 +148,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				818122522745A76B00BBE9A3 /* README.md in Resources */,
 				8181224A2745A74500BBE9A3 /* Preview Assets.xcassets in Resources */,
 				818122472745A74500BBE9A3 /* Assets.xcassets in Resources */,
 			);
@@ -139,7 +161,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				818122542745A89000BBE9A3 /* Disk.swift in Sources */,
+				8181225A2746E0C000BBE9A3 /* DiskView.swift in Sources */,
+				818122582745BF7F00BBE9A3 /* MigrationController.swift in Sources */,
 				818122452745A74300BBE9A3 /* ContentView.swift in Sources */,
+				818122602747013800BBE9A3 /* User.swift in Sources */,
+				8181225C2746E61A00BBE9A3 /* InstructionView.swift in Sources */,
+				818122562745A8D900BBE9A3 /* Credentials.swift in Sources */,
 				818122432745A74300BBE9A3 /* Enterprise_Migration_AssistantApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -281,6 +309,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.cybertunnel.Enterprise-Migration-Assistant";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -308,6 +337,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.cybertunnel.Enterprise-Migration-Assistant";
 				PRODUCT_NAME = "$(TARGET_NAME)";

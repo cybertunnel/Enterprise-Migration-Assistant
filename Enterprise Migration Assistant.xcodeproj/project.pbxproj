@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8148307D275931140014F73B /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8148307C275931140014F73B /* ProgressBar.swift */; };
+		8148307F275946E40014F73B /* DiskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8148307E275946E40014F73B /* DiskListView.swift */; };
+		814830AA275961400014F73B /* Folder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814830A9275961400014F73B /* Folder.swift */; };
+		814830AE275961530014F73B /* FolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814830AD275961530014F73B /* FolderView.swift */; };
+		814830B0275961590014F73B /* FolderViewList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814830AF275961590014F73B /* FolderViewList.swift */; };
+		8149B75B2759704200B6E771 /* URLExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8149B75A2759704200B6E771 /* URLExtension.swift */; };
+		8149B75D275A579A00B6E771 /* FileManagerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8149B75C275A579A00B6E771 /* FileManagerExtension.swift */; };
 		818122432745A74300BBE9A3 /* Enterprise_Migration_AssistantApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818122422745A74300BBE9A3 /* Enterprise_Migration_AssistantApp.swift */; };
 		818122452745A74300BBE9A3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818122442745A74300BBE9A3 /* ContentView.swift */; };
 		818122472745A74500BBE9A3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 818122462745A74500BBE9A3 /* Assets.xcassets */; };
@@ -21,6 +28,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8148307C275931140014F73B /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
+		8148307E275946E40014F73B /* DiskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskListView.swift; sourceTree = "<group>"; };
+		814830A9275961400014F73B /* Folder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Folder.swift; sourceTree = "<group>"; };
+		814830AD275961530014F73B /* FolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderView.swift; sourceTree = "<group>"; };
+		814830AF275961590014F73B /* FolderViewList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderViewList.swift; sourceTree = "<group>"; };
+		8149B75A2759704200B6E771 /* URLExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLExtension.swift; sourceTree = "<group>"; };
+		8149B75C275A579A00B6E771 /* FileManagerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerExtension.swift; sourceTree = "<group>"; };
 		8181223F2745A74300BBE9A3 /* Enterprise Migration Assistant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Enterprise Migration Assistant.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		818122422745A74300BBE9A3 /* Enterprise_Migration_AssistantApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enterprise_Migration_AssistantApp.swift; sourceTree = "<group>"; };
 		818122442745A74300BBE9A3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -68,9 +82,16 @@
 			children = (
 				818122422745A74300BBE9A3 /* Enterprise_Migration_AssistantApp.swift */,
 				818122442745A74300BBE9A3 /* ContentView.swift */,
+				814830A9275961400014F73B /* Folder.swift */,
+				814830AD275961530014F73B /* FolderView.swift */,
+				814830AF275961590014F73B /* FolderViewList.swift */,
+				8149B75A2759704200B6E771 /* URLExtension.swift */,
+				8149B75C275A579A00B6E771 /* FileManagerExtension.swift */,
 				818122512745A76B00BBE9A3 /* README.md */,
 				818122532745A89000BBE9A3 /* Disk.swift */,
 				818122592746E0C000BBE9A3 /* DiskView.swift */,
+				8148307E275946E40014F73B /* DiskListView.swift */,
+				8148307C275931140014F73B /* ProgressBar.swift */,
 				8181225B2746E61A00BBE9A3 /* InstructionView.swift */,
 				818122552745A8D900BBE9A3 /* Credentials.swift */,
 				8181225F2747013800BBE9A3 /* User.swift */,
@@ -162,13 +183,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				818122542745A89000BBE9A3 /* Disk.swift in Sources */,
+				8149B75B2759704200B6E771 /* URLExtension.swift in Sources */,
 				8181225A2746E0C000BBE9A3 /* DiskView.swift in Sources */,
+				814830AE275961530014F73B /* FolderView.swift in Sources */,
 				818122582745BF7F00BBE9A3 /* MigrationController.swift in Sources */,
 				818122452745A74300BBE9A3 /* ContentView.swift in Sources */,
+				814830AA275961400014F73B /* Folder.swift in Sources */,
+				8148307D275931140014F73B /* ProgressBar.swift in Sources */,
 				818122602747013800BBE9A3 /* User.swift in Sources */,
 				8181225C2746E61A00BBE9A3 /* InstructionView.swift in Sources */,
+				8149B75D275A579A00B6E771 /* FileManagerExtension.swift in Sources */,
 				818122562745A8D900BBE9A3 /* Credentials.swift in Sources */,
 				818122432745A74300BBE9A3 /* Enterprise_Migration_AssistantApp.swift in Sources */,
+				8148307F275946E40014F73B /* DiskListView.swift in Sources */,
+				814830B0275961590014F73B /* FolderViewList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

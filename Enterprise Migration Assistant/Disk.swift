@@ -7,7 +7,6 @@
 
 import Foundation
 import DiskArbitration
-import SwiftUI
 
 enum DiskError: Error {
     case NotValidDeviceType(type: String), NoUserPathFound, InvalidPath, UnableToGetDescription, UnsupportedProtocol
@@ -24,21 +23,66 @@ struct Disk: Hashable {
     let capacity: Int
     var capacityString: String {
         get {
-            self.sizeToString(self.capacity)
+            return Disk.byteCountFormatter.string(for: self.capacity) ?? "Error Calculating"
         }
     }
     let free: Int
     var freeString: String {
         get {
-            return self.sizeToString(self.free)
+            Disk.byteCountFormatter.string(for: self.free) ?? "Error Calculating"
         }
     }
     let used: Int
     var usedString: String {
         get {
-            return self.sizeToString(self.used)
+            Disk.byteCountFormatter.string(for: self.used) ?? "Error Calculating"
         }
     }
+    
+    let isEncrypted: Bool
+    private static let byteCountFormatter = ByteCountFormatter()
+    
+    static func fromURL(_ url: URL) throws -> Disk {
+        guard let diskObj = DADiskCreateFromVolumePath(nil, DASessionCreate(nil)!, url.absoluteURL as CFURL) else { throw DiskError.InvalidPath }
+        guard let diskDict = DADiskCopyDescription(diskObj) as? [String: Any] else { throw DiskError.UnableToGetDescription }
+        
+        if (diskDict["DAMediaEjectable"] as? Int) != 1 && diskDict["DADeviceProtocol"] as? String != "Thunderbolt" {
+            //print(diskDict["DADeviceProtocol"])
+            throw DiskError.NotValidDeviceType(type: "Non-Removable")
+        }
+        
+        if diskDict["DADeviceModel"] as? String == "Disk Image" {
+            throw DiskError.NotValidDeviceType(type: "Disk Image")
+        }
+        
+        //print(diskDict["DADeviceModel"])
+        //print(diskDict["DADeviceProtocol"])
+        let pathURL = diskDict["DAVolumePath"] as? URL
+        let values = try! pathURL?.resourceValues(forKeys: [.volumeAvailableCapacityKey])
+        var freeCap = 0
+        if let capacity = values?.volumeAvailableCapacity {
+            print("Available capascity for important usage: \(capacity)")
+            freeCap = capacity
+        } else {
+            print("Capacity is unavailable")
+        }
+        
+        #if DEBUG
+        dump(diskDict)
+        #endif
+        
+        return Disk(
+            name: String(describing: diskDict["DAVolumeName"] ?? ""),
+            volumeType: diskDict["DAVolumeType"] as? String ?? "",
+            pathURL: url,
+            capacity: diskDict["DAMediaSize"] as? Int ?? 0,
+            free: freeCap,
+            used: (diskDict["DAMediaSize"] as? Int ?? 0) - freeCap,
+            isEncrypted: diskDict["DAMediaEncrypted"] as? Int ?? 0 == 1
+        )
+    }
+    
+    // MARK: Private Functions
     
     private func sizeToString(_ size: Int) -> String {
         var currentSize: Double = Double(size)
@@ -58,54 +102,5 @@ struct Disk: Hashable {
         }
         
         return "\(String(describing: currentSize)) \(sizeDict[currPos])"
-    }
-    let isEncrypted: Bool
-    
-    static func fromURL(_ url: URL) throws -> Disk {
-        guard let diskObj = DADiskCreateFromVolumePath(nil, DASessionCreate(nil)!, url.absoluteURL as CFURL) else { throw DiskError.InvalidPath }
-        guard let diskDict = DADiskCopyDescription(diskObj) as? [String: Any] else { throw DiskError.UnableToGetDescription }
-        
-        if (diskDict["DAMediaEjectable"] as? Int) != 1 && diskDict["DADeviceProtocol"] as? String != "Thunderbolt" {
-            print(diskDict["DADeviceProtocol"])
-            throw DiskError.NotValidDeviceType(type: "Non-Removable")
-        }
-        
-        if diskDict["DADeviceModel"] as? String == "Disk Image" {
-            throw DiskError.NotValidDeviceType(type: "Disk Image")
-        }
-        
-        print(diskDict["DADeviceModel"])
-        print(diskDict["DADeviceProtocol"])
-        let pathURL = diskDict["DAVolumePath"] as? URL
-        let values = try! pathURL?.resourceValues(forKeys: [.volumeAvailableCapacityKey])
-        var freeCap = 0
-        if let capacity = values?.volumeAvailableCapacity {
-            print("Available capascity for important usage: \(capacity)")
-            freeCap = capacity
-        } else {
-            print("Capacity is unavailable")
-        }
-        
-        #if DEBUG
-        dump(diskDict)
-        #endif
-        
-        return Disk(
-            name: String(describing: diskDict["DAVolumeName"]),
-            mediaBSDName: diskDict["DAMediaBSDName"] as! String,
-            volumeType: diskDict["DAVolumeType"] as! String,
-            mediaContent: diskDict["DAMediaContent"] as! String,
-            pathURL: url,
-            capacity: diskDict["DAMediaSize"] as! Int,
-            free: freeCap,
-            used: (diskDict["DAMediaSize"] as! Int) - freeCap,
-            isEncrypted: diskDict["DAMediaEncrypted"] as! Int == 1
-        )
-    }
-}
-
-struct Disk_Previews: PreviewProvider {
-    static var previews: some View {
-        /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
     }
 }

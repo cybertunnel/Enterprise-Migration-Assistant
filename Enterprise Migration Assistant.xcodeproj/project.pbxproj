@@ -25,7 +25,48 @@
 		8181225A2746E0C000BBE9A3 /* DiskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818122592746E0C000BBE9A3 /* DiskView.swift */; };
 		8181225C2746E61A00BBE9A3 /* InstructionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8181225B2746E61A00BBE9A3 /* InstructionView.swift */; };
 		818122602747013800BBE9A3 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8181225F2747013800BBE9A3 /* User.swift */; };
+		81A2EFF72760FB5D00F002F3 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2EFF62760FB5D00F002F3 /* main.swift */; };
+		81A2EFFD2760FF7000F002F3 /* HelperProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2EFFC2760FF7000F002F3 /* HelperProtocol.swift */; };
+		81A2EFFE2760FF7000F002F3 /* HelperProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2EFFC2760FF7000F002F3 /* HelperProtocol.swift */; };
+		81A2F0002761010100F002F3 /* RemoteApplicationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2EFFF2761010100F002F3 /* RemoteApplicationProtocol.swift */; };
+		81A2F0012761010100F002F3 /* RemoteApplicationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2EFFF2761010100F002F3 /* RemoteApplicationProtocol.swift */; };
+		81A2F0032761011400F002F3 /* HelperConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2F0022761011400F002F3 /* HelperConstants.swift */; };
+		81A2F0042761011400F002F3 /* HelperConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2F0022761011400F002F3 /* HelperConstants.swift */; };
+		81A2F0062761018300F002F3 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2F0052761018300F002F3 /* Helper.swift */; };
+		81A2F0082761018D00F002F3 /* HelperExecutionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2F0072761018D00F002F3 /* HelperExecutionService.swift */; };
+		81A2F00A2761034F00F002F3 /* Result+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2F0092761034F00F002F3 /* Result+Extension.swift */; };
+		81A2F00B2761034F00F002F3 /* Result+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2F0092761034F00F002F3 /* Result+Extension.swift */; };
+		81A2F00D2761038000F002F3 /* MigrationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2F00C2761038000F002F3 /* MigrationError.swift */; };
+		81A2F00E2761038000F002F3 /* MigrationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2F00C2761038000F002F3 /* MigrationError.swift */; };
+		81A2F0102761054E00F002F3 /* HelperRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2F00F2761054E00F002F3 /* HelperRemote.swift */; };
+		81A2F015276108D200F002F3 /* ExecutionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2F014276108D200F002F3 /* ExecutionService.swift */; };
+		81A2F0172761150A00F002F3 /* com.github.cybertunnel.Enterprise-Migration-Assistant.helper in CopyFiles */ = {isa = PBXBuildFile; fileRef = 81A2EFF42760FB5D00F002F3 /* com.github.cybertunnel.Enterprise-Migration-Assistant.helper */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		81A2F01927611C5200F002F3 /* DiskDetectionInstructionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2F01827611C5200F002F3 /* DiskDetectionInstructionView.swift */; };
+		81A2F01B2761204D00F002F3 /* VerifyPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2F01A2761204D00F002F3 /* VerifyPasswordView.swift */; };
+		81A2F03A276150E500F002F3 /* SettingsVerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2F039276150E500F002F3 /* SettingsVerificationView.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		81A2EFF22760FB5D00F002F3 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		81A2F016276114E800F002F3 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "Enterprise Migration Assistant.app/Contents/Library/LaunchServices";
+			dstSubfolderSpec = 16;
+			files = (
+				81A2F0172761150A00F002F3 /* com.github.cybertunnel.Enterprise-Migration-Assistant.helper in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		8148307C275931140014F73B /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
@@ -48,6 +89,22 @@
 		818122592746E0C000BBE9A3 /* DiskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskView.swift; sourceTree = "<group>"; };
 		8181225B2746E61A00BBE9A3 /* InstructionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionView.swift; sourceTree = "<group>"; };
 		8181225F2747013800BBE9A3 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		81A2EFF42760FB5D00F002F3 /* com.github.cybertunnel.Enterprise-Migration-Assistant.helper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "com.github.cybertunnel.Enterprise-Migration-Assistant.helper"; sourceTree = BUILT_PRODUCTS_DIR; };
+		81A2EFF62760FB5D00F002F3 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		81A2EFFB2760FEE800F002F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		81A2EFFC2760FF7000F002F3 /* HelperProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperProtocol.swift; sourceTree = "<group>"; };
+		81A2EFFF2761010100F002F3 /* RemoteApplicationProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteApplicationProtocol.swift; sourceTree = "<group>"; };
+		81A2F0022761011400F002F3 /* HelperConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperConstants.swift; sourceTree = "<group>"; };
+		81A2F0052761018300F002F3 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		81A2F0072761018D00F002F3 /* HelperExecutionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperExecutionService.swift; sourceTree = "<group>"; };
+		81A2F0092761034F00F002F3 /* Result+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Result+Extension.swift"; sourceTree = "<group>"; };
+		81A2F00C2761038000F002F3 /* MigrationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationError.swift; sourceTree = "<group>"; };
+		81A2F00F2761054E00F002F3 /* HelperRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperRemote.swift; sourceTree = "<group>"; };
+		81A2F0112761081300F002F3 /* Launchd.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Launchd.plist; sourceTree = "<group>"; };
+		81A2F014276108D200F002F3 /* ExecutionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecutionService.swift; sourceTree = "<group>"; };
+		81A2F01827611C5200F002F3 /* DiskDetectionInstructionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskDetectionInstructionView.swift; sourceTree = "<group>"; };
+		81A2F01A2761204D00F002F3 /* VerifyPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyPasswordView.swift; sourceTree = "<group>"; };
+		81A2F039276150E500F002F3 /* SettingsVerificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVerificationView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,13 +115,57 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		81A2EFF12760FB5D00F002F3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8149B779275A826F00B6E771 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				818122442745A74300BBE9A3 /* ContentView.swift */,
+				814830AD275961530014F73B /* FolderView.swift */,
+				814830AF275961590014F73B /* FolderViewList.swift */,
+				818122592746E0C000BBE9A3 /* DiskView.swift */,
+				8148307E275946E40014F73B /* DiskListView.swift */,
+				8148307C275931140014F73B /* ProgressBar.swift */,
+				8181225B2746E61A00BBE9A3 /* InstructionView.swift */,
+				81A2F01827611C5200F002F3 /* DiskDetectionInstructionView.swift */,
+				81A2F01A2761204D00F002F3 /* VerifyPasswordView.swift */,
+				81A2F039276150E500F002F3 /* SettingsVerificationView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8149B77A275A827700B6E771 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				818122572745BF7F00BBE9A3 /* MigrationController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		8149B77B275A827F00B6E771 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8181225F2747013800BBE9A3 /* User.swift */,
+				818122552745A8D900BBE9A3 /* Credentials.swift */,
+				818122532745A89000BBE9A3 /* Disk.swift */,
+				814830A9275961400014F73B /* Folder.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		818122362745A74300BBE9A3 = {
 			isa = PBXGroup;
 			children = (
 				818122412745A74300BBE9A3 /* Enterprise Migration Assistant */,
+				81A2EFF52760FB5D00F002F3 /* Helper */,
 				818122402745A74300BBE9A3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -73,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				8181223F2745A74300BBE9A3 /* Enterprise Migration Assistant.app */,
+				81A2EFF42760FB5D00F002F3 /* com.github.cybertunnel.Enterprise-Migration-Assistant.helper */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -80,25 +182,20 @@
 		818122412745A74300BBE9A3 /* Enterprise Migration Assistant */ = {
 			isa = PBXGroup;
 			children = (
+				8149B77B275A827F00B6E771 /* Models */,
+				8149B77A275A827700B6E771 /* Controllers */,
+				8149B779275A826F00B6E771 /* Views */,
 				818122422745A74300BBE9A3 /* Enterprise_Migration_AssistantApp.swift */,
-				818122442745A74300BBE9A3 /* ContentView.swift */,
-				814830A9275961400014F73B /* Folder.swift */,
-				814830AD275961530014F73B /* FolderView.swift */,
-				814830AF275961590014F73B /* FolderViewList.swift */,
 				8149B75A2759704200B6E771 /* URLExtension.swift */,
 				8149B75C275A579A00B6E771 /* FileManagerExtension.swift */,
 				818122512745A76B00BBE9A3 /* README.md */,
-				818122532745A89000BBE9A3 /* Disk.swift */,
-				818122592746E0C000BBE9A3 /* DiskView.swift */,
-				8148307E275946E40014F73B /* DiskListView.swift */,
-				8148307C275931140014F73B /* ProgressBar.swift */,
-				8181225B2746E61A00BBE9A3 /* InstructionView.swift */,
-				818122552745A8D900BBE9A3 /* Credentials.swift */,
-				8181225F2747013800BBE9A3 /* User.swift */,
-				818122572745BF7F00BBE9A3 /* MigrationController.swift */,
 				818122462745A74500BBE9A3 /* Assets.xcassets */,
 				8181224B2745A74500BBE9A3 /* Enterprise_Migration_Assistant.entitlements */,
 				818122482745A74500BBE9A3 /* Preview Content */,
+				81A2F0092761034F00F002F3 /* Result+Extension.swift */,
+				81A2F014276108D200F002F3 /* ExecutionService.swift */,
+				81A2F00F2761054E00F002F3 /* HelperRemote.swift */,
+				81A2F00C2761038000F002F3 /* MigrationError.swift */,
 			);
 			path = "Enterprise Migration Assistant";
 			sourceTree = "<group>";
@@ -111,6 +208,21 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		81A2EFF52760FB5D00F002F3 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				81A2EFF62760FB5D00F002F3 /* main.swift */,
+				81A2EFFC2760FF7000F002F3 /* HelperProtocol.swift */,
+				81A2EFFF2761010100F002F3 /* RemoteApplicationProtocol.swift */,
+				81A2F0022761011400F002F3 /* HelperConstants.swift */,
+				81A2F0052761018300F002F3 /* Helper.swift */,
+				81A2F0112761081300F002F3 /* Launchd.plist */,
+				81A2F0072761018D00F002F3 /* HelperExecutionService.swift */,
+				81A2EFFB2760FEE800F002F3 /* Info.plist */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -121,6 +233,7 @@
 				8181223B2745A74300BBE9A3 /* Sources */,
 				8181223C2745A74300BBE9A3 /* Frameworks */,
 				8181223D2745A74300BBE9A3 /* Resources */,
+				81A2F016276114E800F002F3 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -130,6 +243,23 @@
 			productName = "Enterprise Migration Assistant";
 			productReference = 8181223F2745A74300BBE9A3 /* Enterprise Migration Assistant.app */;
 			productType = "com.apple.product-type.application";
+		};
+		81A2EFF32760FB5D00F002F3 /* com.github.cybertunnel.Enterprise-Migration-Assistant.helper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 81A2EFFA2760FB5D00F002F3 /* Build configuration list for PBXNativeTarget "com.github.cybertunnel.Enterprise-Migration-Assistant.helper" */;
+			buildPhases = (
+				81A2EFF02760FB5D00F002F3 /* Sources */,
+				81A2EFF12760FB5D00F002F3 /* Frameworks */,
+				81A2EFF22760FB5D00F002F3 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "com.github.cybertunnel.Enterprise-Migration-Assistant.helper";
+			productName = Helper;
+			productReference = 81A2EFF42760FB5D00F002F3 /* com.github.cybertunnel.Enterprise-Migration-Assistant.helper */;
+			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
@@ -142,6 +272,9 @@
 				LastUpgradeCheck = 1310;
 				TargetAttributes = {
 					8181223E2745A74300BBE9A3 = {
+						CreatedOnToolsVersion = 13.1;
+					};
+					81A2EFF32760FB5D00F002F3 = {
 						CreatedOnToolsVersion = 13.1;
 					};
 				};
@@ -160,6 +293,7 @@
 			projectRoot = "";
 			targets = (
 				8181223E2745A74300BBE9A3 /* Enterprise Migration Assistant */,
+				81A2EFF32760FB5D00F002F3 /* com.github.cybertunnel.Enterprise-Migration-Assistant.helper */,
 			);
 		};
 /* End PBXProject section */
@@ -183,20 +317,45 @@
 			buildActionMask = 2147483647;
 			files = (
 				818122542745A89000BBE9A3 /* Disk.swift in Sources */,
+				81A2F0032761011400F002F3 /* HelperConstants.swift in Sources */,
+				81A2EFFD2760FF7000F002F3 /* HelperProtocol.swift in Sources */,
+				81A2F01927611C5200F002F3 /* DiskDetectionInstructionView.swift in Sources */,
+				81A2F00D2761038000F002F3 /* MigrationError.swift in Sources */,
+				81A2F015276108D200F002F3 /* ExecutionService.swift in Sources */,
 				8149B75B2759704200B6E771 /* URLExtension.swift in Sources */,
 				8181225A2746E0C000BBE9A3 /* DiskView.swift in Sources */,
 				814830AE275961530014F73B /* FolderView.swift in Sources */,
+				81A2F03A276150E500F002F3 /* SettingsVerificationView.swift in Sources */,
 				818122582745BF7F00BBE9A3 /* MigrationController.swift in Sources */,
 				818122452745A74300BBE9A3 /* ContentView.swift in Sources */,
 				814830AA275961400014F73B /* Folder.swift in Sources */,
 				8148307D275931140014F73B /* ProgressBar.swift in Sources */,
 				818122602747013800BBE9A3 /* User.swift in Sources */,
 				8181225C2746E61A00BBE9A3 /* InstructionView.swift in Sources */,
+				81A2F0002761010100F002F3 /* RemoteApplicationProtocol.swift in Sources */,
+				81A2F00A2761034F00F002F3 /* Result+Extension.swift in Sources */,
 				8149B75D275A579A00B6E771 /* FileManagerExtension.swift in Sources */,
 				818122562745A8D900BBE9A3 /* Credentials.swift in Sources */,
 				818122432745A74300BBE9A3 /* Enterprise_Migration_AssistantApp.swift in Sources */,
 				8148307F275946E40014F73B /* DiskListView.swift in Sources */,
 				814830B0275961590014F73B /* FolderViewList.swift in Sources */,
+				81A2F01B2761204D00F002F3 /* VerifyPasswordView.swift in Sources */,
+				81A2F0102761054E00F002F3 /* HelperRemote.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		81A2EFF02760FB5D00F002F3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				81A2EFF72760FB5D00F002F3 /* main.swift in Sources */,
+				81A2F0042761011400F002F3 /* HelperConstants.swift in Sources */,
+				81A2F0082761018D00F002F3 /* HelperExecutionService.swift in Sources */,
+				81A2F00E2761038000F002F3 /* MigrationError.swift in Sources */,
+				81A2F0062761018300F002F3 /* Helper.swift in Sources */,
+				81A2EFFE2760FF7000F002F3 /* HelperProtocol.swift in Sources */,
+				81A2F0012761010100F002F3 /* RemoteApplicationProtocol.swift in Sources */,
+				81A2F00B2761034F00F002F3 /* Result+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,6 +533,56 @@
 			};
 			name = Release;
 		};
+		81A2EFF82760FB5D00F002F3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 55JHL22EU7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Helper/Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 0.01;
+				OTHER_LDFLAGS = (
+					"-sectcreate",
+					__TEXT,
+					__info_plist,
+					"\"$(SRCROOT)/Helper/Info.plist\"",
+					"-sectcreate",
+					__TEXT,
+					__launchd_plist,
+					"\"$(SRCROOT)/Helper/Launchd.plist\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		81A2EFF92760FB5D00F002F3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 55JHL22EU7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Helper/Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 0.01;
+				OTHER_LDFLAGS = (
+					"-sectcreate",
+					__TEXT,
+					__info_plist,
+					"\"$(SRCROOT)/Helper/Info.plist\"",
+					"-sectcreate",
+					__TEXT,
+					__launchd_plist,
+					"\"$(SRCROOT)/Helper/Launchd.plist\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -391,6 +600,15 @@
 			buildConfigurations = (
 				8181224F2745A74500BBE9A3 /* Debug */,
 				818122502745A74500BBE9A3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		81A2EFFA2760FB5D00F002F3 /* Build configuration list for PBXNativeTarget "com.github.cybertunnel.Enterprise-Migration-Assistant.helper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				81A2EFF82760FB5D00F002F3 /* Debug */,
+				81A2EFF92760FB5D00F002F3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

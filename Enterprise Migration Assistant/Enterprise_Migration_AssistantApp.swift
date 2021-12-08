@@ -13,6 +13,7 @@ struct Enterprise_Migration_AssistantApp: App {
         WindowGroup {
             ContentView()
                 .frame(width: 800, height: 600, alignment: .center)
+                .environmentObject(MigrationController())
         }
     }
 }

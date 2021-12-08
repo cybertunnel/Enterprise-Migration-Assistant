@@ -15,3 +15,38 @@ Functionality:
 - Prompts if old or local password is to be used
 - Has debug option that does not actually move stuff
 - Creates local LaunchDaemon that goes over LoginWindow to prevent user from logging in
+
+
+Process:
+- Welcome screen
+- Disk detection/selection
+- User folder detection/selection
+- Password prompt
+- Transfer files to local drive
+- Attempt prompt for privledged helper
+- Install LaunchDaemon that kicks off the rsync
+- Migration user is created with a Secure Token
+- Copy data to current disk's /Users/ folder
+- Remove existing user if it already matches
+- user migrated created by the migrator user w/ Secure Token
+- migrator user and supporting files are removed from the computer
+
+
+Engine:
+- Check Secure Token Status (throws error)
+- Calculate space requirement
+- perform rsync
+- manually find old user
+- auto find old user
+- choose tbolt volume
+- detect new tbolt volumes
+- get user password
+- get old user password
+- check user password against old keychain
+- confirm conflicting user deletion
+- isUserReadyForThis
+- make migrator user
+- writeMigrationSettings
+- writeLaunchDaemon
+- start LaunchDaemon
+- 

@@ -10,6 +10,8 @@ import AppKit
 
 class User: Hashable, ObservableObject {
     
+    // MARK: - Properties
+    
     let username: String
     @Published var localFolder: Folder?
     @Published var remoteFolder: Folder?
@@ -28,17 +30,44 @@ class User: Hashable, ObservableObject {
     @Published var localPasswordVerified: Bool = false
     @Published var hasSecureToken: Bool = false
     
+    // MARK: - Initialiser
     init(_ username: String) {
         self.username = username
         guard let homeDir = FileManager.default.homeDirectory(forUser: username) else { return }
         self.localFolder = Folder(name: homeDir.path, urlPath: homeDir)
     }
     
+    // MARK: - Static Functions
+    
     static func detectUser() -> User {
         let currUserHomeDir = FileManager.default.homeDirectoryForCurrentUser
         guard let currUser = currUserHomeDir.path.split(separator: "/").last else { return User("")}
         return User(String(describing: currUser))
     }
+    
+    static func == (lhs: User, rhs: User) -> Bool {
+        if (lhs.remotePasswordVerified == rhs.remotePasswordVerified &&
+            lhs.remotePassword == rhs.remotePassword &&
+            lhs.hasSecureToken == rhs.hasSecureToken &&
+            lhs.localPassword == rhs.localPassword &&
+            lhs.localPasswordVerified == rhs.localPasswordVerified &&
+            lhs.localFolder == rhs.localFolder &&
+            lhs.username == rhs.username
+        ) {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    
+    // MARK: - Functions
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(username)
+    }
+    
+    // MARK: - Private Functions
     
     private func verifyRemotePassword(using password: String, at path: String) {
         let process = Process()
@@ -114,26 +143,6 @@ class User: Hashable, ObservableObject {
                 }
             }
         }
-    }
-    
-    static func == (lhs: User, rhs: User) -> Bool {
-        if (lhs.remotePasswordVerified == rhs.remotePasswordVerified &&
-            lhs.remotePassword == rhs.remotePassword &&
-            lhs.hasSecureToken == rhs.hasSecureToken &&
-            lhs.localPassword == rhs.localPassword &&
-            lhs.localPasswordVerified == rhs.localPasswordVerified &&
-            lhs.localFolder == rhs.localFolder &&
-            lhs.username == rhs.username
-        ) {
-            return true
-        }
-        else {
-            return false
-        }
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(username)
     }
 }
 /**

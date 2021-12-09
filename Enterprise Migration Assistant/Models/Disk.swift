@@ -8,6 +8,7 @@
 import Foundation
 import DiskArbitration
 
+// MARK: - Constants
 enum DiskError: Error {
     case NotValidDeviceType(type: String), NoUserPathFound, InvalidPath, UnableToGetDescription, UnsupportedProtocol
 }
@@ -17,6 +18,8 @@ enum DiskProtocol: String {
 }
 
 struct Disk: Hashable {
+    
+    // MARK: - Properties
     let name: String
     let volumeType: String
     let pathURL: URL
@@ -40,8 +43,12 @@ struct Disk: Hashable {
     }
     
     let isEncrypted: Bool
+    
+    // MARK: - Static Properties
     private static let byteCountFormatter = ByteCountFormatter()
     
+    
+    // MARK: Static Functions
     static func fromURL(_ url: URL) throws -> Disk {
         guard let diskObj = DADiskCreateFromVolumePath(nil, DASessionCreate(nil)!, url.absoluteURL as CFURL) else { throw DiskError.InvalidPath }
         guard let diskDict = DADiskCopyDescription(diskObj) as? [String: Any] else { throw DiskError.UnableToGetDescription }

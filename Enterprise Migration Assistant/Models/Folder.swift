@@ -9,6 +9,8 @@ import Foundation
 
 class Folder:Hashable {
     
+    // MARK: - Properties
+    
     let name: String
     var sizeOnDisk: Int?
     var sizeOnDiskString: String? {
@@ -23,6 +25,8 @@ class Folder:Hashable {
     }
     var processingSize: Bool = false
     var urlPath: URL
+    
+    // MARK: - Initialiser
     
     init (name: String, urlPath: URL, size: Int? = nil) {
         self.name = name
@@ -53,6 +57,7 @@ class Folder:Hashable {
         }
     }
     
+    // MARK: - Static Functions
     static func == (lhs: Folder, rhs: Folder) -> Bool {
         if lhs.name == rhs.name && lhs.sizeOnDisk == rhs.sizeOnDisk && lhs.urlPath == rhs.urlPath {
             return true
@@ -62,6 +67,8 @@ class Folder:Hashable {
         }
     }
     
+    
+    // MARK: - Functions
     func hash(into hasher: inout Hasher) {
         hasher.combine(urlPath)
     }

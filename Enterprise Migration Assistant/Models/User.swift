@@ -69,6 +69,41 @@ class User: Hashable, ObservableObject {
     
     // MARK: - Private Functions
     
+    private func updateSecureTokenStatus() {
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: "/usr/sbin/sysadminctl")
+        process.arguments = ["-secureTokenStatus", self.username]
+
+        let outputPipe = Pipe()
+        process.standardOutput = outputPipe
+        process.standardError = outputPipe
+        do {
+            try process.run()
+        } catch {
+            DispatchQueue.main.async {
+                self.remotePasswordVerified = false
+            }
+        }
+
+        DispatchQueue.global(qos: .userInteractive).async {
+            process.waitUntilExit()
+            do {
+                let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
+                guard let output = String(data: outputData, encoding: .utf8) else { return }
+                
+                if output.contains("ENABLED") {
+                    DispatchQueue.main.async {
+                        self.hasSecureToken = true
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self.hasSecureToken = false
+                    }
+                }
+            }
+        }
+    }
+    
     private func verifyRemotePassword(using password: String, at path: String) {
         let process = Process()
         process.executableURL = URL(fileURLWithPath: "/usr/bin/security")

@@ -25,17 +25,19 @@ struct ContentView: View {
                     .environmentObject(self.migrationController)
             }
             else if self.migrationController.currStep == .Migration {
-                Text("Transferring your files now")
-                    .font(.title)
-                    .padding()
-                Spacer()
+                MigrationView()
+                    .environmentObject(self.migrationController)
             }
             else if self.migrationController.currStep == .InformationVerification {
                 InputRequestView(user: self.$migrationController.user)
                     .environmentObject(self.migrationController.user)
-                if self.migrationController.user.remotePasswordVerified {
-                    Text("YAY!")
-                }
+            }
+            else if self.migrationController.currStep == .Verification {
+                VerificationView()
+                    .environmentObject(self.migrationController)
+            }
+            else if self.migrationController.currStep == .Logoff {
+                CompleteView()
             }
             else {
             }
@@ -92,5 +94,120 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView(user: User("Example 1"))
             .frame(width: 800, height: 600)
+            .environmentObject(MigrationController())
+        
+        ContentView(user: User("Example 1"))
+            .frame(width: 800, height: 600)
+            .environmentObject({ () -> MigrationController in
+                let controller = MigrationController()
+                controller.currStep = .DiskSelection
+                controller.stopDiskDetection()
+                let disks = [
+                    Disk(name: "Example 1", volumeType: "APFS", pathURL: URL(fileURLWithPath: "/Volumes/Example 1"), capacity: 250000, free: 20000, used: 20000, isEncrypted: true),
+                    Disk(name: "Example 2", volumeType: "APFS", pathURL: URL(fileURLWithPath: "/Volumes/Example 1"), capacity: 250000, free: 20000, used: 20000, isEncrypted: true)
+                ]
+                controller.detectedDisks = disks
+                controller.selectedDisk = disks.first
+                return controller
+            }())
+        
+        ContentView(user: User("Example 1"))
+            .frame(width: 800, height: 600)
+            .environmentObject({ () -> MigrationController in
+                let controller = MigrationController()
+                controller.currStep = .FolderSelection
+                controller.stopDiskDetection()
+                let disks = [
+                    Disk(name: "Example 1", volumeType: "APFS", pathURL: URL(fileURLWithPath: "/Volumes/Example 1"), capacity: 250000, free: 20000, used: 20000, isEncrypted: true),
+                    Disk(name: "Example 2", volumeType: "APFS", pathURL: URL(fileURLWithPath: "/Volumes/Example 1"), capacity: 250000, free: 20000, used: 20000, isEncrypted: true)
+                ]
+                let folders = [
+                    Folder(name: "Example 1", urlPath: URL(fileURLWithPath: "/Users/Example 1"), size: 1500000),
+                    Folder(name: "Example 2", urlPath: URL(fileURLWithPath: "/Users/Example 1"), size: 1500000)
+                ]
+                controller.detectedDisks = disks
+                controller.selectedDisk = disks.first
+                controller.selectedDiskFolders = folders
+                controller.selectedUserFolder = folders.first
+                return controller
+            }())
+        
+        ContentView(user: User("Example 1"))
+            .frame(width: 800, height: 600)
+            .environmentObject({ () -> MigrationController in
+                let controller = MigrationController()
+                controller.currStep = .InformationVerification
+                controller.stopDiskDetection()
+                let disks = [
+                    Disk(name: "Example 1", volumeType: "APFS", pathURL: URL(fileURLWithPath: "/Volumes/Example 1"), capacity: 250000, free: 20000, used: 20000, isEncrypted: true),
+                    Disk(name: "Example 2", volumeType: "APFS", pathURL: URL(fileURLWithPath: "/Volumes/Example 1"), capacity: 250000, free: 20000, used: 20000, isEncrypted: true)
+                ]
+                controller.detectedDisks = disks
+                controller.selectedDisk = disks.first
+                controller.user.remotePassword = "Example"
+                controller.user.remotePasswordVerified = true
+                controller.user.localPassword = "Example"
+                return controller
+            }())
+        
+        ContentView(user: User("Example 1"))
+            .frame(width: 800, height: 600)
+            .environmentObject({ () -> MigrationController in
+                let controller = MigrationController()
+                controller.currStep = .Verification
+                controller.stopDiskDetection()
+                let disks = [
+                    Disk(name: "Example 1", volumeType: "APFS", pathURL: URL(fileURLWithPath: "/Volumes/Example 1"), capacity: 250000, free: 20000, used: 20000, isEncrypted: true),
+                    Disk(name: "Example 2", volumeType: "APFS", pathURL: URL(fileURLWithPath: "/Volumes/Example 1"), capacity: 250000, free: 20000, used: 20000, isEncrypted: true)
+                ]
+                controller.detectedDisks = disks
+                controller.selectedDisk = disks.first
+                controller.user.remotePassword = "Example"
+                controller.user.remotePasswordVerified = true
+                controller.user.localPassword = "Example"
+                controller.user.remoteFolder = Folder(name: "Example", urlPath: URL(fileURLWithPath: "/Volumes/RemoteDrive/Users/Example"), size: 1500000)
+                controller.user.localFolder = Folder(name: "Example", urlPath: URL(fileURLWithPath: "/Users/Example"), size: 1500000)
+                return controller
+            }())
+        
+        ContentView(user: User("Example 1"))
+            .frame(width: 800, height: 600)
+            .environmentObject({ () -> MigrationController in
+                let controller = MigrationController()
+                controller.currStep = .Migration
+                controller.stopDiskDetection()
+                let disks = [
+                    Disk(name: "Example 1", volumeType: "APFS", pathURL: URL(fileURLWithPath: "/Volumes/Example 1"), capacity: 250000, free: 20000, used: 20000, isEncrypted: true),
+                    Disk(name: "Example 2", volumeType: "APFS", pathURL: URL(fileURLWithPath: "/Volumes/Example 1"), capacity: 250000, free: 20000, used: 20000, isEncrypted: true)
+                ]
+                controller.detectedDisks = disks
+                controller.selectedDisk = disks.first
+                controller.user.remotePassword = "Example"
+                controller.user.remotePasswordVerified = true
+                controller.user.localPassword = "Example"
+                controller.user.remoteFolder = Folder(name: "Example", urlPath: URL(fileURLWithPath: "/Volumes/RemoteDrive/Users/Example"), size: 1500000)
+                controller.user.localFolder = Folder(name: "Example", urlPath: URL(fileURLWithPath: "/Users/Example"), size: 1500000)
+                return controller
+            }())
+        
+        ContentView(user: User("Example 1"))
+            .frame(width: 800, height: 600)
+            .environmentObject({ () -> MigrationController in
+                let controller = MigrationController()
+                controller.currStep = .Logoff
+                controller.stopDiskDetection()
+                let disks = [
+                    Disk(name: "Example 1", volumeType: "APFS", pathURL: URL(fileURLWithPath: "/Volumes/Example 1"), capacity: 250000, free: 20000, used: 20000, isEncrypted: true),
+                    Disk(name: "Example 2", volumeType: "APFS", pathURL: URL(fileURLWithPath: "/Volumes/Example 1"), capacity: 250000, free: 20000, used: 20000, isEncrypted: true)
+                ]
+                controller.detectedDisks = disks
+                controller.selectedDisk = disks.first
+                controller.user.remotePassword = "Example"
+                controller.user.remotePasswordVerified = true
+                controller.user.localPassword = "Example"
+                controller.user.remoteFolder = Folder(name: "Example", urlPath: URL(fileURLWithPath: "/Volumes/RemoteDrive/Users/Example"), size: 1500000)
+                controller.user.localFolder = Folder(name: "Example", urlPath: URL(fileURLWithPath: "/Users/Example"), size: 1500000)
+                return controller
+            }())
     }
 }

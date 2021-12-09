@@ -13,7 +13,7 @@ class MigrationController: ObservableObject {
     
     // MARK: - Constants
     enum MigrationStep {
-        case Welcome, DiskSelection, FolderSelection, Migration, Logoff, InformationVerification
+        case Welcome, DiskSelection, FolderSelection, Migration, Logoff, InformationVerification, Verification
     }
     
     // MARK: - Observed Properties

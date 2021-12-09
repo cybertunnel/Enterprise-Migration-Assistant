@@ -35,5 +35,6 @@ struct WelcomeView: View {
 struct WelcomeView_Previews: PreviewProvider {
     static var previews: some View {
         WelcomeView()
+            .frame(width: 800, height: 600)
     }
 }

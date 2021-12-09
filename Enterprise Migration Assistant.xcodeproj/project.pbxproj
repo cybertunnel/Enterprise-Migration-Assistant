@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		813F4F1E27625B4D00BDC165 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813F4F1D27625B4D00BDC165 /* WelcomeView.swift */; };
+		813F4F2027625B5900BDC165 /* DiskSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813F4F1F27625B5900BDC165 /* DiskSelectionView.swift */; };
+		813F4F2227625B6700BDC165 /* FolderSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813F4F2127625B6700BDC165 /* FolderSelectionView.swift */; };
+		813F4F2427625B7300BDC165 /* InputRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813F4F2327625B7300BDC165 /* InputRequestView.swift */; };
+		813F4F2627625B7C00BDC165 /* VerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813F4F2527625B7C00BDC165 /* VerificationView.swift */; };
+		813F4F2827625B8400BDC165 /* MigrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813F4F2727625B8400BDC165 /* MigrationView.swift */; };
+		813F4F2A27625B8C00BDC165 /* CompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813F4F2927625B8C00BDC165 /* CompleteView.swift */; };
 		8148307D275931140014F73B /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8148307C275931140014F73B /* ProgressBar.swift */; };
 		8148307F275946E40014F73B /* DiskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8148307E275946E40014F73B /* DiskListView.swift */; };
 		814830AA275961400014F73B /* Folder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814830A9275961400014F73B /* Folder.swift */; };
@@ -23,7 +30,6 @@
 		818122562745A8D900BBE9A3 /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818122552745A8D900BBE9A3 /* Credentials.swift */; };
 		818122582745BF7F00BBE9A3 /* MigrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818122572745BF7F00BBE9A3 /* MigrationController.swift */; };
 		8181225A2746E0C000BBE9A3 /* DiskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818122592746E0C000BBE9A3 /* DiskView.swift */; };
-		8181225C2746E61A00BBE9A3 /* InstructionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8181225B2746E61A00BBE9A3 /* InstructionView.swift */; };
 		818122602747013800BBE9A3 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8181225F2747013800BBE9A3 /* User.swift */; };
 		81A2EFF72760FB5D00F002F3 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2EFF62760FB5D00F002F3 /* main.swift */; };
 		81A2EFFD2760FF7000F002F3 /* HelperProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2EFFC2760FF7000F002F3 /* HelperProtocol.swift */; };
@@ -69,6 +75,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		813F4F1D27625B4D00BDC165 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		813F4F1F27625B5900BDC165 /* DiskSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskSelectionView.swift; sourceTree = "<group>"; };
+		813F4F2127625B6700BDC165 /* FolderSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderSelectionView.swift; sourceTree = "<group>"; };
+		813F4F2327625B7300BDC165 /* InputRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputRequestView.swift; sourceTree = "<group>"; };
+		813F4F2527625B7C00BDC165 /* VerificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationView.swift; sourceTree = "<group>"; };
+		813F4F2727625B8400BDC165 /* MigrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationView.swift; sourceTree = "<group>"; };
+		813F4F2927625B8C00BDC165 /* CompleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteView.swift; sourceTree = "<group>"; };
 		8148307C275931140014F73B /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		8148307E275946E40014F73B /* DiskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskListView.swift; sourceTree = "<group>"; };
 		814830A9275961400014F73B /* Folder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Folder.swift; sourceTree = "<group>"; };
@@ -87,7 +100,6 @@
 		818122552745A8D900BBE9A3 /* Credentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
 		818122572745BF7F00BBE9A3 /* MigrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationController.swift; sourceTree = "<group>"; };
 		818122592746E0C000BBE9A3 /* DiskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskView.swift; sourceTree = "<group>"; };
-		8181225B2746E61A00BBE9A3 /* InstructionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionView.swift; sourceTree = "<group>"; };
 		8181225F2747013800BBE9A3 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		81A2EFF42760FB5D00F002F3 /* com.github.cybertunnel.Enterprise-Migration-Assistant.helper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "com.github.cybertunnel.Enterprise-Migration-Assistant.helper"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81A2EFF62760FB5D00F002F3 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -125,16 +137,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		813F4F1C27625B2F00BDC165 /* Migration Step Views */ = {
+			isa = PBXGroup;
+			children = (
+				813F4F1D27625B4D00BDC165 /* WelcomeView.swift */,
+				813F4F1F27625B5900BDC165 /* DiskSelectionView.swift */,
+				813F4F2127625B6700BDC165 /* FolderSelectionView.swift */,
+				813F4F2327625B7300BDC165 /* InputRequestView.swift */,
+				813F4F2527625B7C00BDC165 /* VerificationView.swift */,
+				813F4F2727625B8400BDC165 /* MigrationView.swift */,
+				813F4F2927625B8C00BDC165 /* CompleteView.swift */,
+			);
+			path = "Migration Step Views";
+			sourceTree = "<group>";
+		};
 		8149B779275A826F00B6E771 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				813F4F1C27625B2F00BDC165 /* Migration Step Views */,
 				818122442745A74300BBE9A3 /* ContentView.swift */,
 				814830AD275961530014F73B /* FolderView.swift */,
 				814830AF275961590014F73B /* FolderViewList.swift */,
 				818122592746E0C000BBE9A3 /* DiskView.swift */,
 				8148307E275946E40014F73B /* DiskListView.swift */,
 				8148307C275931140014F73B /* ProgressBar.swift */,
-				8181225B2746E61A00BBE9A3 /* InstructionView.swift */,
 				81A2F01827611C5200F002F3 /* DiskDetectionInstructionView.swift */,
 				81A2F01A2761204D00F002F3 /* VerifyPasswordView.swift */,
 				81A2F039276150E500F002F3 /* SettingsVerificationView.swift */,
@@ -317,21 +343,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				818122542745A89000BBE9A3 /* Disk.swift in Sources */,
+				813F4F2A27625B8C00BDC165 /* CompleteView.swift in Sources */,
 				81A2F0032761011400F002F3 /* HelperConstants.swift in Sources */,
 				81A2EFFD2760FF7000F002F3 /* HelperProtocol.swift in Sources */,
 				81A2F01927611C5200F002F3 /* DiskDetectionInstructionView.swift in Sources */,
 				81A2F00D2761038000F002F3 /* MigrationError.swift in Sources */,
 				81A2F015276108D200F002F3 /* ExecutionService.swift in Sources */,
 				8149B75B2759704200B6E771 /* URLExtension.swift in Sources */,
+				813F4F2427625B7300BDC165 /* InputRequestView.swift in Sources */,
+				813F4F1E27625B4D00BDC165 /* WelcomeView.swift in Sources */,
 				8181225A2746E0C000BBE9A3 /* DiskView.swift in Sources */,
 				814830AE275961530014F73B /* FolderView.swift in Sources */,
 				81A2F03A276150E500F002F3 /* SettingsVerificationView.swift in Sources */,
 				818122582745BF7F00BBE9A3 /* MigrationController.swift in Sources */,
 				818122452745A74300BBE9A3 /* ContentView.swift in Sources */,
 				814830AA275961400014F73B /* Folder.swift in Sources */,
+				813F4F2627625B7C00BDC165 /* VerificationView.swift in Sources */,
+				813F4F2027625B5900BDC165 /* DiskSelectionView.swift in Sources */,
 				8148307D275931140014F73B /* ProgressBar.swift in Sources */,
 				818122602747013800BBE9A3 /* User.swift in Sources */,
-				8181225C2746E61A00BBE9A3 /* InstructionView.swift in Sources */,
+				813F4F2227625B6700BDC165 /* FolderSelectionView.swift in Sources */,
+				813F4F2827625B8400BDC165 /* MigrationView.swift in Sources */,
 				81A2F0002761010100F002F3 /* RemoteApplicationProtocol.swift in Sources */,
 				81A2F00A2761034F00F002F3 /* Result+Extension.swift in Sources */,
 				8149B75D275A579A00B6E771 /* FileManagerExtension.swift in Sources */,

@@ -23,14 +23,14 @@ class MigrationController: ObservableObject {
                 self.canProceed = false
             }
             else if currStep == .FolderSelection {
-                if self.selectedDiskFolders != nil {
-                    self.selectedDiskFolders = nil
+                if !self.selectedDiskFolders.isEmpty {
+                    self.selectedDiskFolders = []
                 }
                 self.detectPath()
                 self.canProceed = false
             }
             else if currStep == .InformationVerification {
-                self.user.hasSecureToken =  self.secureTokenStatus(for: self.user.username)
+                self.user.hasSecureToken =  false
                 self.calculateEnoughFree()
                 if self.user.remotePasswordVerified {
                     self.canProceed = true
@@ -47,7 +47,7 @@ class MigrationController: ObservableObject {
             self.canProceed = true
         }
     }
-    @Published var selectedDiskFolders: Array <Folder>?
+    @Published var selectedDiskFolders: Array <Folder> = []
     @Published var selectedUserFolder: Folder? {
         didSet {
             self.canProceed = true
@@ -55,10 +55,14 @@ class MigrationController: ObservableObject {
         }
     }
     
-    @Published var user: User = User.detectUser()
+    @Published var user: User
     @Published var enoughFreeSpace: Bool = false
     
     private var diskDetectActive: Bool = false
+    
+    init() {
+        self.user = User.detectUser()
+    }
     
     func beginDiskDetection() {
         DispatchQueue(label: "Disk Detection", qos: .background, attributes: .concurrent, autoreleaseFrequency: .workItem, target: nil).async {
@@ -68,7 +72,6 @@ class MigrationController: ObservableObject {
                 self.detectDisks()
                 sleep(5)
             }
-            
         }
     }
     
@@ -76,84 +79,13 @@ class MigrationController: ObservableObject {
         self.diskDetectActive = false
     }
     
-    func verifyRemotePassword() {
-        self.verifyPassword(using: self.user.remotePassword, at: "")
+    func startMigration() {
+        self.canProceed = false
+        self.makeMigratorUser()
+        self.canProceed = true
     }
     
     // MARK: - Private Functions
-    
-    private func verifyPassword(using password: String, at path: String) {
-        let process = Process()
-        process.executableURL = URL(fileURLWithPath: "/usr/bin/security")
-        process.arguments = ["unlock-keychain", "-p", self.user.remotePassword, "\(self.user.remoteFolder?.urlPath.path ?? "")/Library/Keychains/login.keychain-db"]
-
-        let outputPipe = Pipe()
-        process.standardOutput = outputPipe
-        process.standardError = outputPipe
-        do {
-            try process.run()
-        } catch {
-            DispatchQueue.main.async {
-                self.user.remotePasswordVerified = false
-                self.canProceed = false
-            }
-        }
-
-        DispatchQueue.global(qos: .userInteractive).async {
-            process.waitUntilExit()
-            if process.terminationStatus == 0 {
-                let lockProcess = Process()
-                lockProcess.executableURL = URL(fileURLWithPath: "/usr/bin/security")
-                lockProcess.arguments = ["lock-keychain", "\(self.user.remoteFolder?.urlPath.path ?? "")/Library/Keychains/login.keychain-db"]
-
-                let outputPipe = Pipe()
-                lockProcess.standardOutput = outputPipe
-                lockProcess.standardError = outputPipe
-                do {
-                    try lockProcess.run()
-                    DispatchQueue.main.async {
-                        self.objectWillChange.send()
-                        self.user.remotePasswordVerified = true
-                        self.canProceed = true
-                    }
-                } catch {
-                    DispatchQueue.main.async {
-                        self.user.remotePasswordVerified = false
-                        self.canProceed = false
-                    }
-                }
-            }
-        }
-    }
-    
-    private func checkSecureTokenStatus() {
-        let process = Process()
-        process.executableURL = URL(fileURLWithPath: "/usr/sbin/sysadminctl")
-        process.arguments = ["-secureTokenStatus", self.user.username]
-
-        let outputPipe = Pipe()
-        process.standardOutput = outputPipe
-        process.standardError = outputPipe
-        do {
-            try process.run()
-        } catch {
-            self.user.hasSecureToken = false
-        }
-
-        DispatchQueue.global(qos: .userInteractive).async {
-            process.waitUntilExit()
-
-            let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
-
-            guard let output = String(data: outputData, encoding: .utf8) else {
-                self.user.hasSecureToken = false
-                return
-            }
-
-            if output.contains("ENABLED") { self.user.hasSecureToken = true }
-            else { self.user.hasSecureToken = false }
-        }
-    }
     
     private func calculateEnoughFree() {
         do {
@@ -241,7 +173,34 @@ class MigrationController: ObservableObject {
         }
     }
     
-    private func secureTokenStatus(for user: String) -> Bool {
-        return false
+    private func makeMigratorUser(_ username: String = "migrator", withName name: String = "Please Wait...", withPassword password: String = "migrationisfun") {
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: "/usr/sbin/sysadminctl")
+        process.arguments = ["-addUser", username, "-fullName", name, "-password", password, "-admin", "-adminUser", self.user.username, "-adminPassword", self.user.localPassword]
+
+        let outputPipe = Pipe()
+        process.standardOutput = outputPipe
+        process.standardError = outputPipe
+        do {
+            try process.run()
+        } catch {
+            DispatchQueue.main.async {
+                print("Error making migration process")
+            }
+        }
+
+        DispatchQueue.global(qos: .userInteractive).async {
+            process.waitUntilExit()
+            
+            if process.terminationStatus == 0 {
+                DispatchQueue.main.async {
+                    print("Successfully created migration user")
+                }
+            } else {
+                DispatchQueue.main.async {
+                    print("Did not make migration user successfully")
+                }
+            }
+        }
     }
 }

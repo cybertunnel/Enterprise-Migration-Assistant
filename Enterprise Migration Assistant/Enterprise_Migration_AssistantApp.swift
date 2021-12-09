@@ -11,9 +11,10 @@ import SwiftUI
 struct Enterprise_Migration_AssistantApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            let controller = MigrationController()
+            ContentView(user: controller.user)
                 .frame(width: 800, height: 600, alignment: .center)
-                .environmentObject(MigrationController())
+                .environmentObject(controller)
         }
     }
 }

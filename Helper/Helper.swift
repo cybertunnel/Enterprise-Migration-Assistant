@@ -8,12 +8,13 @@
 import Foundation
 
 class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
-    func verifyRemoteKeychainPassword() {
-        print("Verified")
+    
+    func createLaunchDaemon() {
+        // Create LD
     }
     
-    func verifyLocalKeychainPassword() {
-        print("Verified")
+    func startLaunchDaemon() {
+        // Start LD
     }
     
     func copyFolder(from src: URL, to dest: URL, then completion: @escaping (String?, Error) -> Void) {

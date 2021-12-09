@@ -32,23 +32,24 @@ class Folder:Hashable {
         //  Use this for creating a dummy object
         if size != nil {
             self.sizeOnDisk = size
+            self.processingSize = false
             return
-        }
-        
-        DispatchQueue(label: "Determine Size", qos: .userInitiated, attributes: .concurrent, autoreleaseFrequency: .workItem, target: nil).async {
-            do {
-                let size = try self.urlPath.directoryTotalAllocatedSize(includingSubfolders: true)
-                DispatchQueue.main.async {
-                    self.sizeOnDisk = size
-                    self.processingSize = false
+        } else {
+            DispatchQueue(label: "Determine Size", qos: .userInitiated, attributes: .concurrent, autoreleaseFrequency: .workItem, target: nil).async {
+                do {
+                    let size = try self.urlPath.directoryTotalAllocatedSize(includingSubfolders: true)
+                    DispatchQueue.main.async {
+                        self.sizeOnDisk = size
+                        self.processingSize = false
+                    }
+                } catch {
+                    DispatchQueue.main.async {
+                        self.sizeOnDisk = nil
+                        self.processingSize = false
+                    }
                 }
-            } catch {
-                DispatchQueue.main.async {
-                    self.sizeOnDisk = nil
-                    self.processingSize = false
-                }
+                
             }
-            
         }
     }
     

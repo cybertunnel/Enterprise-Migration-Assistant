@@ -9,7 +9,7 @@ import Foundation
 
 @objc(HelperProtocol)
 public protocol HelperProtocol {
-    @objc func verifyRemoteKeychainPassword()
-    @objc func verifyLocalKeychainPassword()
     @objc func copyFolder(from src: URL, to dest: URL, then completion: @escaping (String?, Error) -> Void)
+    @objc func createLaunchDaemon()
+    @objc func startLaunchDaemon()
 }

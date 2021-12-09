@@ -9,41 +9,20 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var migrationController: MigrationController
+    @ObservedObject var user: User
     var body: some View {
         VStack {
             if self.migrationController.currStep == .Welcome {
-                Image("migration")
-                    .padding()
-                Text("Enterprise Migration Assistant")
-                    .font(.title)
-                    .padding()
-                Spacer()
-                VStack(alignment: .leading) {
-                    Text("Welcome to the Enterprise Migration Assistant! Some of the things you will need are:")
-                        .font(.title2)
-                    Text("- Thunderbolt cable")
-                    Text("- Charging cables (1 for your old device, and one for the current device")
-                    Text("- Your old laptop's password, and your new laptop's password available")
-                }
+                WelcomeView()
                 Spacer()
             }
             else if self.migrationController.currStep == .DiskSelection {
-                if self.migrationController.detectedDisks.isEmpty {
-                    DiskDetectionInstructionView()
-                } else {
-                    Text("Select your source disk")
-                        .font(.title)
-                        .padding()
-                    Spacer()
-                    DiskListView(disks: self.migrationController.detectedDisks, selectedDisk: self.$migrationController.selectedDisk)
-                }
+                DiskSelectionView()
+                    .environmentObject(self.migrationController)
             }
             else if self.migrationController.currStep == .FolderSelection {
-                Text("Select your user folder")
-                    .font(.title)
-                    .padding()
-                Spacer()
-                FolderViewList(selectedFolder: self.$migrationController.selectedUserFolder, folders: self.migrationController.selectedDiskFolders ?? [])
+                FolderSelectionView()
+                    .environmentObject(self.migrationController)
             }
             else if self.migrationController.currStep == .Migration {
                 Text("Transferring your files now")
@@ -52,13 +31,11 @@ struct ContentView: View {
                 Spacer()
             }
             else if self.migrationController.currStep == .InformationVerification {
-                Text("Some additional information need")
-                    .font(.title)
-                    .padding()
-                VerifyPasswordView(user: self.$migrationController.user)
-                Spacer()
-                SettingsVerificationView(user: self.migrationController.user)
-                if self.migrationController.user.remotePasswordVerified { Text("YAY!") }
+                InputRequestView(user: self.$migrationController.user)
+                    .environmentObject(self.migrationController.user)
+                if self.migrationController.user.remotePasswordVerified {
+                    Text("YAY!")
+                }
             }
             else {
             }
@@ -83,6 +60,7 @@ struct ContentView: View {
                             print("Error")
                         }
                     }
+                    .disabled(true)
                 }
                 
                 if self.migrationController.currStep != .Logoff {
@@ -96,6 +74,7 @@ struct ContentView: View {
                         case .FolderSelection:
                             self.migrationController.currStep = .InformationVerification
                         case .InformationVerification:
+                            self.migrationController.startMigration()
                             self.migrationController.currStep = .Migration
                         default:
                             print("Error")
@@ -111,7 +90,7 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(user: User("Example 1"))
             .frame(width: 800, height: 600)
     }
 }

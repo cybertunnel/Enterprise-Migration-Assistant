@@ -8,23 +8,30 @@
 import Foundation
 import AppKit
 
-class User: ObservableObject {
+class User: Hashable, ObservableObject {
     
     let username: String
     @Published var localFolder: Folder?
     @Published var remoteFolder: Folder?
     @Published var remotePassword: String = "" {
         didSet {
-            self.verifyPassword(using: remotePassword, at: "")
+            guard let path = self.remoteFolder?.urlPath.path else { return }
+            self.verifyRemotePassword(using: remotePassword, at: "\(path)/Library/Keychains/login.keychain-db")
         }
     }
     @Published var remotePasswordVerified: Bool = false
-    @Published var localPassword: String = ""
+    @Published var localPassword: String = "" {
+        didSet {
+            self.verifyLocalPassword(with: localPassword)
+        }
+    }
     @Published var localPasswordVerified: Bool = false
     @Published var hasSecureToken: Bool = false
     
     init(_ username: String) {
         self.username = username
+        guard let homeDir = FileManager.default.homeDirectory(forUser: username) else { return }
+        self.localFolder = Folder(name: homeDir.path, urlPath: homeDir)
     }
     
     static func detectUser() -> User {
@@ -33,10 +40,10 @@ class User: ObservableObject {
         return User(String(describing: currUser))
     }
     
-    private func verifyPassword(using password: String, at path: String) {
+    private func verifyRemotePassword(using password: String, at path: String) {
         let process = Process()
         process.executableURL = URL(fileURLWithPath: "/usr/bin/security")
-        process.arguments = ["unlock-keychain", "-p", self.remotePassword, "\(self.remoteFolder?.urlPath.path ?? "")/Library/Keychains/login.keychain-db"]
+        process.arguments = ["unlock-keychain", "-p", password, path]
 
         let outputPipe = Pipe()
         process.standardOutput = outputPipe
@@ -54,15 +61,16 @@ class User: ObservableObject {
             if process.terminationStatus == 0 {
                 let lockProcess = Process()
                 lockProcess.executableURL = URL(fileURLWithPath: "/usr/bin/security")
-                lockProcess.arguments = ["lock-keychain", "\(self.remoteFolder?.urlPath.path ?? "")/Library/Keychains/login.keychain-db"]
+                lockProcess.arguments = ["lock-keychain", path]
 
                 let outputPipe = Pipe()
                 lockProcess.standardOutput = outputPipe
                 lockProcess.standardError = outputPipe
                 do {
                     try lockProcess.run()
-                    self.objectWillChange.send()
-                    self.remotePasswordVerified = true
+                    DispatchQueue.main.async {
+                        self.remotePasswordVerified = true
+                    }
                 } catch {
                     DispatchQueue.main.async {
                         self.remotePasswordVerified = false
@@ -70,9 +78,62 @@ class User: ObservableObject {
                 }
             }
             else {
-                self.remotePasswordVerified = false
+                DispatchQueue.main.async {
+                    self.remotePasswordVerified = false
+                }
             }
         }
+    }
+    
+    private func verifyLocalPassword(with password: String) {
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: "/usr/bin/dscl")
+        process.arguments = ["/Search", "-authonly", self.username, password]
+
+        let outputPipe = Pipe()
+        process.standardOutput = outputPipe
+        process.standardError = outputPipe
+        do {
+            try process.run()
+        } catch {
+            DispatchQueue.main.async {
+                self.localPasswordVerified = false
+            }
+        }
+
+        DispatchQueue.global(qos: .userInteractive).async {
+            process.waitUntilExit()
+            
+            if process.terminationStatus == 0 {
+                DispatchQueue.main.async {
+                    self.localPasswordVerified = true
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.localPasswordVerified = false
+                }
+            }
+        }
+    }
+    
+    static func == (lhs: User, rhs: User) -> Bool {
+        if (lhs.remotePasswordVerified == rhs.remotePasswordVerified &&
+            lhs.remotePassword == rhs.remotePassword &&
+            lhs.hasSecureToken == rhs.hasSecureToken &&
+            lhs.localPassword == rhs.localPassword &&
+            lhs.localPasswordVerified == rhs.localPasswordVerified &&
+            lhs.localFolder == rhs.localFolder &&
+            lhs.username == rhs.username
+        ) {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(username)
     }
 }
 /**

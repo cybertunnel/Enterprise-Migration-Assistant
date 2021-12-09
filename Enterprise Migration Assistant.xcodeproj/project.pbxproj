@@ -46,9 +46,6 @@
 		81A2F0102761054E00F002F3 /* HelperRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2F00F2761054E00F002F3 /* HelperRemote.swift */; };
 		81A2F015276108D200F002F3 /* ExecutionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2F014276108D200F002F3 /* ExecutionService.swift */; };
 		81A2F0172761150A00F002F3 /* com.github.cybertunnel.Enterprise-Migration-Assistant.helper in CopyFiles */ = {isa = PBXBuildFile; fileRef = 81A2EFF42760FB5D00F002F3 /* com.github.cybertunnel.Enterprise-Migration-Assistant.helper */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		81A2F01927611C5200F002F3 /* DiskDetectionInstructionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2F01827611C5200F002F3 /* DiskDetectionInstructionView.swift */; };
-		81A2F01B2761204D00F002F3 /* VerifyPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2F01A2761204D00F002F3 /* VerifyPasswordView.swift */; };
-		81A2F03A276150E500F002F3 /* SettingsVerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2F039276150E500F002F3 /* SettingsVerificationView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -112,9 +109,6 @@
 		81A2F00F2761054E00F002F3 /* HelperRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperRemote.swift; sourceTree = "<group>"; };
 		81A2F0112761081300F002F3 /* Launchd.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Launchd.plist; sourceTree = "<group>"; };
 		81A2F014276108D200F002F3 /* ExecutionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecutionService.swift; sourceTree = "<group>"; };
-		81A2F01827611C5200F002F3 /* DiskDetectionInstructionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskDetectionInstructionView.swift; sourceTree = "<group>"; };
-		81A2F01A2761204D00F002F3 /* VerifyPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyPasswordView.swift; sourceTree = "<group>"; };
-		81A2F039276150E500F002F3 /* SettingsVerificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVerificationView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,9 +153,6 @@
 				818122592746E0C000BBE9A3 /* DiskView.swift */,
 				8148307E275946E40014F73B /* DiskListView.swift */,
 				8148307C275931140014F73B /* ProgressBar.swift */,
-				81A2F01827611C5200F002F3 /* DiskDetectionInstructionView.swift */,
-				81A2F01A2761204D00F002F3 /* VerifyPasswordView.swift */,
-				81A2F039276150E500F002F3 /* SettingsVerificationView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -343,7 +334,6 @@
 				813F4F2A27625B8C00BDC165 /* CompleteView.swift in Sources */,
 				81A2F0032761011400F002F3 /* HelperConstants.swift in Sources */,
 				81A2EFFD2760FF7000F002F3 /* HelperProtocol.swift in Sources */,
-				81A2F01927611C5200F002F3 /* DiskDetectionInstructionView.swift in Sources */,
 				81A2F00D2761038000F002F3 /* MigrationError.swift in Sources */,
 				81A2F015276108D200F002F3 /* ExecutionService.swift in Sources */,
 				8149B75B2759704200B6E771 /* URLExtension.swift in Sources */,
@@ -351,7 +341,6 @@
 				813F4F1E27625B4D00BDC165 /* WelcomeView.swift in Sources */,
 				8181225A2746E0C000BBE9A3 /* DiskView.swift in Sources */,
 				814830AE275961530014F73B /* FolderView.swift in Sources */,
-				81A2F03A276150E500F002F3 /* SettingsVerificationView.swift in Sources */,
 				818122582745BF7F00BBE9A3 /* MigrationController.swift in Sources */,
 				818122452745A74300BBE9A3 /* ContentView.swift in Sources */,
 				814830AA275961400014F73B /* Folder.swift in Sources */,
@@ -367,7 +356,6 @@
 				818122432745A74300BBE9A3 /* Enterprise_Migration_AssistantApp.swift in Sources */,
 				8148307F275946E40014F73B /* DiskListView.swift in Sources */,
 				814830B0275961590014F73B /* FolderViewList.swift in Sources */,
-				81A2F01B2761204D00F002F3 /* VerifyPasswordView.swift in Sources */,
 				81A2F0102761054E00F002F3 /* HelperRemote.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

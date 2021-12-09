@@ -24,25 +24,27 @@ struct Disk: Hashable {
     let volumeType: String
     let pathURL: URL
     let capacity: Int
+    let free: Int
+    let used: Int
+    let isEncrypted: Bool
+    
     var capacityString: String {
         get {
             return Disk.byteCountFormatter.string(for: self.capacity) ?? "Error Calculating"
         }
     }
-    let free: Int
+    
     var freeString: String {
         get {
             Disk.byteCountFormatter.string(for: self.free) ?? "Error Calculating"
         }
     }
-    let used: Int
+    
     var usedString: String {
         get {
             Disk.byteCountFormatter.string(for: self.used) ?? "Error Calculating"
         }
     }
-    
-    let isEncrypted: Bool
     
     // MARK: - Static Properties
     private static let byteCountFormatter = ByteCountFormatter()

@@ -11,9 +11,12 @@ import SwiftUI
 
 class MigrationController: ObservableObject {
     
+    // MARK: - Constants
     enum MigrationStep {
         case Welcome, DiskSelection, FolderSelection, Migration, Logoff, InformationVerification
     }
+    
+    // MARK: - Observed Properties
     
     @Published var currStep: MigrationStep = .Welcome {
         didSet {
@@ -58,11 +61,17 @@ class MigrationController: ObservableObject {
     @Published var user: User
     @Published var enoughFreeSpace: Bool = false
     
+    // MARK: - Private Properties
+    
     private var diskDetectActive: Bool = false
     
+    
+    // MARK: - Initialiser
     init() {
         self.user = User.detectUser()
     }
+    
+    // MARK: - Functions
     
     func beginDiskDetection() {
         DispatchQueue(label: "Disk Detection", qos: .background, attributes: .concurrent, autoreleaseFrequency: .workItem, target: nil).async {

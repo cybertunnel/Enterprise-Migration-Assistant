@@ -7,7 +7,7 @@
 
 import Foundation
 
-NSLog("Enterprise Migration Assistant Helper started")
+logger.info("Enterprise Migration Assistant Helper started")
 let helper = Helper()
 helper.run()
 

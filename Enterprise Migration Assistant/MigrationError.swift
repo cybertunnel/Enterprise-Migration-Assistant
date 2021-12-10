@@ -12,6 +12,7 @@ enum MigrationError: LocalizedError {
     case invalidPermission
     case helperInstallation(String)
     case helperConnection(String)
+    case notEnoughFree
     case unknown
     
     var errorDescription: String? {
@@ -21,6 +22,7 @@ enum MigrationError: LocalizedError {
         case .helperInstallation(let description): return "Helper installation error, \(description)"
         case .helperConnection(let description): return "Helper connection error. \(description)"
         case .unknown: return "Unknown error"
+        case .notEnoughFree: return "There is not enough free on the destination disk to perform the migration."
         }
     }
 }

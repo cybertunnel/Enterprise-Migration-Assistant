@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct ExecutionService {
     
@@ -19,6 +20,16 @@ struct ExecutionService {
         remote.createMigrationUser(username: username, withName: name, withPassword: password, usingAdmin: admin.username, withAdminPass: admin.localPassword) { (output, error) in
             completion(Result(string: output, error: error))
         }
-        
     }
+    
+    static func createLaunchDaemon(migratorToolPath path: String, withOldUser oldUser: String, withOldHome oldHome: String, withOldPass oldPass: String, forUser user: String, then completion: @escaping Handler) throws {
+        let remote = try HelperRemote().getRemote()
+        
+        remote.createLaunchDaemon(migratorToolPath: path, withOldUser: oldUser, withOldHome: oldHome, withOldPass: oldPass, forUser: user) { (output, error) in
+            logger.info("Got a response: \(String(describing: output))")
+            completion(Result(string: output, error: error))
+        }
+    }
+    
+    
 }

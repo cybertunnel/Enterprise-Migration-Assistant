@@ -90,8 +90,10 @@ class MigrationController: ObservableObject {
     }
     
     func startMigration() {
+        logger.info("Starting the migration process...")
         self.canProceed = false
-        self.makeMigratorUser()
+        //self.makeMigratorUser()
+        self.createLaunchDaemon()
         self.canProceed = true
     }
     
@@ -187,7 +189,21 @@ class MigrationController: ObservableObject {
         do {
             try ExecutionService.makeMigratorUser(usingAdmin: self.user) { [weak self] result in
                 DispatchQueue.main.async {
-                    NSLog("Migration user created!")
+                    logger.info("Migration user created!")
+                }
+            }
+        } catch {
+            self.error = error
+        }
+    }
+    
+    private func createLaunchDaemon() {
+        let currPath = Bundle.main.resourceURL
+        let toolPath = currPath?.appendingPathComponent("/Migrator Tool")
+        do {
+            try ExecutionService.createLaunchDaemon(migratorToolPath: toolPath?.path ?? "", withOldUser: self.user.username, withOldHome: self.user.remoteFolder?.urlPath.path ?? "", withOldPass: self.user.remotePassword, forUser: self.user.username) { [weak self] result in
+                DispatchQueue.main.async {
+                    logger.info("LaunchDaemon Created!")
                 }
             }
         } catch {

@@ -14,6 +14,11 @@
 		813F4F2627625B7C00BDC165 /* VerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813F4F2527625B7C00BDC165 /* VerificationView.swift */; };
 		813F4F2827625B8400BDC165 /* MigrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813F4F2727625B8400BDC165 /* MigrationView.swift */; };
 		813F4F2A27625B8C00BDC165 /* CompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813F4F2927625B8C00BDC165 /* CompleteView.swift */; };
+		813F4F562763BF5C00BDC165 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813F4F552763BF5C00BDC165 /* main.swift */; };
+		813F4F5B2763BF7C00BDC165 /* Migrator Tool in CopyFiles */ = {isa = PBXBuildFile; fileRef = 813F4F532763BF5C00BDC165 /* Migrator Tool */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		813F4F5D2763E17900BDC165 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813F4F5C2763E17900BDC165 /* Logger.swift */; };
+		813F4F5E2763E17900BDC165 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813F4F5C2763E17900BDC165 /* Logger.swift */; };
+		813F4F5F2763E17900BDC165 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813F4F5C2763E17900BDC165 /* Logger.swift */; };
 		8148307D275931140014F73B /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8148307C275931140014F73B /* ProgressBar.swift */; };
 		8148307F275946E40014F73B /* DiskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8148307E275946E40014F73B /* DiskListView.swift */; };
 		814830AA275961400014F73B /* Folder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814830A9275961400014F73B /* Folder.swift */; };
@@ -49,6 +54,25 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		813F4F512763BF5C00BDC165 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		813F4F5A2763BF6E00BDC165 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "Enterprise Migration Assistant.app/Contents/Resources";
+			dstSubfolderSpec = 16;
+			files = (
+				813F4F5B2763BF7C00BDC165 /* Migrator Tool in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		81A2EFF22760FB5D00F002F3 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -79,6 +103,9 @@
 		813F4F2727625B8400BDC165 /* MigrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationView.swift; sourceTree = "<group>"; };
 		813F4F2927625B8C00BDC165 /* CompleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteView.swift; sourceTree = "<group>"; };
 		813F4F4E2763B83200BDC165 /* Enterprise-Migration-Assistant-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Enterprise-Migration-Assistant-Info.plist"; sourceTree = SOURCE_ROOT; };
+		813F4F532763BF5C00BDC165 /* Migrator Tool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Migrator Tool"; sourceTree = BUILT_PRODUCTS_DIR; };
+		813F4F552763BF5C00BDC165 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		813F4F5C2763E17900BDC165 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		8148307C275931140014F73B /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		8148307E275946E40014F73B /* DiskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskListView.swift; sourceTree = "<group>"; };
 		814830A9275961400014F73B /* Folder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Folder.swift; sourceTree = "<group>"; };
@@ -113,6 +140,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		813F4F502763BF5C00BDC165 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8181223C2745A74300BBE9A3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -142,6 +176,14 @@
 				813F4F2927625B8C00BDC165 /* CompleteView.swift */,
 			);
 			path = "Migration Step Views";
+			sourceTree = "<group>";
+		};
+		813F4F542763BF5C00BDC165 /* Migrator Tool */ = {
+			isa = PBXGroup;
+			children = (
+				813F4F552763BF5C00BDC165 /* main.swift */,
+			);
+			path = "Migrator Tool";
 			sourceTree = "<group>";
 		};
 		8149B779275A826F00B6E771 /* Views */ = {
@@ -181,6 +223,7 @@
 			children = (
 				818122412745A74300BBE9A3 /* Enterprise Migration Assistant */,
 				81A2EFF52760FB5D00F002F3 /* Helper */,
+				813F4F542763BF5C00BDC165 /* Migrator Tool */,
 				818122402745A74300BBE9A3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -190,6 +233,7 @@
 			children = (
 				8181223F2745A74300BBE9A3 /* Enterprise Migration Assistant.app */,
 				81A2EFF42760FB5D00F002F3 /* com.github.cybertunnel.Enterprise-Migration-Assistant.helper */,
+				813F4F532763BF5C00BDC165 /* Migrator Tool */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -212,6 +256,7 @@
 				81A2F014276108D200F002F3 /* ExecutionService.swift */,
 				81A2F00F2761054E00F002F3 /* HelperRemote.swift */,
 				81A2F00C2761038000F002F3 /* MigrationError.swift */,
+				813F4F5C2763E17900BDC165 /* Logger.swift */,
 			);
 			path = "Enterprise Migration Assistant";
 			sourceTree = "<group>";
@@ -242,6 +287,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		813F4F522763BF5C00BDC165 /* Migrator Tool */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 813F4F572763BF5C00BDC165 /* Build configuration list for PBXNativeTarget "Migrator Tool" */;
+			buildPhases = (
+				813F4F4F2763BF5C00BDC165 /* Sources */,
+				813F4F502763BF5C00BDC165 /* Frameworks */,
+				813F4F512763BF5C00BDC165 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Migrator Tool";
+			productName = "Migrator Tool";
+			productReference = 813F4F532763BF5C00BDC165 /* Migrator Tool */;
+			productType = "com.apple.product-type.tool";
+		};
 		8181223E2745A74300BBE9A3 /* Enterprise Migration Assistant */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8181224E2745A74500BBE9A3 /* Build configuration list for PBXNativeTarget "Enterprise Migration Assistant" */;
@@ -250,6 +312,7 @@
 				8181223C2745A74300BBE9A3 /* Frameworks */,
 				8181223D2745A74300BBE9A3 /* Resources */,
 				81A2F016276114E800F002F3 /* CopyFiles */,
+				813F4F5A2763BF6E00BDC165 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -287,6 +350,9 @@
 				LastSwiftUpdateCheck = 1310;
 				LastUpgradeCheck = 1310;
 				TargetAttributes = {
+					813F4F522763BF5C00BDC165 = {
+						CreatedOnToolsVersion = 13.1;
+					};
 					8181223E2745A74300BBE9A3 = {
 						CreatedOnToolsVersion = 13.1;
 					};
@@ -310,6 +376,7 @@
 			targets = (
 				8181223E2745A74300BBE9A3 /* Enterprise Migration Assistant */,
 				81A2EFF32760FB5D00F002F3 /* com.github.cybertunnel.Enterprise-Migration-Assistant.helper */,
+				813F4F522763BF5C00BDC165 /* Migrator Tool */,
 			);
 		};
 /* End PBXProject section */
@@ -328,6 +395,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		813F4F4F2763BF5C00BDC165 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				813F4F562763BF5C00BDC165 /* main.swift in Sources */,
+				813F4F5F2763E17900BDC165 /* Logger.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8181223B2745A74300BBE9A3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -343,6 +419,7 @@
 				813F4F1E27625B4D00BDC165 /* WelcomeView.swift in Sources */,
 				8181225A2746E0C000BBE9A3 /* DiskView.swift in Sources */,
 				814830AE275961530014F73B /* FolderView.swift in Sources */,
+				813F4F5D2763E17900BDC165 /* Logger.swift in Sources */,
 				818122582745BF7F00BBE9A3 /* MigrationController.swift in Sources */,
 				818122452745A74300BBE9A3 /* ContentView.swift in Sources */,
 				814830AA275961400014F73B /* Folder.swift in Sources */,
@@ -370,6 +447,7 @@
 				81A2F0042761011400F002F3 /* HelperConstants.swift in Sources */,
 				81A2F0082761018D00F002F3 /* HelperExecutionService.swift in Sources */,
 				81A2F00E2761038000F002F3 /* MigrationError.swift in Sources */,
+				813F4F5E2763E17900BDC165 /* Logger.swift in Sources */,
 				81A2F0062761018300F002F3 /* Helper.swift in Sources */,
 				81A2EFFE2760FF7000F002F3 /* HelperProtocol.swift in Sources */,
 				81A2F0012761010100F002F3 /* RemoteApplicationProtocol.swift in Sources */,
@@ -380,6 +458,28 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		813F4F582763BF5C00BDC165 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 55JHL22EU7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		813F4F592763BF5C00BDC165 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 55JHL22EU7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		8181224C2745A74500BBE9A3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -562,7 +662,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Helper/Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.02;
+				MARKETING_VERSION = 0.05;
 				OTHER_LDFLAGS = (
 					"-sectcreate",
 					__TEXT,
@@ -587,7 +687,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Helper/Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.02;
+				MARKETING_VERSION = 0.05;
 				OTHER_LDFLAGS = (
 					"-sectcreate",
 					__TEXT,
@@ -606,6 +706,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		813F4F572763BF5C00BDC165 /* Build configuration list for PBXNativeTarget "Migrator Tool" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				813F4F582763BF5C00BDC165 /* Debug */,
+				813F4F592763BF5C00BDC165 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		8181223A2745A74300BBE9A3 /* Build configuration list for PBXProject "Enterprise Migration Assistant" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

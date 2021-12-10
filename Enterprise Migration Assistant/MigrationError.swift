@@ -14,6 +14,7 @@ enum MigrationError: LocalizedError {
     case helperConnection(String)
     case notEnoughFree
     case unknown
+    case noUserFoldersDetected
     
     var errorDescription: String? {
         switch self {
@@ -23,6 +24,7 @@ enum MigrationError: LocalizedError {
         case .helperConnection(let description): return "Helper connection error. \(description)"
         case .unknown: return "Unknown error"
         case .notEnoughFree: return "There is not enough free on the destination disk to perform the migration."
+        case .noUserFoldersDetected: return "There were no user folders detected on the selected drive."
         }
     }
 }

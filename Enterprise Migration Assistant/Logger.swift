@@ -8,4 +8,4 @@
 import Foundation
 import OSLog
 
-let logger = Logger(subsystem: "com.github.cybertunnel.Enterprise-Migration-Assistant", category: "GENERAL")
+let old_logger = Logger(subsystem: "com.github.cybertunnel.Enterprise-Migration-Assistant", category: "GENERAL")

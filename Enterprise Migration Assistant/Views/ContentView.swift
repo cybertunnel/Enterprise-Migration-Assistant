@@ -12,6 +12,14 @@ struct ContentView: View {
     @ObservedObject var user: User
     var body: some View {
         VStack {
+            if let error = self.migrationController.error {
+                Text(error.localizedDescription)
+                    .font(.title2)
+                    .padding()
+                    .foregroundColor(Color.white)
+                    .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color.red/*@END_MENU_TOKEN@*/)
+                    
+            }
             if self.migrationController.currStep == .Welcome {
                 WelcomeView()
                 Spacer()
@@ -99,6 +107,13 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
+        ContentView(user: User("Example 1"))
+            .frame(width: 800, height: 600)
+            .environmentObject({ () -> MigrationController in
+                let controller = MigrationController()
+                controller.error = MigrationError.invalidPermission
+                return controller
+            }())
         ContentView(user: User("Example 1"))
             .frame(width: 800, height: 600)
             .environmentObject(MigrationController())

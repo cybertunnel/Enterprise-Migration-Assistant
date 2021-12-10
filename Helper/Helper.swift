@@ -33,23 +33,23 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
     
     // TODO: Add proper functions
     func createMigrationUser(username: String = "migrator", withName name: String = "Please Wait...", withPassword password: String = "migrationisfun", usingAdmin adminUser: String, withAdminPass adminPass: String, then completion: @escaping (String?, Error?) -> Void) {
-        logger.info("Attempting to make \(username) user using \(adminUser)'s credentials.")
+        old_logger.info("Attempting to make \(username) user using \(adminUser)'s credentials.")
         do {
             try HelperExecutionService.makeMigratorUser(username: username, withName: name, withPassword: password, usingAdmin: adminUser, withAdminPass: adminPass) { (result) in
-                logger.info("Output: \(result.string ?? ""). Error: \(result.error?.localizedDescription ?? "")")
+                old_logger.info("Output: \(result.string ?? ""). Error: \(result.error?.localizedDescription ?? "")")
                 completion(result.string, result.error)
             }
         } catch {
-            logger.info("Error: \(error.localizedDescription)")
+            old_logger.info("Error: \(error.localizedDescription)")
             completion(nil, error)
         }
     }
     
     func createLaunchDaemon(migratorToolPath path: String, withOldUser oldUser: String, withOldHome oldHome: String, withOldPass oldPass: String, forUser user: String, then completion: @escaping (String?, Error?) -> Void) {
-        logger.info("Attempting to create launch daemon to launch the tool at \(path)")
+        old_logger.info("Attempting to create launch daemon to launch the tool at \(path)")
         
         HelperExecutionService.createLaunchDaemon(migratorToolPath: path, withOldUser: oldUser, withOldHome: oldHome, withOldPass: oldPass, forUser: user) { (result) in
-            logger.info("Output: \(result.string ?? ""). Error: \(result.error?.localizedDescription ?? "")")
+            old_logger.info("Output: \(result.string ?? ""). Error: \(result.error?.localizedDescription ?? "")")
             completion(result.string, result.error)
         }
     }

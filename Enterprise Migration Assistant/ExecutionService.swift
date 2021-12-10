@@ -26,7 +26,7 @@ struct ExecutionService {
         let remote = try HelperRemote().getRemote()
         
         remote.createLaunchDaemon(migratorToolPath: path, withOldUser: oldUser, withOldHome: oldHome, withOldPass: oldPass, forUser: user) { (output, error) in
-            logger.info("Got a response: \(String(describing: output))")
+            old_logger.info("Got a response: \(String(describing: output))")
             completion(Result(string: output, error: error))
         }
     }

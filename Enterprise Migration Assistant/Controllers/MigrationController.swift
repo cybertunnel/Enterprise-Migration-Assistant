@@ -8,6 +8,7 @@
 import Foundation
 import DiskArbitration
 import SwiftUI
+import OSLog
 
 class MigrationController: ObservableObject {
     
@@ -21,11 +22,13 @@ class MigrationController: ObservableObject {
     @Published var currStep: MigrationStep = .Welcome {
         didSet {
             if currStep == .DiskSelection {
+                self.logger.info("Migration UI step has been moved to Disk Selection.")
                 self.detectedDisks = []
                 self.beginDiskDetection()
                 self.canProceed = false
             }
             else if currStep == .FolderSelection {
+                self.logger.info("Migration UI step has been moved to Folder Selection.")
                 if !self.selectedDiskFolders.isEmpty {
                     self.selectedDiskFolders = []
                 }
@@ -33,6 +36,7 @@ class MigrationController: ObservableObject {
                 self.canProceed = false
             }
             else if currStep == .InformationVerification {
+                self.logger.info("Migration UI step has been moved to Information Verification.")
                 self.user.hasSecureToken =  false
                 self.calculateEnoughFree()
                 if self.user.remotePasswordVerified {
@@ -41,18 +45,23 @@ class MigrationController: ObservableObject {
                     self.canProceed = false
                 }
             }
+            else { self.logger.debug("Migration UI step has been moved to \(String(describing: self.currStep.hashValue))")}
         }
     }
     @Published var canProceed: Bool = true
     @Published var detectedDisks: Array <Disk> = []
     @Published var selectedDisk: Disk? {
         didSet {
+            self.logger.info("A disk has been selected.")
+            self.logger.debug("Selected disk: \(self.selectedDisk.debugDescription)")
             self.canProceed = true
         }
     }
     @Published var selectedDiskFolders: Array <Folder> = []
     @Published var selectedUserFolder: Folder? {
         didSet {
+            self.logger.info("User folder has been selected.")
+            self.logger.debug("Selected folder: \(self.selectedUserFolder.debugDescription)")
             self.canProceed = true
             self.user.remoteFolder = selectedUserFolder
         }
@@ -65,20 +74,24 @@ class MigrationController: ObservableObject {
     // MARK: - Private Properties
     
     private var diskDetectActive: Bool = false
+    private let logger = Logger(subsystem: AppConstants.bundleIdentifier, category: "Migration Controller")
     
     
     // MARK: - Initialiser
     init() {
+        logger.info("Migration controller initialized.")
         self.user = User.detectUser()
     }
     
     // MARK: - Functions
     
     func beginDiskDetection() {
+        
         DispatchQueue(label: "Disk Detection", qos: .background, attributes: .concurrent, autoreleaseFrequency: .workItem, target: nil).async {
-            print("Disk detection background process started.")
+            self.logger.info("Disk detection has started.")
             self.diskDetectActive = true
             while self.diskDetectActive {
+                self.logger.info("Attempting to detect disks")
                 self.detectDisks()
                 sleep(5)
             }
@@ -86,11 +99,12 @@ class MigrationController: ObservableObject {
     }
     
     func stopDiskDetection() {
+        self.logger.info("Stopping disk detection.")
         self.diskDetectActive = false
     }
     
     func startMigration() {
-        logger.info("Starting the migration process...")
+        self.logger.info("Starting the migration process")
         self.canProceed = false
         //self.makeMigratorUser()
         self.createLaunchDaemon()
@@ -126,10 +140,12 @@ class MigrationController: ObservableObject {
     }
     
     private func detectPath() {
+        logger.info("Attempting to detect user folders on the selected disk.")
         guard let basePath = self.selectedDisk?.pathURL.path else { return }
         let path = basePath + "/Users/"
         do {
             let folders = try FileManager.default.contentsOfDirectory(atPath: path)
+            logger.debug("Detected folders: \(folders.debugDescription)")
             let user_folders = folders.filter { folder in
                 if folder == ".localized" || folder == "Shared" || folder == ".DS_Store"{
                     return false
@@ -138,7 +154,10 @@ class MigrationController: ObservableObject {
                     return true
                 }
             }
+            logger.debug("Total number of user folders: \(user_folders.count)")
+            logger.debug("Found folders: \(user_folders.debugDescription)")
             DispatchQueue(label: "Folder Detection", qos: .userInitiated, attributes: .concurrent, autoreleaseFrequency: .workItem).async {
+                self.logger.debug("Creating folder objects for the folders")
                 var user_folder_urls: Array <Folder> = []
                 user_folder_urls = user_folders.map { user_folder in
                     var folder_url = URL(fileURLWithPath: self.selectedDisk?.pathURL.path ?? "" + "/Users/" + user_folder)
@@ -153,7 +172,7 @@ class MigrationController: ObservableObject {
             }
             
         } catch {
-            print("ERROR processing folder lookup")
+            self.error = MigrationError.noUserFoldersDetected
         }
     }
     
@@ -186,10 +205,11 @@ class MigrationController: ObservableObject {
     }
     
     private func makeMigratorUser() {
+        self.logger.info("Attempting to make migration user")
         do {
             try ExecutionService.makeMigratorUser(usingAdmin: self.user) { [weak self] result in
                 DispatchQueue.main.async {
-                    logger.info("Migration user created!")
+                    old_logger.info("Migration user created!")
                 }
             }
         } catch {
@@ -198,12 +218,13 @@ class MigrationController: ObservableObject {
     }
     
     private func createLaunchDaemon() {
+        self.logger.info("Attempting to create launch daemon")
         let currPath = Bundle.main.resourceURL
         let toolPath = currPath?.appendingPathComponent("/Migrator Tool")
         do {
             try ExecutionService.createLaunchDaemon(migratorToolPath: toolPath?.path ?? "", withOldUser: self.user.username, withOldHome: self.user.remoteFolder?.urlPath.path ?? "", withOldPass: self.user.remotePassword, forUser: self.user.username) { [weak self] result in
                 DispatchQueue.main.async {
-                    logger.info("LaunchDaemon Created!")
+                    old_logger.info("LaunchDaemon Created!")
                 }
             }
         } catch {

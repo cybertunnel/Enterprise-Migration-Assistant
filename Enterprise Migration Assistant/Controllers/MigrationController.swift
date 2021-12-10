@@ -60,6 +60,7 @@ class MigrationController: ObservableObject {
     
     @Published var user: User
     @Published var enoughFreeSpace: Bool = false
+    @Published var error: Error?
     
     // MARK: - Private Properties
     
@@ -182,34 +183,15 @@ class MigrationController: ObservableObject {
         }
     }
     
-    private func makeMigratorUser(_ username: String = "migrator", withName name: String = "Please Wait...", withPassword password: String = "migrationisfun") {
-        let process = Process()
-        process.executableURL = URL(fileURLWithPath: "/usr/sbin/sysadminctl")
-        process.arguments = ["-addUser", username, "-fullName", name, "-password", password, "-admin", "-adminUser", self.user.username, "-adminPassword", self.user.localPassword]
-
-        let outputPipe = Pipe()
-        process.standardOutput = outputPipe
-        process.standardError = outputPipe
+    private func makeMigratorUser() {
         do {
-            try process.run()
+            try ExecutionService.makeMigratorUser(usingAdmin: self.user) { [weak self] result in
+                DispatchQueue.main.async {
+                    NSLog("Migration user created!")
+                }
+            }
         } catch {
-            DispatchQueue.main.async {
-                print("Error making migration process")
-            }
-        }
-
-        DispatchQueue.global(qos: .userInteractive).async {
-            process.waitUntilExit()
-            
-            if process.terminationStatus == 0 {
-                DispatchQueue.main.async {
-                    print("Successfully created migration user")
-                }
-            } else {
-                DispatchQueue.main.async {
-                    print("Did not make migration user successfully")
-                }
-            }
+            self.error = error
         }
     }
     

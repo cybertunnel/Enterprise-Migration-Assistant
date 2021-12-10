@@ -8,6 +8,19 @@
 import Foundation
 
 class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
+    func createMigrationUser(username: String = "migrator", withName name: String = "Please Wait...", withPassword password: String = "migrationisfun", usingAdmin adminUser: String, withAdminPass adminPass: String, then completion: @escaping (String?, Error?) -> Void) {
+        NSLog("Attempting to make \(username) user using \(adminUser)'s credentials.")
+        do {
+            try HelperExecutionService.makeMigratorUser(username: username, withName: name, withPassword: password, usingAdmin: adminUser, withAdminPass: adminPass) { (result) in
+                NSLog("Output: \(result.string ?? ""). Error: \(result.error?.localizedDescription ?? "")")
+                completion(result.string, result.error)
+            }
+        } catch {
+            NSLog("Error: \(error.localizedDescription)")
+            completion(nil, error)
+        }
+    }
+    
     
     func createLaunchDaemon() {
         // Create LD

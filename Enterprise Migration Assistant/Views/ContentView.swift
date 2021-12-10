@@ -59,6 +59,9 @@ struct ContentView: View {
                 }
                 else if self.migrationController.currStep != .Logoff {
                     Button("Back") {
+                        // Clear out any existing errors
+                        self.migrationController.error = nil
+                        
                         switch self.migrationController.currStep {
                         case .FolderSelection:
                             self.migrationController.currStep = .DiskSelection
@@ -76,6 +79,9 @@ struct ContentView: View {
                 
                 if self.migrationController.currStep != .Logoff {
                     Button("Continue") {
+                        // Clear out any existing errors
+                        self.migrationController.error = nil
+                        
                         switch self.migrationController.currStep {
                         case .Welcome:
                             self.migrationController.currStep = .DiskSelection

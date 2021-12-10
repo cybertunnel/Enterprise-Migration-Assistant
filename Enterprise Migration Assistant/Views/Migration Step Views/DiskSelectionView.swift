@@ -22,6 +22,10 @@ struct DiskSelectionView: View {
                     Text("No Disks Found!")
                         .font(.title2)
                 }
+                
+                if let error = self.migrationController.error {
+                    ErrorView(error: error)
+                }
             }
             .padding()
             VStack(alignment: .leading) {

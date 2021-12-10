@@ -16,7 +16,10 @@ struct FolderSelectionView: View {
                     .padding()
                 Text("Folder Selection")
                     .font(.title)
-                if self.migrationController.selectedDiskFolders.isEmpty {
+                if let error = self.migrationController.error {
+                    ErrorView(error: error)
+                }
+                else if self.migrationController.selectedDiskFolders.isEmpty {
                     Spacer()
                     Text("Detecting folders...")
                         .font(.title)

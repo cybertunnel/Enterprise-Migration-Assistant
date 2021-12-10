@@ -77,7 +77,7 @@ struct Disk: Hashable {
         }
         
         #if DEBUG
-        dump(diskDict)
+        //dump(diskDict)
         #endif
         
         return Disk(

@@ -62,7 +62,8 @@ struct ContentView: View {
                             print("Error")
                         }
                     }
-                    .disabled(true)
+                    // TODO: Add logic for when migration occurs
+                    .disabled(false)
                 }
                 
                 if self.migrationController.currStep != .Logoff {
@@ -78,11 +79,17 @@ struct ContentView: View {
                         case .InformationVerification:
                             self.migrationController.startMigration()
                             self.migrationController.currStep = .Migration
+                        case .Migration:
+                            self.migrationController.currStep = .Logoff
                         default:
                             print("Error")
                         }
                     }
-                    .disabled(!self.migrationController.canProceed)
+                    .disabled(!self.migrationController.canProceed && !(self.user.remotePasswordVerified && self.user.localPasswordVerified && self.migrationController.currStep == .InformationVerification))
+                } else {
+                    Button("Logoff") {
+                        print("Logging off...")
+                    }
                 }
             }
             .padding()

@@ -212,4 +212,8 @@ class MigrationController: ObservableObject {
             }
         }
     }
+    
+    private func migrateFolder(from srcFolder: URL, to destFolder: String) {
+        
+    }
 }

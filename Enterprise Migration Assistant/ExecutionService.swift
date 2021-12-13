@@ -31,5 +31,26 @@ struct ExecutionService {
         }
     }
     
+    static func moveFolder(from srcFolder: URL, to destFolder: URL, then completion: @escaping Handler) throws {
+        if FileManager.default.fileExists(atPath: destFolder.path) {
+            completion(.failure(MigrationError.fileAlreadyExists))
+        } else {
+            if FileManager.default.fileExists(atPath: destFolder.path) {
+                do {
+                    try FileManager.default.copyItem(at: srcFolder, to: destFolder)
+                } catch {
+                    let remote = try HelperRemote().getRemote()
+                    
+                    remote.copyFolder(from: srcFolder, to: destFolder) { (output, error) in
+                        old_logger.debug("Got response of \(output ?? "")")
+                        completion(Result(string: output, error: error))
+                    }
+                }
+            } else {
+                completion(.failure(MigrationError.fileDoesNotExist))
+            }
+        }
+    }
+    
     
 }

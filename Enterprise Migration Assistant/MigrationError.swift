@@ -9,6 +9,7 @@ import Foundation
 
 enum MigrationError: LocalizedError {
     case fileDoesNotExist
+    case fileAlreadyExists
     case invalidPermission
     case helperInstallation(String)
     case helperConnection(String)
@@ -25,6 +26,7 @@ enum MigrationError: LocalizedError {
         case .unknown: return "Unknown error"
         case .notEnoughFree: return "There is not enough free on the destination disk to perform the migration."
         case .noUserFoldersDetected: return "There were no user folders detected on the selected drive."
+        case .fileAlreadyExists: return "The file already exists."
         }
     }
 }

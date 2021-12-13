@@ -11,6 +11,22 @@ class HelperExecutionService {
     
     typealias Handler = (Result<String, Error>) -> Void
     
+    static func moveFolder(from srcFolder: URL, to dstFolder: URL, then completion: @escaping Handler) {
+        if FileManager.default.fileExists(atPath: dstFolder.path) {
+            completion(.failure(MigrationError.fileAlreadyExists))
+        } else {
+            if FileManager.default.fileExists(atPath: dstFolder.path) {
+                do {
+                    try FileManager.default.copyItem(at: srcFolder, to: dstFolder)
+                } catch {
+                    completion(.failure(MigrationError.unknown))
+                }
+            } else {
+                completion(.failure(MigrationError.fileDoesNotExist))
+            }
+        }
+    }
+    
     static func createLaunchDaemon(migratorToolPath path: String, withOldUser oldUser: String, withOldHome oldHome: String, withOldPass oldPass: String, forUser user: String, then completion: @escaping Handler) {
         completion(.success("Testing"))
         let filePath = URL(fileURLWithPath: "/Library/LaunchDaemons/com.github.cybertunnel.Enterprise-Migration-Assistant.migratorTool.plist")

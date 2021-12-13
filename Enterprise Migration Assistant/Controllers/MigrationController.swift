@@ -68,7 +68,11 @@ class MigrationController: ObservableObject {
     }
     
     @Published var user: User
-    @Published var enoughFreeSpace: Bool = false
+    @Published var enoughFreeSpace: Bool = false {
+        didSet {
+            self.canProceed = enoughFreeSpace
+        }
+    }
     @Published var error: Error?
     
     // MARK: - Private Properties
@@ -108,6 +112,17 @@ class MigrationController: ObservableObject {
         self.canProceed = false
         //self.makeMigratorUser()
         self.createLaunchDaemon()
+        
+        var tempFolder = self.user.localFolder?.urlPath.pathComponents
+        let tempFolderName = "migrator-\(tempFolder?.last ?? "")"
+        _ = tempFolder?.popLast()
+        var new_dest = self.user.localFolder?.urlPath.deletingLastPathComponent()
+        new_dest?.appendPathComponent(tempFolderName)
+        
+        
+        guard let srcFolder = self.user.remoteFolder, let dstFolder = new_dest else { return }
+        
+        self.migrateFolder(from: srcFolder.urlPath, to: dstFolder)
         self.canProceed = true
     }
     
@@ -223,8 +238,11 @@ class MigrationController: ObservableObject {
         let toolPath = currPath?.appendingPathComponent("/Migrator Tool")
         do {
             try ExecutionService.createLaunchDaemon(migratorToolPath: toolPath?.path ?? "", withOldUser: self.user.username, withOldHome: self.user.remoteFolder?.urlPath.path ?? "", withOldPass: self.user.remotePassword, forUser: self.user.username) { [weak self] result in
-                DispatchQueue.main.async {
-                    old_logger.info("LaunchDaemon Created!")
+                switch result {
+                case .success(let output):
+                    NSLog("Successfully created folder")
+                case .failure(let error):
+                    NSLog("Did not successfully create folder")
                 }
             }
         } catch {
@@ -232,7 +250,15 @@ class MigrationController: ObservableObject {
         }
     }
     
-    private func migrateFolder(from srcFolder: URL, to destFolder: String) {
-        
+    private func migrateFolder(from srcFolder: URL, to destFolder: URL) {
+        do {
+            try ExecutionService.moveFolder(from: srcFolder, to: destFolder) { result in
+                DispatchQueue.main.async {
+                    old_logger.info("Folder copied successfully.")
+                }
+            }
+        } catch {
+            self.error = error
+        }
     }
 }

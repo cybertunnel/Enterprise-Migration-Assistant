@@ -69,6 +69,8 @@ struct ContentView: View {
                             self.migrationController.currStep = .Welcome
                         case .InformationVerification:
                             self.migrationController.currStep = .FolderSelection
+                        case .Verification:
+                            self.migrationController.currStep = .InformationVerification
                         default:
                             print("Error")
                         }
@@ -91,6 +93,8 @@ struct ContentView: View {
                         case .FolderSelection:
                             self.migrationController.currStep = .InformationVerification
                         case .InformationVerification:
+                            self.migrationController.currStep = .Verification
+                        case .Verification:
                             self.migrationController.startMigration()
                             self.migrationController.currStep = .Migration
                         case .Migration:

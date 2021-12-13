@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>Label</key>
-	<string>com.github.cybertunnel.privHelperExample.helper</string>
+	<string>com.github.cybertunnel.Enterprise-Migration-Assistant.helper</string>
 	<key>StandardErrorPath</key>
 	<string>/tmp/privHelperExample.helper.log</string>
 	<key>MachServices</key>

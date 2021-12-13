@@ -17,16 +17,52 @@ struct VerificationView: View {
                     .padding()
                 Text("Verify Settings Prior to Migrating")
                     .font(.title)
-                Spacer()
             }
             .padding()
-            
-            VStack {
-                Text("Username: \(self.migrationController.user.username)")
-                Text("Local Path: \(self.migrationController.user.localFolder?.urlPath.path ?? "NOT SET")")
-                Text("Remote Source: \(self.migrationController.user.remoteFolder?.urlPath.path ?? "NOT SET")")
-                Text("Remote Size: \(self.migrationController.user.remoteFolder?.sizeOnDiskString ?? "NOT SET")")
+            HStack {
+                Spacer()
+                VStack(alignment: .leading) {
+                    VStack(alignment: .center) {
+                        Text("Local Information")
+                            .font(.title2)
+                    }
+                    HStack {
+                        Text("Username:")
+                        Text(self.migrationController.user.username)
+                    }
+                    HStack {
+                        Text("Local Folder:")
+                        Text(self.migrationController.user.localFolder?.urlPath.path ?? "")
+                    }
+                    HStack {
+                        Text("Enough Free:")
+                        Text(self.migrationController.enoughFreeSpace.description)
+                    }
+                }
+                .padding()
+                .border(Color.gray, width: 2)
+                
+                VStack(alignment: .leading) {
+                    Text("Remote Information")
+                        .font(.title2)
+                    HStack {
+                        Text("Remote Folder:")
+                        Text(self.migrationController.user.remoteFolder?.urlPath.path ?? "")
+                    }
+                    HStack {
+                        Text("Remote Folder Size:")
+                        Text(self.migrationController.user.remoteFolder?.sizeOnDiskString ?? "")
+                    }
+                    HStack {
+                        Text("Remote Password Verified:")
+                        Text(self.migrationController.user.remotePasswordVerified.description)
+                    }
+                }
+                .padding()
+                .border(Color.gray, width: 2)
+                Spacer()
             }
+            Spacer()
         }
     }
 }

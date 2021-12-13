@@ -7,5 +7,3 @@
 
 import Foundation
 import OSLog
-
-let old_logger = Logger(subsystem: "com.github.cybertunnel.Enterprise-Migration-Assistant", category: "GENERAL")

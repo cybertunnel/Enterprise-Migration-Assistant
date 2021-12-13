@@ -7,7 +7,6 @@
 
 import Foundation
 
-old_logger.info("Enterprise Migration Assistant Helper started")
 let helper = Helper()
 helper.run()
 

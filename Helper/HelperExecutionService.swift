@@ -6,29 +6,35 @@
 //
 
 import Foundation
+import OSLog
 
 class HelperExecutionService {
     
     typealias Handler = (Result<String, Error>) -> Void
+    static let logger = Logger(subsystem: AppConstants.bundleIdentifier, category: "Helper Execution Service")
     
-    static func moveFolder(from srcFolder: URL, to dstFolder: URL, then completion: @escaping Handler) {
+    static func copyFolder(from srcFolder: URL, to dstFolder: URL, then completion: @escaping Handler) {
         if FileManager.default.fileExists(atPath: dstFolder.path) {
+            logger.error("File \(dstFolder.path.debugDescription) already exists.")
             completion(.failure(MigrationError.fileAlreadyExists))
         } else {
-            if FileManager.default.fileExists(atPath: dstFolder.path) {
+            if FileManager.default.fileExists(atPath: srcFolder.path) {
+                logger.debug("File/folder at \(srcFolder.path.debugDescription) is confirmed to exist, proceeding.")
                 do {
                     try FileManager.default.copyItem(at: srcFolder, to: dstFolder)
+                    completion(.success("Successfully copied \(srcFolder.path.debugDescription) to \(dstFolder.path.debugDescription)"))
                 } catch {
-                    completion(.failure(MigrationError.unknown))
+                    logger.error("Error occurred while attempting to copy folder contents over. Error: \(error.localizedDescription, privacy: .public)")
+                    completion(.failure(error))
                 }
             } else {
+                logger.error("Source file/folder at \(srcFolder.path.debugDescription, privacy: .public) does not exist.")
                 completion(.failure(MigrationError.fileDoesNotExist))
             }
         }
     }
     
     static func createLaunchDaemon(migratorToolPath path: String, withOldUser oldUser: String, withOldHome oldHome: String, withOldPass oldPass: String, forUser user: String, then completion: @escaping Handler) {
-        completion(.success("Testing"))
         let filePath = URL(fileURLWithPath: "/Library/LaunchDaemons/com.github.cybertunnel.Enterprise-Migration-Assistant.migratorTool.plist")
         let contents = """
         <?xml version="1.0" encoding="UTF-8"?>

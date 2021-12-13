@@ -75,8 +75,12 @@ class MigrationController: ObservableObject {
     }
     @Published var error: Error?
     
+    @Published var targetSize = 0
+    @Published var currSize = 0
+    
     // MARK: - Private Properties
     
+    private var monitorDestFolder: Bool = false
     private var diskDetectActive: Bool = false
     private let logger = Logger(subsystem: AppConstants.bundleIdentifier, category: "Migration Controller")
     
@@ -111,7 +115,7 @@ class MigrationController: ObservableObject {
         self.logger.info("Starting the migration process")
         self.canProceed = false
         //self.makeMigratorUser()
-        self.createLaunchDaemon()
+        //self.createLaunchDaemon()
         
         var tempFolder = self.user.localFolder?.urlPath.pathComponents
         let tempFolderName = "migrator-\(tempFolder?.last ?? "")"
@@ -127,6 +131,24 @@ class MigrationController: ObservableObject {
     }
     
     // MARK: - Private Functions
+    
+    private func monitorDestFolder(for path: URL) {
+        self.monitorDestFolder = true
+        DispatchQueue(label: "Progress Monitoring", qos: .background, attributes: .concurrent, autoreleaseFrequency: .workItem, target: nil).async {
+            while self.monitorDestFolder {
+                do {
+                    if let currSize = try path.directoryTotalAllocatedSize(includingSubfolders: true) {
+                        DispatchQueue.main.async {
+                            self.currSize = currSize
+                        }
+                    }
+                } catch {
+                    
+                }
+                sleep(5)
+            }
+        }
+    }
     
     private func calculateEnoughFree() {
         do {
@@ -224,7 +246,9 @@ class MigrationController: ObservableObject {
         do {
             try ExecutionService.makeMigratorUser(usingAdmin: self.user) { [weak self] result in
                 DispatchQueue.main.async {
-                    old_logger.info("Migration user created!")
+                    if self != nil {
+                        self?.logger.info("Migration user created!")
+                    }
                 }
             }
         } catch {
@@ -240,9 +264,9 @@ class MigrationController: ObservableObject {
             try ExecutionService.createLaunchDaemon(migratorToolPath: toolPath?.path ?? "", withOldUser: self.user.username, withOldHome: self.user.remoteFolder?.urlPath.path ?? "", withOldPass: self.user.remotePassword, forUser: self.user.username) { [weak self] result in
                 switch result {
                 case .success(let output):
-                    NSLog("Successfully created folder")
+                    NSLog("Successfully created folder.")
                 case .failure(let error):
-                    NSLog("Did not successfully create folder")
+                    NSLog("Did not successfully create folder. \(error.localizedDescription)")
                 }
             }
         } catch {
@@ -251,10 +275,22 @@ class MigrationController: ObservableObject {
     }
     
     private func migrateFolder(from srcFolder: URL, to destFolder: URL) {
+        logger.info("Attempting to copy \(srcFolder.debugDescription) to \(destFolder.debugDescription)")
+        do {
+            self.targetSize = try self.user.remoteFolder?.urlPath.directoryTotalAllocatedSize(includingSubfolders: true) ?? 0
+        } catch {
+            self.error = error
+        }
+        self.monitorDestFolder(for: destFolder)
         do {
             try ExecutionService.moveFolder(from: srcFolder, to: destFolder) { result in
-                DispatchQueue.main.async {
-                    old_logger.info("Folder copied successfully.")
+                switch result {
+                case .success(let output):
+                    self.logger.info("Successfully obtained output of \(output)")
+                    self.canProceed = true
+                    self.currSize = self.targetSize
+                case .failure(let error):
+                    self.logger.error("Obtained an error of \(error.localizedDescription)")
                 }
             }
         } catch {

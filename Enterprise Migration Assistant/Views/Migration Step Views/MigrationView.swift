@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MigrationView: View {
+    @EnvironmentObject var migrationController: MigrationController
     var body: some View {
         VStack {
             VStack(alignment: .center) {
@@ -20,9 +21,9 @@ struct MigrationView: View {
             .padding()
             
             VStack {
-                ProgressBar(totalValue: 122023921039124, currValue: 432045)
+                ProgressBar(totalValue: Double(self.migrationController.targetSize), currValue: Double(self.migrationController.currSize))
                     .frame(height: 16)
-                Text("Progress: ")
+                Text("Progress: \(String(describing: self.migrationController.currSize)) of \(String(describing: self.migrationController.targetSize))")
                     .font(.caption)
                 Spacer()
             }
@@ -34,6 +35,12 @@ struct MigrationView: View {
 struct MigrationView_Previews: PreviewProvider {
     static var previews: some View {
         MigrationView()
+            .environmentObject({ () -> MigrationController in
+                let controller = MigrationController()
+                controller.currSize = 50
+                controller.targetSize = 75
+                return controller
+            }())
             .frame(width: 800, height: 600)
     }
 }

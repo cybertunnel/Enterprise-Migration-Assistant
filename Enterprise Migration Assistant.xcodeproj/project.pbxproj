@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8104E7C12768E9C80014CAC0 /* FinalTouchesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8104E7C02768E9C80014CAC0 /* FinalTouchesController.swift */; };
 		813F4F1E27625B4D00BDC165 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813F4F1D27625B4D00BDC165 /* WelcomeView.swift */; };
 		813F4F2027625B5900BDC165 /* DiskSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813F4F1F27625B5900BDC165 /* DiskSelectionView.swift */; };
 		813F4F2227625B6700BDC165 /* FolderSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813F4F2127625B6700BDC165 /* FolderSelectionView.swift */; };
@@ -30,6 +31,7 @@
 		816DBD142763EC7A00F65A08 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816DBD122763EC7A00F65A08 /* AppConstants.swift */; };
 		816DBD152763EC7A00F65A08 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816DBD122763EC7A00F65A08 /* AppConstants.swift */; };
 		816DBD172763F5B600F65A08 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816DBD162763F5B600F65A08 /* ErrorView.swift */; };
+		8178C7062767F420003F2CAF /* ToolExecutionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8178C7052767F420003F2CAF /* ToolExecutionService.swift */; };
 		818122432745A74300BBE9A3 /* Enterprise_Migration_AssistantApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818122422745A74300BBE9A3 /* Enterprise_Migration_AssistantApp.swift */; };
 		818122452745A74300BBE9A3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818122442745A74300BBE9A3 /* ContentView.swift */; };
 		818122472745A74500BBE9A3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 818122462745A74500BBE9A3 /* Assets.xcassets */; };
@@ -99,6 +101,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8104E7C02768E9C80014CAC0 /* FinalTouchesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalTouchesController.swift; sourceTree = "<group>"; };
 		813F4F1D27625B4D00BDC165 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		813F4F1F27625B5900BDC165 /* DiskSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskSelectionView.swift; sourceTree = "<group>"; };
 		813F4F2127625B6700BDC165 /* FolderSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderSelectionView.swift; sourceTree = "<group>"; };
@@ -119,6 +122,7 @@
 		8149B75C275A579A00B6E771 /* FileManagerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerExtension.swift; sourceTree = "<group>"; };
 		816DBD122763EC7A00F65A08 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		816DBD162763F5B600F65A08 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+		8178C7052767F420003F2CAF /* ToolExecutionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolExecutionService.swift; sourceTree = "<group>"; };
 		8181223F2745A74300BBE9A3 /* Enterprise Migration Assistant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Enterprise Migration Assistant.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		818122422745A74300BBE9A3 /* Enterprise_Migration_AssistantApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enterprise_Migration_AssistantApp.swift; sourceTree = "<group>"; };
 		818122442745A74300BBE9A3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -188,6 +192,8 @@
 			isa = PBXGroup;
 			children = (
 				813F4F552763BF5C00BDC165 /* main.swift */,
+				8104E7C02768E9C80014CAC0 /* FinalTouchesController.swift */,
+				8178C7052767F420003F2CAF /* ToolExecutionService.swift */,
 			);
 			path = "Migrator Tool";
 			sourceTree = "<group>";
@@ -407,7 +413,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8178C7062767F420003F2CAF /* ToolExecutionService.swift in Sources */,
 				813F4F562763BF5C00BDC165 /* main.swift in Sources */,
+				8104E7C12768E9C80014CAC0 /* FinalTouchesController.swift in Sources */,
 				816DBD152763EC7A00F65A08 /* AppConstants.swift in Sources */,
 				813F4F5F2763E17900BDC165 /* Logger.swift in Sources */,
 			);

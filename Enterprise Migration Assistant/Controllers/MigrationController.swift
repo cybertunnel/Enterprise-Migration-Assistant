@@ -264,7 +264,7 @@ class MigrationController: ObservableObject {
             try ExecutionService.createLaunchDaemon(migratorToolPath: toolPath?.path ?? "", withOldUser: self.user.username, withOldHome: self.user.remoteFolder?.urlPath.path ?? "", withOldPass: self.user.remotePassword, forUser: self.user.username) { [weak self] result in
                 switch result {
                 case .success(let output):
-                    NSLog("Successfully created folder.")
+                    NSLog("Successfully created folder. Output: \(output)")
                 case .failure(let error):
                     NSLog("Did not successfully create folder. \(error.localizedDescription)")
                 }

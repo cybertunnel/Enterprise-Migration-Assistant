@@ -57,6 +57,7 @@
 		81A2F0102761054E00F002F3 /* HelperRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2F00F2761054E00F002F3 /* HelperRemote.swift */; };
 		81A2F015276108D200F002F3 /* ExecutionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2F014276108D200F002F3 /* ExecutionService.swift */; };
 		81A2F0172761150A00F002F3 /* com.github.cybertunnel.Enterprise-Migration-Assistant.helper in CopyFiles */ = {isa = PBXBuildFile; fileRef = 81A2EFF42760FB5D00F002F3 /* com.github.cybertunnel.Enterprise-Migration-Assistant.helper */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		81D1ED14276933B200F61974 /* WindowAccessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D1ED13276933B200F61974 /* WindowAccessor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -147,6 +148,7 @@
 		81A2F00F2761054E00F002F3 /* HelperRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperRemote.swift; sourceTree = "<group>"; };
 		81A2F0112761081300F002F3 /* Launchd.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Launchd.plist; sourceTree = "<group>"; };
 		81A2F014276108D200F002F3 /* ExecutionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecutionService.swift; sourceTree = "<group>"; };
+		81D1ED13276933B200F61974 /* WindowAccessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowAccessor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,6 +196,7 @@
 				813F4F552763BF5C00BDC165 /* main.swift */,
 				8104E7C02768E9C80014CAC0 /* FinalTouchesController.swift */,
 				8178C7052767F420003F2CAF /* ToolExecutionService.swift */,
+				81D1ED13276933B200F61974 /* WindowAccessor.swift */,
 			);
 			path = "Migrator Tool";
 			sourceTree = "<group>";
@@ -413,6 +416,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81D1ED14276933B200F61974 /* WindowAccessor.swift in Sources */,
 				8178C7062767F420003F2CAF /* ToolExecutionService.swift in Sources */,
 				813F4F562763BF5C00BDC165 /* main.swift in Sources */,
 				8104E7C12768E9C80014CAC0 /* FinalTouchesController.swift in Sources */,

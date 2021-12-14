@@ -12,20 +12,21 @@ enum MigratorToolError: Error {
     case InvalidNumberOfParameters
 }
 
+// TODO: Add keychain updating
 let arguments = Array(CommandLine.arguments.dropFirst())
 
-if arguments.count < 5 { throw MigratorToolError.InvalidNumberOfParameters }
+if arguments.count < 3 { exit(404) }
 
-let path = arguments[0]
-let oldUser = arguments[1]
-let oldHome = arguments[2]
-let oldPass = arguments[3]
-let user = arguments[4]
+let user = arguments[0]
+let password = arguments[0]
+let oldPassword = arguments[0]
 
 
 struct App: SwiftUI.App {
-    //@StateObject var controller = FinalTouchesController(loggedInUser: oldHome, username: user, password: oldPass)
-  var body: some Scene {
+    @State private var window: NSWindow?
+    @StateObject private var controller: FinalTouchesController = FinalTouchesController(loggedInUser: "", username: user, password: password)
+    
+    var body: some Scene {
     WindowGroup {
       VStack {
           Text("Finishing the migration")
@@ -33,9 +34,10 @@ struct App: SwiftUI.App {
               .font(.title)
               .foregroundColor(Color.white)
       }
-      .frame(width: NSScreen.main?.frame.width ?? 800, height: NSScreen.main?.frame.height ?? 600)
+      .frame(width: NSScreen.main?.frame.width ?? .greatestFiniteMagnitude, height: NSScreen.main?.frame.height ?? .greatestFiniteMagnitude)
+      .background(WindowAccessor(window: $window))
       .background(Color.black)
-      
+      .edgesIgnoringSafeArea(.all)
     }
       .windowStyle(.hiddenTitleBar)
   }

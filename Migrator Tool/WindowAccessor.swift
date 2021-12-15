@@ -20,7 +20,10 @@ struct WindowAccessor: NSViewRepresentable {
         DispatchQueue(label: "Testing", qos: .userInteractive, attributes: .concurrent, autoreleaseFrequency: .workItem, target: nil).async {
             while true {
                 DispatchQueue.main.async {
+                    self.window?.canBecomeVisibleWithoutLogin = true
+                    self.window?.orderFrontRegardless()
                     self.window?.makeKeyAndOrderFront(nil)
+                    self.window?.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.maximumWindow)))
                 }
                 sleep(5)
             }

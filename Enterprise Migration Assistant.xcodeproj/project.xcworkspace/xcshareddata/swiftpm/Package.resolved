@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "CSAuthSample",
+        "repositoryURL": "https://github.com/CharlesJS/CSAuthSample.git",
+        "state": {
+          "branch": "master",
+          "revision": "bb0720b6a24fb1a71c3b4f276cc4b0a9fc76c179",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -14,6 +14,9 @@ struct DiskSelectionView: View {
         VStack {
             VStack(alignment: .center) {
                 Image("harddisk")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 128, height: 128)
                     .padding()
                 Text("Disk Selection")
                     .font(.title)

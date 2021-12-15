@@ -11,6 +11,9 @@ struct CompleteView: View {
     var body: some View {
         VStack(alignment: .center) {
             Image("check")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 128, height: 128)
                 .padding()
             Text("Migration Complete")
                 .font(.title)

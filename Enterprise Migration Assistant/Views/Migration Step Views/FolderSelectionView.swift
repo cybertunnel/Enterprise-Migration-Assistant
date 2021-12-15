@@ -13,6 +13,9 @@ struct FolderSelectionView: View {
         VStack {
             VStack(alignment: .center) {
                 Image("folder")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 128, height: 128)
                     .padding()
                 Text("Folder Selection")
                     .font(.title)

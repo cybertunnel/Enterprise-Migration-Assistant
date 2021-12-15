@@ -14,6 +14,9 @@ struct VerificationView: View {
         VStack {
             VStack(alignment: .center) {
                 Image("check")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 128, height: 128)
                     .padding()
                 Text("Verify Settings Prior to Migrating")
                     .font(.title)

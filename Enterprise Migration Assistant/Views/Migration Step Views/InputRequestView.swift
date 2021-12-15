@@ -15,6 +15,9 @@ struct InputRequestView: View {
         VStack {
             VStack(alignment: .center) {
                 Image("inputForm")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 128, height: 128)
                     .padding()
                 Text("Additional Input Needed")
                     .font(.title)

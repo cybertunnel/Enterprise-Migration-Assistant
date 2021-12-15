@@ -12,6 +12,9 @@ struct WelcomeView: View {
         VStack(alignment: .leading) {
             VStack(alignment: .center) {
                 Image("migration")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 128, height: 128)
                     .padding()
                 Text("Enterprise Migration Assistant")
                     .font(.title)

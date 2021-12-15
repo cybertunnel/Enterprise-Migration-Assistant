@@ -96,6 +96,7 @@ To come soon
 ## Acknowledgments
 
 * [alectrona/migrator](https://github.com/alectrona/migrator) - Without their hard work and presentation, this project wouldn't have been thought of.
+* [Woody's Blog Post](https://www.woodys-findings.com/posts/cocoa-implement-privileged-helper) - Without his guide on Privileged helper and making it so easy I would still be banging my head against the wall.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

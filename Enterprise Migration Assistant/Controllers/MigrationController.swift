@@ -287,8 +287,10 @@ class MigrationController: ObservableObject {
                 switch result {
                 case .success(let output):
                     self.logger.info("Successfully obtained output of \(output)")
-                    self.canProceed = true
-                    self.currSize = self.targetSize
+                    DispatchQueue.main.async {
+                        self.canProceed = true
+                        self.currSize = self.targetSize
+                    }
                 case .failure(let error):
                     self.logger.error("Obtained an error of \(error.localizedDescription)")
                 }

@@ -26,6 +26,11 @@ class ToolExecutionService {
 
         DispatchQueue.global(qos: .userInteractive).async {
             process.waitUntilExit()
+            if process.terminationStatus == 0 {
+                completion("Successfully created \(username)", nil)
+            } else {
+                completion(nil, ExecutionError.userCreationFailed)
+            }
         }
     }
     

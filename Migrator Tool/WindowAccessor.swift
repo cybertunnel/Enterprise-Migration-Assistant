@@ -21,7 +21,7 @@ struct WindowAccessor: NSViewRepresentable {
             while true {
                 DispatchQueue.main.async {
                     self.window?.canBecomeVisibleWithoutLogin = true
-                    self.window?.orderFrontRegardless()
+                    //self.window?.orderFrontRegardless()
                     self.window?.makeKeyAndOrderFront(nil)
                     self.window?.level = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.maximumWindow)))
                 }

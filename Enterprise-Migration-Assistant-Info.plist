@@ -5,7 +5,7 @@
 	<key>SMPrivilegedExecutables</key>
 	<dict>
 		<key>com.github.cybertunnel.Enterprise-Migration-Assistant.helper</key>
-		<string>identifier &quot;com.github.cybertunnel.Enterprise-Migration-Assistant.helper&quot; and anchor apple generic and certificate leaf[subject.CN] = &quot;Apple Development: Tyler Morgan (SM8UP534NU)&quot; and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
+		<string>identifier "com.github.cybertunnel.Enterprise-Migration-Assistant.helper" and anchor apple generic and certificate leaf[subject.CN] = "Apple Development: Tyler Morgan (SM8UP534NU)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
 	</dict>
 </dict>
 </plist>

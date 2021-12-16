@@ -114,8 +114,8 @@ class MigrationController: ObservableObject {
     func startMigration() {
         self.logger.info("Starting the migration process")
         self.canProceed = false
-        //self.makeMigratorUser()
-        //self.createLaunchDaemon()
+        self.makeMigratorUser()
+        self.createLaunchDaemon()
         
         var tempFolder = self.user.localFolder?.urlPath.pathComponents
         let tempFolderName = "migrator-\(tempFolder?.last ?? "")"
@@ -127,6 +127,7 @@ class MigrationController: ObservableObject {
         guard let srcFolder = self.user.remoteFolder, let dstFolder = new_dest else { return }
         
         self.migrateFolder(from: srcFolder.urlPath, to: dstFolder)
+        self.startLaunchDaemon()
         self.canProceed = true
     }
     
@@ -272,6 +273,23 @@ class MigrationController: ObservableObject {
         } catch {
             self.error = error
         }
+    }
+    
+    private func startLaunchDaemon() {
+        self.logger.info("Attempting to load the launch daemon")
+        do {
+            try ExecutionService.startLaunchDaemon { result in
+                switch result {
+                case .success(let output):
+                    self.logger.info("Obtained output of \(output)")
+                case .failure(let error):
+                    self.logger.error("Obtained an error of \(error.localizedDescription)")
+                }
+            }
+        } catch {
+            self.error = error
+        }
+        
     }
     
     private func migrateFolder(from srcFolder: URL, to destFolder: URL) {

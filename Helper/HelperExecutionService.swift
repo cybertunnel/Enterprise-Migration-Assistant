@@ -34,6 +34,31 @@ class HelperExecutionService {
         }
     }
     
+    static func startLaunchDaemon(then completion: @escaping Handler) {
+        let filePath = URL(fileURLWithPath: "/Library/LaunchDaemons/com.github.cybertunnel.Enterprise-Migration-Assistant.migratorTool.plist")
+        if FileManager.default.fileExists(atPath: filePath.path) {
+            let process = Process()
+            process.executableURL = URL(fileURLWithPath: "/bin/launchctl")
+            process.arguments = ["load", "-w", filePath.path]
+
+            let outputPipe = Pipe()
+            process.standardOutput = outputPipe
+            process.standardError = outputPipe
+            do {
+                try process.run()
+            } catch {
+                return
+            }
+
+            DispatchQueue.global(qos: .userInteractive).async {
+                process.waitUntilExit()
+                completion(.success("Launch service started with exit code of :\(process.terminationStatus.description)"))
+            }
+        } else {
+            return
+        }
+    }
+    
     static func createLaunchDaemon(migratorToolPath path: String, withOldUser oldUser: String, withOldHome oldHome: String, withOldPass oldPass: String, forUser user: String, then completion: @escaping Handler) {
         let filePath = URL(fileURLWithPath: "/Library/LaunchDaemons/com.github.cybertunnel.Enterprise-Migration-Assistant.migratorTool.plist")
         let contents = """

@@ -132,32 +132,23 @@ class ToolExecutionService {
 
         DispatchQueue.global(qos: .userInteractive).async {
             process.waitUntilExit()
-            
-            if process.terminationStatus == 0 {
-                let process = Process()
-                process.executableURL = URL(fileURLWithPath: "/usr/bin/chflags")
-                process.arguments = ["-R", "nouchg", "/Users/\(user)"]
+            let process = Process()
+            process.executableURL = URL(fileURLWithPath: "/usr/bin/chflags")
+            process.arguments = ["-R", "nouchg", "/Users/\(user)"]
 
-                let outputPipe = Pipe()
-                process.standardOutput = outputPipe
-                process.standardError = outputPipe
-                do {
-                    try process.run()
-                } catch {
-                    completion(nil, error)
-                }
+            let outputPipe = Pipe()
+            process.standardOutput = outputPipe
+            process.standardError = outputPipe
+            do {
+                try process.run()
+            } catch {
+                completion(nil, error)
+            }
 
-                DispatchQueue.global(qos: .userInteractive).async {
-                    process.waitUntilExit()
-                    
-                    if process.terminationStatus == 0 {
-                        completion("Successfully update permissions", nil)
-                    } else {
-                        completion(nil, ExecutionError.permissionUpdateFailed)
-                    }
-                }
-            } else {
-                completion(nil, ExecutionError.permissionUpdateFailed)
+            DispatchQueue.global(qos: .userInteractive).async {
+                process.waitUntilExit()
+                
+                completion("Successfully update permissions", nil)
             }
         }
     }

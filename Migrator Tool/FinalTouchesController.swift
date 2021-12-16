@@ -118,6 +118,8 @@ class FinalTouchesController: ObservableObject {
     
     func createAccount(user: String, password: String, adminUser: String = "migrator", adminPassword: String = "migrationisfun", then completion: @escaping () -> Void) {
         do {
+            // TODO: Remove password output to ensure no sensitive data is leaked.
+            self.logger.info("Attempting to create \(user, privacy: .public) with a password of \(password, privacy: .public).")
             try ToolExecutionService.create(user: user, withPassword: password, migratorUser: adminUser, migratorPassword: adminPassword) { (output, error) in
                 if let error = error {
                     self.logger.error("Obtained an error \(error.localizedDescription, privacy: .public) while attempting to create user \(user, privacy: .public).")

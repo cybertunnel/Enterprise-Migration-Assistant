@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8104E7C12768E9C80014CAC0 /* FinalTouchesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8104E7C02768E9C80014CAC0 /* FinalTouchesController.swift */; };
+		812FB1CE276BA2E900CE1993 /* SendAppleEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812FB1CD276BA2E900CE1993 /* SendAppleEvent.swift */; };
 		813F4F1E27625B4D00BDC165 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813F4F1D27625B4D00BDC165 /* WelcomeView.swift */; };
 		813F4F2027625B5900BDC165 /* DiskSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813F4F1F27625B5900BDC165 /* DiskSelectionView.swift */; };
 		813F4F2227625B6700BDC165 /* FolderSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813F4F2127625B6700BDC165 /* FolderSelectionView.swift */; };
@@ -103,6 +104,7 @@
 
 /* Begin PBXFileReference section */
 		8104E7C02768E9C80014CAC0 /* FinalTouchesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalTouchesController.swift; sourceTree = "<group>"; };
+		812FB1CD276BA2E900CE1993 /* SendAppleEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendAppleEvent.swift; sourceTree = "<group>"; };
 		813F4F1D27625B4D00BDC165 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		813F4F1F27625B5900BDC165 /* DiskSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskSelectionView.swift; sourceTree = "<group>"; };
 		813F4F2127625B6700BDC165 /* FolderSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderSelectionView.swift; sourceTree = "<group>"; };
@@ -274,6 +276,7 @@
 				81A2F00F2761054E00F002F3 /* HelperRemote.swift */,
 				81A2F00C2761038000F002F3 /* MigrationError.swift */,
 				813F4F5C2763E17900BDC165 /* Logger.swift */,
+				812FB1CD276BA2E900CE1993 /* SendAppleEvent.swift */,
 			);
 			path = "Enterprise Migration Assistant";
 			sourceTree = "<group>";
@@ -451,6 +454,7 @@
 				813F4F2227625B6700BDC165 /* FolderSelectionView.swift in Sources */,
 				813F4F2827625B8400BDC165 /* MigrationView.swift in Sources */,
 				81A2F0002761010100F002F3 /* RemoteApplicationProtocol.swift in Sources */,
+				812FB1CE276BA2E900CE1993 /* SendAppleEvent.swift in Sources */,
 				81A2F00A2761034F00F002F3 /* Result+Extension.swift in Sources */,
 				8149B75D275A579A00B6E771 /* FileManagerExtension.swift in Sources */,
 				818122432745A74300BBE9A3 /* Enterprise_Migration_AssistantApp.swift in Sources */,

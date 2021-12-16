@@ -32,6 +32,15 @@ struct ExecutionService {
         }
     }
     
+    static func startLaunchDaemon(then completion: @escaping Handler) throws {
+        let remote = try HelperRemote().getRemote()
+        
+        remote.startLaunchDaemon() { (output, error) in
+            self.logger.info("Got a response: \(String(describing: output))")
+            completion(Result(string: output, error: error))
+        }
+    }
+    
     static func moveFolder(from srcFolder: URL, to destFolder: URL, then completion: @escaping Handler) throws {
         logger.info("Recieved request to copy \(srcFolder.debugDescription) to \(destFolder.debugDescription)")
         

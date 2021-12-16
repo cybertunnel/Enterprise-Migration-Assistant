@@ -11,8 +11,11 @@ import OSLog
 class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
     
     private let logger = Logger(subsystem: AppConstants.bundleIdentifier, category: "Migration Helper")
-    func startLaunchDaemon() {
-        // Start the launchdaemon
+    func startLaunchDaemon(then completion: @escaping (String?, Error?) -> Void) {
+        self.logger.info("Attempting to start the LaunchDaemon...")
+        HelperExecutionService.startLaunchDaemon() { (result) in
+            completion(result.string, result.error)
+        }
     }
     
     func copyFolder(from src: URL, to dest: URL, then completion: @escaping (String?, Error?) -> Void) {

@@ -106,7 +106,7 @@ struct ContentView: View {
                     .disabled(!self.migrationController.canProceed && !(self.user.remotePasswordVerified && self.user.localPasswordVerified && self.migrationController.currStep == .InformationVerification))
                 } else {
                     Button("Logoff") {
-                        print("Logging off...")
+                        try! SendAppleEvent.logout()
                     }
                 }
             }

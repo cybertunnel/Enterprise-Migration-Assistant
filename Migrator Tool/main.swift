@@ -18,8 +18,8 @@ let arguments = Array(CommandLine.arguments.dropFirst())
 if arguments.count < 3 { exit(404) }
 
 let user = arguments[0]
-let password = arguments[0]
-let oldPassword = arguments[0]
+let password = arguments[1]
+let oldPassword = arguments[2]
 
 
 struct App: SwiftUI.App {
@@ -35,9 +35,9 @@ struct App: SwiftUI.App {
               .foregroundColor(Color.white)
       }
       .frame(width: NSScreen.main?.frame.width ?? .greatestFiniteMagnitude, height: NSScreen.main?.frame.height ?? .greatestFiniteMagnitude)
-      .background(WindowAccessor(window: $window))
-      .background(Color.black)
-      .edgesIgnoringSafeArea(.all)
+      //.background(WindowAccessor(window: $window))
+      //.background(Color.black)
+      //.edgesIgnoringSafeArea(.all)
     }
       .windowStyle(.hiddenTitleBar)
   }

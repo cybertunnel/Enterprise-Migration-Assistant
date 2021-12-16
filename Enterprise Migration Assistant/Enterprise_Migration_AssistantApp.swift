@@ -17,5 +17,6 @@ struct Enterprise_Migration_AssistantApp: App {
                 .frame(width: 800, height: 600, alignment: .center)
                 .environmentObject(controller)
         }
+        // TODO: Add a "Testing" command to allow the ability to enable/disable testing
     }
 }

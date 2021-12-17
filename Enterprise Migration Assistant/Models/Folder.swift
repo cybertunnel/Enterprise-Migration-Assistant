@@ -39,21 +39,24 @@ class Folder:Hashable {
             self.processingSize = false
             return
         } else {
-            DispatchQueue(label: "Determine Size", qos: .userInitiated, attributes: .concurrent, autoreleaseFrequency: .workItem, target: nil).async {
-                do {
-                    let size = try self.urlPath.directoryTotalAllocatedSize(includingSubfolders: true)
-                    DispatchQueue.main.async {
-                        self.sizeOnDisk = size
-                        self.processingSize = false
-                    }
-                } catch {
-                    DispatchQueue.main.async {
-                        self.sizeOnDisk = nil
-                        self.processingSize = false
-                    }
-                }
+            DispatchQueue(label: "Determine Size", qos: .userInitiated, attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil).async {
+                let size: Int? = self.determineSize(forPath: urlPath)
                 
+                DispatchQueue.main.async {
+                    self.sizeOnDisk = size
+                    self.processingSize = false
+                }
             }
+        }
+    }
+    
+    private func determineSize(forPath path: URL) -> Int? {
+        var size: Int? = nil
+        do {
+            size = try path.directoryTotalAllocatedSize(includingSubfolders: true)
+            return size
+        } catch {
+            return nil
         }
     }
     

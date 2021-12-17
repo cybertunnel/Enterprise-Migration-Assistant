@@ -9,10 +9,14 @@ import Foundation
 import XPC
 import ServiceManagement
 
+/**
+ Handles the interaction and installation of the helper for this application
+ */
 struct HelperRemote {
 
     // MARK: - Properties
 
+    /// Is the helper currently installed?
     var isHelperInstalled: Bool { FileManager.default.fileExists(atPath: HelperConstants.helperPath) }
 
     // MARK: - Functions
@@ -65,6 +69,7 @@ struct HelperRemote {
         AuthorizationFree(authRef!, [])
     }
 
+    /// Creates the `NSXPCConnection` to be used to communicate to the helper
     private func createConnection() -> NSXPCConnection {
         let connection = NSXPCConnection(machServiceName: HelperConstants.domain, options: .privileged)
         connection.remoteObjectInterface = NSXPCInterface(with: HelperProtocol.self)
@@ -84,6 +89,7 @@ struct HelperRemote {
         return connection
     }
 
+    /// Get the `NSXPCConnection` object
     private func getConnection() throws -> NSXPCConnection {
         if !isHelperInstalled {
             // we'll try to install the Helper if not already installed, but we need to get the admin authorization
@@ -92,6 +98,7 @@ struct HelperRemote {
         return createConnection()
     }
 
+    /// Get the remote helper object
     func getRemote() throws -> HelperProtocol {
         var proxyError: Error?
 

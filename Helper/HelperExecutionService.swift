@@ -13,6 +13,14 @@ class HelperExecutionService {
     typealias Handler = (Result<String, Error>) -> Void
     static let logger = Logger(subsystem: AppConstants.bundleIdentifier, category: "Helper Execution Service")
     
+    /**
+     Copy the provided folder to the provided destination
+     
+     - Parameters:
+        - src: The folder being copied as `URL`
+        - dest: The place the folder is being copied to as `URL`
+        - completion: What to do when data or errors are recieved as `(String?, Error?) -> Void`
+     */
     static func copyFolder(from srcFolder: URL, to dstFolder: URL, then completion: @escaping Handler) {
         if FileManager.default.fileExists(atPath: dstFolder.path) {
             logger.error("File \(dstFolder.path.debugDescription) already exists.")
@@ -34,6 +42,11 @@ class HelperExecutionService {
         }
     }
     
+    /**
+     Start the created launch daemon
+     - Parameters:
+        - completion: The handler for when this function completes as `(Result<String, Error>) -> Void`
+     */
     static func startLaunchDaemon(then completion: @escaping Handler) {
         let filePath = URL(fileURLWithPath: "/Library/LaunchDaemons/com.github.cybertunnel.Enterprise-Migration-Assistant.migratorTool.plist")
         if FileManager.default.fileExists(atPath: filePath.path) {
@@ -59,6 +72,15 @@ class HelperExecutionService {
         }
     }
     
+    /**
+     Create a launch daemon for the migrator tool at the provided path and arguments
+     - Parameters:
+        - path: The path of the migration tool as `String`
+        - oldUser: The user's old account name as `String`
+        - oldHome: The user's temporary migrated data folder path as `String`
+        - oldPass: The user's password on their old device as `String`
+        - user: The user that will be created as `String`
+     */
     static func createLaunchDaemon(migratorToolPath path: String, withOldUser oldUser: String, withOldHome oldHome: String, withOldPass oldPass: String, forUser user: String, then completion: @escaping Handler) {
         let filePath = URL(fileURLWithPath: "/Library/LaunchDaemons/com.github.cybertunnel.Enterprise-Migration-Assistant.migratorTool.plist")
         let contents = """
@@ -92,6 +114,17 @@ class HelperExecutionService {
         }
     }
     
+    /**
+     Create a migration user with the provided information using the provided credentials
+     
+     - Parameters:
+        - username: The username for the migration user as `String`. Default: `migrator`
+        - name: The full name of the migration user as `String`. Default: `Please Wait...`
+        - password: The password for the migration account as `String`. Default: `migrationisfun`
+        - adminUser: The username of the admin user being used to create this account as `String`
+        - adminPass: The password for the admin user being used to create this account as `String`
+        - completion: What to do when data or error is recieved as `(String?, Error?) -> Void`
+     */
     static func makeMigratorUser(username: String, withName name: String, withPassword password: String, usingAdmin adminUser: String, withAdminPass adminPass: String, then completion: @escaping Handler) throws {
         let process = Process()
         process.executableURL = URL(fileURLWithPath: "/usr/sbin/sysadminctl")

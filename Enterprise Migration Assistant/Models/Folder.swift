@@ -7,12 +7,19 @@
 
 import Foundation
 
+/// An object that is tied to a specific folder on a disk
 class Folder:Hashable {
     
     // MARK: - Properties
     
+    /// Name of the folder which is normally displayed to the user
     let name: String
+    
+    /// The size this folder takes up on disk
     var sizeOnDisk: Int?
+    
+    // TODO: Convert this to use the byteFormatter to prevent extra calls to process the size of the file/folder
+    /// The size of the folder as a `String`
     var sizeOnDiskString: String? {
         get {
             do {
@@ -23,11 +30,23 @@ class Folder:Hashable {
             }
         }
     }
+    
+    /// Is the size of this folder still being processed?
     var processingSize: Bool = false
+    
+    /// The `URL` path of this folder
     var urlPath: URL
     
     // MARK: - Initialiser
     
+    /**
+     Create a new Folder object
+     - Parameters:
+        - name: The user friendly name of the folder
+        - urlPath: The `URL` object that references the folder to be used
+        - size: Set the size of the folder automatically if you know it
+     - Note: `size` can be set in SwiftUI previews to visualize what a view might look like
+     */
     init (name: String, urlPath: URL, size: Int? = nil) {
         self.name = name
         self.urlPath = urlPath
@@ -50,6 +69,12 @@ class Folder:Hashable {
         }
     }
     
+    /**
+     Determine the size of the specific path provided
+     - Parameters:
+        - path: The path to determine the size of as a `URL` object
+     - Returns: The size of the folder as an `Int` object or `nil` if the folder doesn't exist
+     */
     private func determineSize(forPath path: URL) -> Int? {
         var size: Int? = nil
         do {

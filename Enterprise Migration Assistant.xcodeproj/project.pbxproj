@@ -18,9 +18,6 @@
 		813F4F2A27625B8C00BDC165 /* CompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813F4F2927625B8C00BDC165 /* CompleteView.swift */; };
 		813F4F562763BF5C00BDC165 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813F4F552763BF5C00BDC165 /* main.swift */; };
 		813F4F5B2763BF7C00BDC165 /* Migrator Tool in CopyFiles */ = {isa = PBXBuildFile; fileRef = 813F4F532763BF5C00BDC165 /* Migrator Tool */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		813F4F5D2763E17900BDC165 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813F4F5C2763E17900BDC165 /* Logger.swift */; };
-		813F4F5E2763E17900BDC165 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813F4F5C2763E17900BDC165 /* Logger.swift */; };
-		813F4F5F2763E17900BDC165 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813F4F5C2763E17900BDC165 /* Logger.swift */; };
 		8148307D275931140014F73B /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8148307C275931140014F73B /* ProgressBar.swift */; };
 		8148307F275946E40014F73B /* DiskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8148307E275946E40014F73B /* DiskListView.swift */; };
 		814830AA275961400014F73B /* Folder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814830A9275961400014F73B /* Folder.swift */; };
@@ -114,7 +111,6 @@
 		813F4F4E2763B83200BDC165 /* Enterprise-Migration-Assistant-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Enterprise-Migration-Assistant-Info.plist"; sourceTree = SOURCE_ROOT; };
 		813F4F532763BF5C00BDC165 /* Migrator Tool */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Migrator Tool"; sourceTree = BUILT_PRODUCTS_DIR; };
 		813F4F552763BF5C00BDC165 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		813F4F5C2763E17900BDC165 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		8148307C275931140014F73B /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		8148307E275946E40014F73B /* DiskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskListView.swift; sourceTree = "<group>"; };
 		814830A9275961400014F73B /* Folder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Folder.swift; sourceTree = "<group>"; };
@@ -272,7 +268,6 @@
 				81A2F014276108D200F002F3 /* ExecutionService.swift */,
 				81A2F00F2761054E00F002F3 /* HelperRemote.swift */,
 				81A2F00C2761038000F002F3 /* MigrationError.swift */,
-				813F4F5C2763E17900BDC165 /* Logger.swift */,
 				812FB1CD276BA2E900CE1993 /* SendAppleEvent.swift */,
 			);
 			path = "Enterprise Migration Assistant";
@@ -421,7 +416,6 @@
 				813F4F562763BF5C00BDC165 /* main.swift in Sources */,
 				8104E7C12768E9C80014CAC0 /* FinalTouchesController.swift in Sources */,
 				816DBD152763EC7A00F65A08 /* AppConstants.swift in Sources */,
-				813F4F5F2763E17900BDC165 /* Logger.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,7 +434,6 @@
 				813F4F1E27625B4D00BDC165 /* WelcomeView.swift in Sources */,
 				8181225A2746E0C000BBE9A3 /* DiskView.swift in Sources */,
 				814830AE275961530014F73B /* FolderView.swift in Sources */,
-				813F4F5D2763E17900BDC165 /* Logger.swift in Sources */,
 				818122582745BF7F00BBE9A3 /* MigrationController.swift in Sources */,
 				818122452745A74300BBE9A3 /* ContentView.swift in Sources */,
 				814830AA275961400014F73B /* Folder.swift in Sources */,
@@ -470,7 +463,6 @@
 				81A2F0042761011400F002F3 /* HelperConstants.swift in Sources */,
 				81A2F0082761018D00F002F3 /* HelperExecutionService.swift in Sources */,
 				81A2F00E2761038000F002F3 /* MigrationError.swift in Sources */,
-				813F4F5E2763E17900BDC165 /* Logger.swift in Sources */,
 				81A2F0062761018300F002F3 /* Helper.swift in Sources */,
 				81A2EFFE2760FF7000F002F3 /* HelperProtocol.swift in Sources */,
 				81A2F0012761010100F002F3 /* RemoteApplicationProtocol.swift in Sources */,

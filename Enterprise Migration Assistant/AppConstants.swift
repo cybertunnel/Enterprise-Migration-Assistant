@@ -7,6 +7,8 @@
 
 import Foundation
 
+/// Constants that are used throughout the application
 struct AppConstants {
+    /// The bundle idenfieir for this project
     static let bundleIdentifier = "com.github.cybertunnel.Enterprise-Migration-Assistant"
 }

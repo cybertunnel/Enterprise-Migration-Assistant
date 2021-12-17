@@ -10,15 +10,20 @@ import DiskArbitration
 import SwiftUI
 import OSLog
 
+/**
+ A Controller that handles everything around the migration.
+ */
 class MigrationController: ObservableObject {
     
     // MARK: - Constants
+    
+    /// The different steps that happen during migration
     enum MigrationStep {
         case Welcome, DiskSelection, FolderSelection, Migration, Logoff, InformationVerification, Verification
     }
-    
     // MARK: - Observed Properties
     
+    /// The current step that the controller is on
     @Published var currStep: MigrationStep = .Welcome {
         didSet {
             if currStep == .DiskSelection {
@@ -48,8 +53,13 @@ class MigrationController: ObservableObject {
             else { self.logger.debug("Migration UI step has been moved to \(String(describing: self.currStep.hashValue))")}
         }
     }
+    /// Can the controller proceed to the next step
     @Published var canProceed: Bool = true
+    
+    /// An array of disks detected by the MigrationController
     @Published var detectedDisks: Array <Disk> = []
+    
+    /// Selected disk from the disk array
     @Published var selectedDisk: Disk? {
         didSet {
             self.logger.info("A disk has been selected.")
@@ -57,7 +67,11 @@ class MigrationController: ObservableObject {
             self.canProceed = true
         }
     }
+    
+    /// An array of folders from the selected disk
     @Published var selectedDiskFolders: Array <Folder> = []
+    
+    /// The selected folder
     @Published var selectedUserFolder: Folder? {
         didSet {
             self.logger.info("User folder has been selected.")
@@ -67,21 +81,34 @@ class MigrationController: ObservableObject {
         }
     }
     
+    /// The user being migrated
     @Published var user: User
+    
+    /// Is there enough free space?
     @Published var enoughFreeSpace: Bool = false {
         didSet {
             self.canProceed = enoughFreeSpace
         }
     }
+    
+    /// This is populated when there is an error that happened
     @Published var error: Error?
     
+    /// What size should the final folder be?
     @Published var targetSize = 0
+    
+    /// What size is it currently?
     @Published var currSize = 0
     
     // MARK: - Private Properties
     
+    /// Is the destination folder being monitored
     private var monitorDestFolder: Bool = false
+    
+    /// Is the disk detection module active
     private var diskDetectActive: Bool = false
+    
+    /// The log variable
     private let logger = Logger(subsystem: AppConstants.bundleIdentifier, category: "Migration Controller")
     
     
@@ -93,6 +120,9 @@ class MigrationController: ObservableObject {
     
     // MARK: - Functions
     
+    /**
+     Begin the background disk detection
+     */
     func beginDiskDetection() {
         
         DispatchQueue(label: "Disk Detection", qos: .background, attributes: .concurrent, autoreleaseFrequency: .workItem, target: nil).async {
@@ -106,11 +136,17 @@ class MigrationController: ObservableObject {
         }
     }
     
+    /**
+     Stop the background disk detection
+     */
     func stopDiskDetection() {
         self.logger.info("Stopping disk detection.")
         self.diskDetectActive = false
     }
     
+    /**
+     Start the migration process
+     */
     func startMigration() {
         self.logger.info("Starting the migration process")
         self.canProceed = false
@@ -133,6 +169,10 @@ class MigrationController: ObservableObject {
     
     // MARK: - Private Functions
     
+    /**
+     Monitor provided folder
+     - Parameter path: (URL) The directory being monitored.
+     */
     private func monitorDestFolder(for path: URL) {
         self.monitorDestFolder = true
         DispatchQueue(label: "Progress Monitoring", qos: .background, attributes: .concurrent, autoreleaseFrequency: .workItem, target: nil).async {
@@ -151,6 +191,9 @@ class MigrationController: ObservableObject {
         }
     }
     
+    /**
+     Calculate if there is enough free space on the disk
+     */
     private func calculateEnoughFree() {
         do {
             let result = try FileManager.default.attributesOfFileSystem(forPath: "/")
@@ -177,6 +220,9 @@ class MigrationController: ObservableObject {
         }
     }
     
+    /**
+     Detect the potential user paths for the selected disk
+     */
     private func detectPath() {
         logger.info("Attempting to detect user folders on the selected disk.")
         guard let basePath = self.selectedDisk?.pathURL.path else { return }
@@ -214,6 +260,9 @@ class MigrationController: ObservableObject {
         }
     }
     
+    /**
+     Detect mounted disks
+     */
     private func detectDisks() {
         let disks = FileManager.default.mountedVolumeURLs(includingResourceValuesForKeys: [.volumeURLKey], options: .skipHiddenVolumes)
         var detectedDisks: Array <Disk> = []
@@ -242,6 +291,9 @@ class MigrationController: ObservableObject {
         }
     }
     
+    /**
+     Make migrator user
+     */
     private func makeMigratorUser() {
         self.logger.info("Attempting to make migration user")
         do {
@@ -257,6 +309,9 @@ class MigrationController: ObservableObject {
         }
     }
     
+    /**
+     Create the Launch Daemon
+     */
     private func createLaunchDaemon() {
         self.logger.info("Attempting to create launch daemon")
         let currPath = Bundle.main.resourceURL
@@ -265,9 +320,9 @@ class MigrationController: ObservableObject {
             try ExecutionService.createLaunchDaemon(migratorToolPath: toolPath?.path ?? "", withOldUser: self.user.username, withOldHome: self.user.remoteFolder?.urlPath.path ?? "", withOldPass: self.user.remotePassword, forUser: self.user.username) { [weak self] result in
                 switch result {
                 case .success(let output):
-                    NSLog("Successfully created folder. Output: \(output)")
+                    self?.logger.info("Successfully created folder. Output: \(output)")
                 case .failure(let error):
-                    NSLog("Did not successfully create folder. \(error.localizedDescription)")
+                    self?.logger.info("Did not successfully create folder. \(error.localizedDescription)")
                 }
             }
         } catch {
@@ -275,6 +330,9 @@ class MigrationController: ObservableObject {
         }
     }
     
+    /**
+     Start the Launch Daemon
+     */
     private func startLaunchDaemon() {
         self.logger.info("Attempting to load the launch daemon")
         do {
@@ -292,6 +350,12 @@ class MigrationController: ObservableObject {
         
     }
     
+    /**
+     Migrate from one folder to another
+     - Parameters:
+        - srcFolder: The folder which is being copied
+        - destFolder: The new folder which you want the data to be copied to
+     */
     private func migrateFolder(from srcFolder: URL, to destFolder: URL) {
         logger.info("Attempting to copy \(srcFolder.debugDescription) to \(destFolder.debugDescription)")
         do {

@@ -9,6 +9,9 @@ import Foundation
 import OSLog
 import ApplicationServices
 
+/**
+ Helps send Apple Events
+ */
 class SendAppleEvent {
     
     static let logger = Logger(subsystem: AppConstants.bundleIdentifier, category: "Apple Event")

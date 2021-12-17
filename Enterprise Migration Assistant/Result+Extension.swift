@@ -7,6 +7,9 @@
 
 import Foundation
 
+/**
+ Adds to the `Result` object
+ */
 extension Result where Success == String, Failure == Error {
 
     // MARK: - Properties

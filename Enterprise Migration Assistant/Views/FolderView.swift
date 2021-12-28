@@ -11,6 +11,11 @@ struct FolderView: View {
     var folder: Folder
     var body: some View {
         HStack {
+            Image(nsImage: NSImage(named: NSImage.folderName)!)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 32, height: 32)
+                .padding(5)
             Text(folder.name)
             Spacer()
             Text("Size: " + (self.folder.sizeOnDiskString ?? "Error Calculating"))

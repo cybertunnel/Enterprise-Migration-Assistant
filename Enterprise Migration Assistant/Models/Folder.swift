@@ -22,12 +22,8 @@ class Folder:Hashable {
     /// The size of the folder as a `String`
     var sizeOnDiskString: String? {
         get {
-            do {
-                let size = try self.urlPath.sizeOnDisk()
-                return size
-            } catch {
-                return nil
-            }
+            let formatter = ByteCountFormatter()
+            return formatter.string(for: self.sizeOnDisk)
         }
     }
     
@@ -50,7 +46,6 @@ class Folder:Hashable {
     init (name: String, urlPath: URL, size: Int? = nil) {
         self.name = name
         self.urlPath = urlPath
-        self.processingSize = true
         
         //  Use this for creating a dummy object
         if size != nil {
@@ -58,6 +53,7 @@ class Folder:Hashable {
             self.processingSize = false
             return
         } else {
+            self.processingSize = true
             DispatchQueue(label: "Determine Size", qos: .userInitiated, attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil).async {
                 let size: Int? = self.determineSize(forPath: urlPath)
                 

@@ -12,10 +12,11 @@ struct DiskView: View {
     var body: some View {
         VStack {
             HStack {
-                Image(systemName: NSImage.cautionName)
-                    .padding()
-                    .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color.black/*@END_MENU_TOKEN@*/)
-                    .scaleEffect()
+                Image(nsImage: NSImage(named: NSImage.computerName)!)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 32, height: 32)
+                    .padding(5)
                 VStack(alignment: .leading) {
                     Text(self.disk.name)
                     Text(self.disk.volumeType)
@@ -23,31 +24,29 @@ struct DiskView: View {
                 
                 Spacer()
                 Text(self.disk.capacityString)
-                    .padding()
+                    .padding(10)
                     .border(Color(NSColor.systemGray), width: 2)
                     .cornerRadius(5)
                     .background(Color(NSColor.clear))
             }
-            .padding()
-            ProgressBar(totalValue: Double(self.disk.capacity), currValue: Double(self.disk.used)).frame(height: 20)
+            .padding(5)
+            ProgressBar(totalValue: Double(self.disk.capacity), currValue: Double(self.disk.used)).frame(height: 10)
             HStack {
                 Rectangle()
-                    .frame(width: 16, height: 16)
+                    .frame(width: 8, height: 8)
                     .foregroundColor(Color(NSColor.systemBlue))
-                VStack(alignment: .leading) {
-                    Text("Used")
-                        .bold()
-                    Text("\(self.disk.usedString)")
-                }
+                Text("Used:")
+                    .bold()
+                Text("\(self.disk.usedString)")
+                
                 Spacer()
+                
                 Rectangle()
-                    .frame(width: 16, height: 16)
+                    .frame(width: 8, height: 8)
                     .foregroundColor(Color(NSColor.systemTeal))
-                VStack(alignment: .leading) {
-                    Text("Free")
-                        .bold()
-                    Text("\(self.disk.freeString)")
-                }
+                Text("Free:")
+                    .bold()
+                Text("\(self.disk.freeString)")
                 Spacer()
                 
                     

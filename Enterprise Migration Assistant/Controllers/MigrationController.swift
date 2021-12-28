@@ -102,7 +102,11 @@ class MigrationController: ObservableObject {
     @Published var error: Error?
     
     /// Is the application in testing mode
-    @Published var testingMode: Bool = true
+    @Published var testingMode: Bool = true {
+        didSet {
+            print("Set to \(testingMode.description)")
+        }
+    }
     
     
     // MARK: - Private Properties

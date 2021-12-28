@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TestingView: View {
-    @State var testingMode: Bool
+    @Binding var testingMode: Bool
     var body: some View {
         if testingMode {
             Text("Testing Mode")
@@ -23,8 +23,8 @@ struct TestingView: View {
 
 struct TestingView_Previews: PreviewProvider {
     static var previews: some View {
-        TestingView(testingMode: true)
+        TestingView(testingMode: .constant(true))
         
-        TestingView(testingMode: false)
+        TestingView(testingMode: .constant(false))
     }
 }

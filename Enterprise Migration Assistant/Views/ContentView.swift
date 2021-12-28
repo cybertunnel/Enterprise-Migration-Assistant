@@ -113,7 +113,7 @@ struct ContentView: View {
             }
             .padding()
         }
-        .overlay(TestingView(testingMode: self.migrationController.testingMode), alignment: .topTrailing)
+        .overlay(TestingView(testingMode: self.$migrationController.testingMode), alignment: .topTrailing)
     }
 }
 

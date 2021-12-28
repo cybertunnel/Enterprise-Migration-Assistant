@@ -21,23 +21,23 @@ class HelperExecutionService {
         - dest: The place the folder is being copied to as `URL`
         - completion: What to do when data or errors are recieved as `(String?, Error?) -> Void`
      */
-    static func copyFolder(from srcFolder: URL, to dstFolder: URL, then completion: @escaping Handler) {
+    static func copyFolder(from srcFolder: URL, to dstFolder: URL) async throws -> String? {
         if FileManager.default.fileExists(atPath: dstFolder.path) {
             logger.error("File \(dstFolder.path.debugDescription) already exists.")
-            completion(.failure(MigrationError.fileAlreadyExists))
+            throw MigrationError.fileAlreadyExists
         } else {
             if FileManager.default.fileExists(atPath: srcFolder.path) {
                 logger.debug("File/folder at \(srcFolder.path.debugDescription) is confirmed to exist, proceeding.")
                 do {
                     try FileManager.default.copyItem(at: srcFolder, to: dstFolder)
-                    completion(.success("Successfully copied \(srcFolder.path.debugDescription) to \(dstFolder.path.debugDescription)"))
+                    return "Successfully copied \(srcFolder.path.debugDescription) to \(dstFolder.path.debugDescription)"
                 } catch {
                     logger.error("Error occurred while attempting to copy folder contents over. Error: \(error.localizedDescription, privacy: .public)")
-                    completion(.failure(error))
+                    throw error
                 }
             } else {
                 logger.error("Source file/folder at \(srcFolder.path.debugDescription, privacy: .public) does not exist.")
-                completion(.failure(MigrationError.fileDoesNotExist))
+                throw MigrationError.fileDoesNotExist
             }
         }
     }
@@ -47,7 +47,7 @@ class HelperExecutionService {
      - Parameters:
         - completion: The handler for when this function completes as `(Result<String, Error>) -> Void`
      */
-    static func startLaunchDaemon(then completion: @escaping Handler) {
+    static func startLaunchDaemon() async throws -> String? {
         let filePath = URL(fileURLWithPath: "/Library/LaunchDaemons/com.github.cybertunnel.Enterprise-Migration-Assistant.migratorTool.plist")
         if FileManager.default.fileExists(atPath: filePath.path) {
             let process = Process()
@@ -60,15 +60,12 @@ class HelperExecutionService {
             do {
                 try process.run()
             } catch {
-                return
+                return nil
             }
-
-            DispatchQueue.global(qos: .userInteractive).async {
-                process.waitUntilExit()
-                completion(.success("Launch service started with exit code of :\(process.terminationStatus.description)"))
-            }
+            process.waitUntilExit()
+            return "Launch service started with exit code of \(process.terminationStatus.description)"
         } else {
-            return
+            return nil
         }
     }
     
@@ -81,7 +78,7 @@ class HelperExecutionService {
         - oldPass: The user's password on their old device as `String`
         - user: The user that will be created as `String`
      */
-    static func createLaunchDaemon(migratorToolPath path: String, withOldUser oldUser: String, withOldHome oldHome: String, withOldPass oldPass: String, forUser user: String, then completion: @escaping Handler) {
+    static func createLaunchDaemon(migratorToolPath path: String, withOldUser oldUser: String, withOldHome oldHome: String, withOldPass oldPass: String, forUser user: String) async throws -> String? {
         let filePath = URL(fileURLWithPath: "/Library/LaunchDaemons/com.github.cybertunnel.Enterprise-Migration-Assistant.migratorTool.plist")
         let contents = """
         <?xml version="1.0" encoding="UTF-8"?>
@@ -105,13 +102,12 @@ class HelperExecutionService {
         """
         
         if FileManager.default.createFile(atPath: filePath.path, contents: contents.data(using: .utf8)) {
-            completion(.success("Successfully created LaunchDaemon!"))
-            return
+            return "Successfully created LaunchDaemon"
         }
         else {
-            completion(.failure(MigrationError.invalidPermission))
-            return
+            // TODO: Add throwing
         }
+        return nil
     }
     
     /**
@@ -125,7 +121,7 @@ class HelperExecutionService {
         - adminPass: The password for the admin user being used to create this account as `String`
         - completion: What to do when data or error is recieved as `(String?, Error?) -> Void`
      */
-    static func makeMigratorUser(username: String, withName name: String, withPassword password: String, usingAdmin adminUser: String, withAdminPass adminPass: String, then completion: @escaping Handler) throws {
+    static func makeMigratorUser(username: String, withName name: String, withPassword password: String, usingAdmin adminUser: String, withAdminPass adminPass: String) async throws -> String? {
         let process = Process()
         process.executableURL = URL(fileURLWithPath: "/usr/sbin/sysadminctl")
         process.arguments = ["-addUser", username, "-fullName", name, "-password", password, "-admin", "-adminUser", adminUser, "-adminPassword", adminPass]
@@ -134,18 +130,13 @@ class HelperExecutionService {
         process.standardOutput = outputPipe
         process.standardError = outputPipe
         try process.run()
-
-        DispatchQueue.global(qos: .userInteractive).async {
-            process.waitUntilExit()
-            
-            if process.terminationStatus == 0 {
-                completion(.success("Migration user created successfully."))
-            } else {
-                DispatchQueue.main.async {
-                    completion(.failure(MigrationError.invalidPermission))
-                    return
-                }
-            }
+        process.waitUntilExit()
+        
+        if process.terminationStatus == 0 {
+            return "Migration user created successfully."
+        } else {
+            // TODO: Add throwing
         }
+        return nil
     }
 }

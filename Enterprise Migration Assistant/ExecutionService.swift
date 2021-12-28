@@ -32,12 +32,13 @@ struct ExecutionService {
         - completion: The handler for when this function completes as `(Result<String, Error>) -> Void`
      - Throws: `MigrationError` if there is an issue with the helper.
      */
-    static func makeMigratorUser(_ username: String = "migrator", withName name: String = "Please Wait...", withPassword password: String = "migrationisfun", usingAdmin admin: User, then completion: @escaping Handler) throws {
+    static func makeMigratorUser(_ username: String = "migrator", withName name: String = "Please Wait...", withPassword password: String = "migrationisfun", usingAdmin admin: User) async throws -> Bool {
         let remote = try HelperRemote().getRemote()
         
-        remote.createMigrationUser(username: username, withName: name, withPassword: password, usingAdmin: admin.username, withAdminPass: admin.localPassword) { (output, error) in
-            completion(Result(string: output, error: error))
-        }
+        let response = try await remote.createMigrationUser(username: username, withName: name, withPassword: password, usingAdmin: admin.username, withAdminPass: admin.localPassword)
+        
+        return !(response == nil)
+        
     }
     
     /**
@@ -50,13 +51,11 @@ struct ExecutionService {
         - user: The user that will be created as `String`
      - Throws: `MigrationError` if there is an issue with the helper.
      */
-    static func createLaunchDaemon(migratorToolPath path: String, withOldUser oldUser: String, withOldHome oldHome: String, withOldPass oldPass: String, forUser user: String, then completion: @escaping Handler) throws {
+    static func createLaunchDaemon(migratorToolPath path: String, withOldUser oldUser: String, withOldHome oldHome: String, withOldPass oldPass: String, forUser user: String) async throws -> Bool {
         let remote = try HelperRemote().getRemote()
         
-        remote.createLaunchDaemon(migratorToolPath: path, withOldUser: oldUser, withOldHome: oldHome, withOldPass: oldPass, forUser: user) { (output, error) in
-            self.logger.info("Got a response: \(String(describing: output))")
-            completion(Result(string: output, error: error))
-        }
+        let response = try await remote.createLaunchDaemon(migratorToolPath: path, withOldUser: oldUser, withOldHome: oldHome, withOldPass: oldPass, forUser: user)
+        return !(response == nil)
     }
     
     /**
@@ -65,13 +64,10 @@ struct ExecutionService {
         - completion: The handler for when this function completes as `(Result<String, Error>) -> Void`
      - Throws: `MigrationError` if there is an issue with the helper.
      */
-    static func startLaunchDaemon(then completion: @escaping Handler) throws {
+    static func startLaunchDaemon() async throws {
         let remote = try HelperRemote().getRemote()
         
-        remote.startLaunchDaemon() { (output, error) in
-            self.logger.info("Got a response: \(String(describing: output))")
-            completion(Result(string: output, error: error))
-        }
+        try await remote.startLaunchDaemon()
     }
     
     /**
@@ -82,21 +78,19 @@ struct ExecutionService {
         - completion: The handler for when an error or data is recieved as `(Result<String, Error>) -> Void`
      - Throws: `MigrationError` if there is an issue with the helper.
      */
-    static func moveFolder(from srcFolder: URL, to destFolder: URL, then completion: @escaping Handler) throws {
+    static func moveFolder(from srcFolder: URL, to destFolder: URL) async throws -> Bool {
         logger.info("Recieved request to copy \(srcFolder.debugDescription) to \(destFolder.debugDescription)")
         
         logger.info("Checking if destination file(s) or folder(s) exist already.")
         if FileManager.default.fileExists(atPath: destFolder.path) {
             logger.error("File/Folder at \(destFolder.path) already exists")
-            completion(.failure(MigrationError.fileAlreadyExists))
-            return
+            throw MigrationError.fileAlreadyExists
         }
         
         logger.info("Checking if source file(s) or folder(s) exists.")
         if !FileManager.default.fileExists(atPath: srcFolder.path) {
             logger.error("File/Folder at \(srcFolder.path) does not exist.")
-            completion(.failure(MigrationError.fileDoesNotExist))
-            return
+            throw MigrationError.fileDoesNotExist
         }
         
         logger.info("Checking if we have write permissions")
@@ -106,8 +100,7 @@ struct ExecutionService {
                 try FileManager.default.removeItem(atPath: destFolder.path)
             } catch {
                 logger.error("Obtained error of \(error.localizedDescription)")
-                completion(.failure(error))
-                return
+                throw error
             }
         } else {
             logger.error("We do not have write permissions")
@@ -116,17 +109,9 @@ struct ExecutionService {
             do {
                 let remote = try HelperRemote().getRemote()
                 
-                remote.copyFolder(from: srcFolder, to: destFolder) { (output, error) in
-                    guard let output = output else { completion(.failure(error ?? MigrationError.unknown)); return }
-                    
-                    logger.info("Obtained response from our little friend of \(output)")
-                    completion(.success(output))
-                }
+                let response = try await remote.copyFolder(from: srcFolder, to: destFolder)
             }
-            
-            return
         }
+        return true
     }
-    
-    
 }

@@ -148,23 +148,29 @@ class MigrationController: ObservableObject {
      Start the migration process
      */
     func startMigration() {
-        self.logger.info("Starting the migration process")
-        self.canProceed = false
-        self.makeMigratorUser()
-        self.createLaunchDaemon()
-        
-        var tempFolder = self.user.localFolder?.urlPath.pathComponents
-        let tempFolderName = "migrator-\(tempFolder?.last ?? "")"
-        _ = tempFolder?.popLast()
-        var new_dest = self.user.localFolder?.urlPath.deletingLastPathComponent()
-        new_dest?.appendPathComponent(tempFolderName)
-        
-        
-        guard let srcFolder = self.user.remoteFolder, let dstFolder = new_dest else { return }
-        
-        self.migrateFolder(from: srcFolder.urlPath, to: dstFolder)
-        self.startLaunchDaemon()
-        self.canProceed = true
+        Task.init {
+            do {
+                self.logger.info("Starting the migration process")
+                self.canProceed = false
+                await self.makeMigratorUser()
+                try await self.createLaunchDaemon()
+                
+                var tempFolder = self.user.localFolder?.urlPath.pathComponents
+                let tempFolderName = "migrator-\(tempFolder?.last ?? "")"
+                _ = tempFolder?.popLast()
+                var new_dest = self.user.localFolder?.urlPath.deletingLastPathComponent()
+                new_dest?.appendPathComponent(tempFolderName)
+                
+                
+                guard let srcFolder = self.user.remoteFolder, let dstFolder = new_dest else { return }
+                
+                try await self.migrateFolder(from: srcFolder.urlPath, to: dstFolder)
+                try await self.startLaunchDaemon()
+                self.canProceed = true
+            } catch {
+                self.error = error
+            }
+        }
     }
     
     // MARK: - Private Functions
@@ -294,16 +300,11 @@ class MigrationController: ObservableObject {
     /**
      Make migrator user
      */
-    private func makeMigratorUser() {
+    private func makeMigratorUser() async {
         self.logger.info("Attempting to make migration user")
         do {
-            try ExecutionService.makeMigratorUser(usingAdmin: self.user) { [weak self] result in
-                DispatchQueue.main.async {
-                    if self != nil {
-                        self?.logger.info("Migration user created!")
-                    }
-                }
-            }
+            let result = try await ExecutionService.makeMigratorUser(usingAdmin: self.user)
+            self.logger.info("Migration user created!")
         } catch {
             self.error = error
         }
@@ -312,42 +313,19 @@ class MigrationController: ObservableObject {
     /**
      Create the Launch Daemon
      */
-    private func createLaunchDaemon() {
+    private func createLaunchDaemon() async throws {
         self.logger.info("Attempting to create launch daemon")
         let currPath = Bundle.main.resourceURL
         let toolPath = currPath?.appendingPathComponent("/Migrator Tool")
-        do {
-            try ExecutionService.createLaunchDaemon(migratorToolPath: toolPath?.path ?? "", withOldUser: self.user.username, withOldHome: self.user.remoteFolder?.urlPath.path ?? "", withOldPass: self.user.remotePassword, forUser: self.user.username) { [weak self] result in
-                switch result {
-                case .success(let output):
-                    self?.logger.info("Successfully created folder. Output: \(output)")
-                case .failure(let error):
-                    self?.logger.info("Did not successfully create folder. \(error.localizedDescription)")
-                }
-            }
-        } catch {
-            self.error = error
-        }
+        let _ = try await ExecutionService.createLaunchDaemon(migratorToolPath: toolPath?.path ?? "", withOldUser: self.user.username, withOldHome: self.user.remoteFolder?.urlPath.path ?? "", withOldPass: self.user.remotePassword, forUser: self.user.username)
     }
     
     /**
      Start the Launch Daemon
      */
-    private func startLaunchDaemon() {
+    private func startLaunchDaemon() async throws {
         self.logger.info("Attempting to load the launch daemon")
-        do {
-            try ExecutionService.startLaunchDaemon { result in
-                switch result {
-                case .success(let output):
-                    self.logger.info("Obtained output of \(output)")
-                case .failure(let error):
-                    self.logger.error("Obtained an error of \(error.localizedDescription)")
-                }
-            }
-        } catch {
-            self.error = error
-        }
-        
+        try await ExecutionService.startLaunchDaemon()
     }
     
     /**
@@ -356,29 +334,13 @@ class MigrationController: ObservableObject {
         - srcFolder: The folder which is being copied
         - destFolder: The new folder which you want the data to be copied to
      */
-    private func migrateFolder(from srcFolder: URL, to destFolder: URL) {
+    private func migrateFolder(from srcFolder: URL, to destFolder: URL) async throws {
         logger.info("Attempting to copy \(srcFolder.debugDescription) to \(destFolder.debugDescription)")
-        do {
-            self.targetSize = try self.user.remoteFolder?.urlPath.directoryTotalAllocatedSize(includingSubfolders: true) ?? 0
-        } catch {
-            self.error = error
-        }
+        
+        self.targetSize = try self.user.remoteFolder?.urlPath.directoryTotalAllocatedSize(includingSubfolders: true) ?? 0
         self.monitorDestFolder(for: destFolder)
-        do {
-            try ExecutionService.moveFolder(from: srcFolder, to: destFolder) { result in
-                switch result {
-                case .success(let output):
-                    self.logger.info("Successfully obtained output of \(output)")
-                    DispatchQueue.main.async {
-                        self.canProceed = true
-                        self.currSize = self.targetSize
-                    }
-                case .failure(let error):
-                    self.logger.error("Obtained an error of \(error.localizedDescription)")
-                }
-            }
-        } catch {
-            self.error = error
-        }
+        let _ = try await ExecutionService.moveFolder(from: srcFolder, to: destFolder)
+        self.canProceed = true
+        self.currSize = self.targetSize
     }
 }

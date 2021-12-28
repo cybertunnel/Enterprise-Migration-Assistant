@@ -13,6 +13,7 @@ import OSLog
  */
 class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
     
+    
     /// Logging object
     private let logger = Logger(subsystem: AppConstants.bundleIdentifier, category: "Migration Helper")
     
@@ -22,11 +23,10 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
      - Parameters:
         - completion: Do this after the launch daemon loads
      */
-    func startLaunchDaemon(then completion: @escaping (String?, Error?) -> Void) {
+    func startLaunchDaemon() async throws {
         self.logger.info("Attempting to start the LaunchDaemon...")
-        HelperExecutionService.startLaunchDaemon() { (result) in
-            completion(result.string, result.error)
-        }
+        try await HelperExecutionService.startLaunchDaemon()
+        return
     }
     
     /**
@@ -37,11 +37,10 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
         - dest: The place the folder is being copied to as `URL`
         - completion: What to do when data or errors are recieved as `(String?, Error?) -> Void`
      */
-    func copyFolder(from src: URL, to dest: URL, then completion: @escaping (String?, Error?) -> Void) {
-        HelperExecutionService.copyFolder(from: src, to: dest) { (result) in
-            self.logger.debug("Obtained result of \(String(describing: result.string.debugDescription), privacy: .public) and \(String(describing: result.error?.localizedDescription.debugDescription), privacy: .public)")
-            completion(result.string, result.error)
-        }
+    func copyFolder(from src: URL, to dest: URL) async throws -> String? {
+        let result = try await HelperExecutionService.copyFolder(from: src, to: dest)
+        self.logger.debug("Obtained result of \(result ?? "")")
+        return result
     }
     
     
@@ -73,17 +72,11 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
         - adminPass: The password for the admin user being used to create this account as `String`
         - completion: What to do when data or error is recieved as `(String?, Error?) -> Void`
      */
-    func createMigrationUser(username: String = "migrator", withName name: String = "Please Wait...", withPassword password: String = "migrationisfun", usingAdmin adminUser: String, withAdminPass adminPass: String, then completion: @escaping (String?, Error?) -> Void) {
+    func createMigrationUser(username: String = "migrator", withName name: String = "Please Wait...", withPassword password: String = "migrationisfun", usingAdmin adminUser: String, withAdminPass adminPass: String) async throws -> String? {
         self.logger.info("Attempting to make \(username) user using \(adminUser)'s credentials.")
-        do {
-            try HelperExecutionService.makeMigratorUser(username: username, withName: name, withPassword: password, usingAdmin: adminUser, withAdminPass: adminPass) { (result) in
-                self.logger.info("Output: \(result.string ?? ""). Error: \(result.error?.localizedDescription ?? "")")
-                completion(result.string, result.error)
-            }
-        } catch {
-            self.logger.info("Error: \(error.localizedDescription)")
-            completion(nil, error)
-        }
+        let result = try await HelperExecutionService.makeMigratorUser(username: username, withName: name, withPassword: password, usingAdmin: adminUser, withAdminPass: adminPass)
+        self.logger.info("Output: \(result ?? "Empty")")
+        return result
     }
     
     /**
@@ -96,13 +89,12 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
         - user: The user that will be created as `String`
         - completion: What to do when data or error is recieved as `(String?, Error?) -> Void`
      */
-    func createLaunchDaemon(migratorToolPath path: String, withOldUser oldUser: String, withOldHome oldHome: String, withOldPass oldPass: String, forUser user: String, then completion: @escaping (String?, Error?) -> Void) {
+    func createLaunchDaemon(migratorToolPath path: String, withOldUser oldUser: String, withOldHome oldHome: String, withOldPass oldPass: String, forUser user: String) async throws -> String? {
         self.logger.info("Attempting to create launch daemon to launch the tool at \(path)")
         
-        HelperExecutionService.createLaunchDaemon(migratorToolPath: path, withOldUser: oldUser, withOldHome: oldHome, withOldPass: oldPass, forUser: user) { (result) in
-            self.logger.info("Output: \(result.string ?? ""). Error: \(result.error?.localizedDescription ?? "")")
-            completion(result.string, result.error)
-        }
+        let result = try await HelperExecutionService.createLaunchDaemon(migratorToolPath: path, withOldUser: oldUser, withOldHome: oldHome, withOldPass: oldPass, forUser: user)
+        self.logger.info("Output: \(result ?? "Empty")")
+        return result
     }
     
     /// Run the helper

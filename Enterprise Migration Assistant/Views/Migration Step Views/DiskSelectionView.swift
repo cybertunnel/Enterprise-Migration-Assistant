@@ -20,7 +20,7 @@ struct DiskSelectionView: View {
                     .padding()
                 Text("Disk Selection")
                     .font(.title)
-                if self.migrationController.detectedDisks.isEmpty {
+                if self.migrationController.detailInformation.detectedDisks.isEmpty {
                     Spacer()
                     Text("No Disks Found!")
                         .font(.title2)
@@ -32,7 +32,7 @@ struct DiskSelectionView: View {
             }
             .padding()
             VStack(alignment: .leading) {
-                if self.migrationController.detectedDisks.isEmpty {
+                if self.migrationController.detailInformation.detectedDisks.isEmpty {
                     // Let's show how to get started.
                     Spacer()
                     Text("You can now migrate your data from your old Mac.")
@@ -44,7 +44,7 @@ struct DiskSelectionView: View {
                 } else {
                     Text("Please select your old Mac:")
                         .font(.title2)
-                    DiskListView(disks: self.migrationController.detectedDisks, selectedDisk: self.$migrationController.selectedDisk)
+                    DiskListView(disks: self.migrationController.detailInformation.detectedDisks, selectedDisk: self.$migrationController.detailInformation.selectedDisk)
                 }
             }
             .padding()
@@ -64,11 +64,11 @@ struct DiskSelectionView_Previews: PreviewProvider {
             .frame(width: 800, height: 600)
             .environmentObject({ () -> MigrationController in
                 let controller = MigrationController()
-                controller.detectedDisks = [
+                controller.detailInformation.detectedDisks = [
                     Disk(name: "Example 1", volumeType: "APFS", pathURL: URL(fileURLWithPath: "/Volumes/Example 1"), capacity: 250000, free: 20000, used: 20000, isEncrypted: true),
                     Disk(name: "Example 2", volumeType: "APFS", pathURL: URL(fileURLWithPath: "/Volumes/Example 1"), capacity: 250000, free: 20000, used: 20000, isEncrypted: true)
                 ]
-                controller.selectedDisk = controller.detectedDisks[0]
+                controller.detailInformation.selectedDisk = controller.detailInformation.detectedDisks[0]
                 return controller
             }())
     }

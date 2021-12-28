@@ -15,90 +15,95 @@ import OSLog
  */
 class MigrationController: ObservableObject {
     
+    // MARK: - Class Structs
+    struct MigrationInformation {
+        var detectedDisks: Array <Disk> = []
+        var detectedFolders: Array <Folder> = []
+        
+        var selectedDisk: Disk?
+        var selectedFolder: Folder?
+        
+        var user: User
+        
+        var enoughFreeSpace: Bool = false
+        
+        var targetFolderSize: Int = 0
+        var currFolderSize: Int = 0
+    }
+    
     // MARK: - Constants
     
     /// The different steps that happen during migration
     enum MigrationStep {
-        case Welcome, DiskSelection, FolderSelection, Migration, Logoff, InformationVerification, Verification
+        case Welcome, DiskSelection, FolderSelection, Migration, InputRequest, Verification, Logoff
     }
+    
+    
     // MARK: - Observed Properties
     
     /// The current step that the controller is on
     @Published var currStep: MigrationStep = .Welcome {
         didSet {
-            if currStep == .DiskSelection {
+            switch self.currStep {
+            
+            case .DiskSelection:
                 self.logger.info("Migration UI step has been moved to Disk Selection.")
-                self.detectedDisks = []
+                self.detailInformation.detectedDisks = []
                 self.beginDiskDetection()
                 self.canProceed = false
-            }
-            else if currStep == .FolderSelection {
+            
+            case .FolderSelection:
                 self.logger.info("Migration UI step has been moved to Folder Selection.")
-                if !self.selectedDiskFolders.isEmpty {
-                    self.selectedDiskFolders = []
-                }
+                if !self.detailInformation.detectedFolders.isEmpty { self.detailInformation.detectedFolders = [] }
                 self.detectPath()
                 self.canProceed = false
-            }
-            else if currStep == .InformationVerification {
-                self.logger.info("Migration UI step has been moved to Information Verification.")
-                self.user.hasSecureToken =  false
+            
+            case .InputRequest:
+                self.logger.info("Migration UI step has been moved to Input Request.")
+                self.canProceed = false
+                
+            case .Verification:
+                self.logger.info("Migration UI step has been moved to Verification.")
+                self.detailInformation.user.hasSecureToken = false
                 self.calculateEnoughFree()
-                if self.user.remotePasswordVerified {
-                    self.canProceed = true
-                } else {
-                    self.canProceed = false
-                }
+                if self.detailInformation.user.remotePasswordVerified { self.canProceed = true }
+                else { self.canProceed = false }
+            
+            case .Migration:
+                self.logger.info("Migration UI step has been moved to Migration.")
+                self.canProceed = false
+            
+            case .Logoff:
+                self.logger.info("Migration UI step has been moved to Logoff.")
+            
+            case .Welcome:
+                self.logger.info("Migration UI step has been moved to Welcome.")
+                self.canProceed = true
+            
             }
-            else { self.logger.debug("Migration UI step has been moved to \(String(describing: self.currStep.hashValue))")}
         }
     }
     /// Can the controller proceed to the next step
     @Published var canProceed: Bool = true
     
-    /// An array of disks detected by the MigrationController
-    @Published var detectedDisks: Array <Disk> = []
-    
-    /// Selected disk from the disk array
-    @Published var selectedDisk: Disk? {
+    @Published var detailInformation: MigrationInformation {
         didSet {
-            self.logger.info("A disk has been selected.")
-            self.logger.debug("Selected disk: \(self.selectedDisk.debugDescription)")
-            self.canProceed = true
-        }
-    }
-    
-    /// An array of folders from the selected disk
-    @Published var selectedDiskFolders: Array <Folder> = []
-    
-    /// The selected folder
-    @Published var selectedUserFolder: Folder? {
-        didSet {
-            self.logger.info("User folder has been selected.")
-            self.logger.debug("Selected folder: \(self.selectedUserFolder.debugDescription)")
-            self.canProceed = true
-            self.user.remoteFolder = selectedUserFolder
-        }
-    }
-    
-    /// The user being migrated
-    @Published var user: User
-    
-    /// Is there enough free space?
-    @Published var enoughFreeSpace: Bool = false {
-        didSet {
-            self.canProceed = enoughFreeSpace
+            if self.currStep == .DiskSelection && self.detailInformation.selectedDisk != nil {
+                self.canProceed = true
+            }
+            
+            if self.currStep == .FolderSelection && self.detailInformation.selectedFolder != nil {
+                self.canProceed = true
+            }
         }
     }
     
     /// This is populated when there is an error that happened
     @Published var error: Error?
     
-    /// What size should the final folder be?
-    @Published var targetSize = 0
+    /// Is the application in testing mode
+    @Published var testingMode: Bool = true
     
-    /// What size is it currently?
-    @Published var currSize = 0
     
     // MARK: - Private Properties
     
@@ -115,8 +120,9 @@ class MigrationController: ObservableObject {
     // MARK: - Initialiser
     init() {
         logger.info("Migration controller initialized.")
-        self.user = User.detectUser()
+        self.detailInformation = MigrationInformation(user: User.detectUser())
     }
+    
     
     // MARK: - Functions
     
@@ -131,7 +137,7 @@ class MigrationController: ObservableObject {
             while self.diskDetectActive {
                 self.logger.info("Attempting to detect disks")
                 self.detectDisks()
-                sleep(5)
+                sleep(1)
             }
         }
     }
@@ -153,25 +159,25 @@ class MigrationController: ObservableObject {
                 self.logger.info("Starting the migration process")
                 self.canProceed = false
                 await self.makeMigratorUser()
-                try await self.createLaunchDaemon()
+                if !self.testingMode { try await self.createLaunchDaemon() }
                 
-                var tempFolder = self.user.localFolder?.urlPath.pathComponents
+                var tempFolder = self.detailInformation.user.localFolder?.urlPath.pathComponents
                 let tempFolderName = "migrator-\(tempFolder?.last ?? "")"
                 _ = tempFolder?.popLast()
-                var new_dest = self.user.localFolder?.urlPath.deletingLastPathComponent()
+                var new_dest = self.detailInformation.user.localFolder?.urlPath.deletingLastPathComponent()
                 new_dest?.appendPathComponent(tempFolderName)
                 
-                
-                guard let srcFolder = self.user.remoteFolder, let dstFolder = new_dest else { return }
+                guard let srcFolder = self.detailInformation.user.remoteFolder, let dstFolder = new_dest else { return }
                 
                 try await self.migrateFolder(from: srcFolder.urlPath, to: dstFolder)
-                try await self.startLaunchDaemon()
+                if !self.testingMode {  try await self.startLaunchDaemon() }
                 self.canProceed = true
             } catch {
                 self.error = error
             }
         }
     }
+    
     
     // MARK: - Private Functions
     
@@ -186,7 +192,7 @@ class MigrationController: ObservableObject {
                 do {
                     if let currSize = try path.directoryTotalAllocatedSize(includingSubfolders: true) {
                         DispatchQueue.main.async {
-                            self.currSize = currSize
+                            self.detailInformation.currFolderSize = currSize
                         }
                     }
                 } catch {
@@ -205,24 +211,25 @@ class MigrationController: ObservableObject {
             let result = try FileManager.default.attributesOfFileSystem(forPath: "/")
             guard let free = result[.systemFreeSize] as? Int else {
                 DispatchQueue.main.async {
-                    self.enoughFreeSpace = false
+                    self.detailInformation.enoughFreeSpace = false
                 }
                 return
             }
             
-            guard let used = self.user.remoteFolder?.sizeOnDisk else {
+            guard let used = self.detailInformation.user.remoteFolder?.sizeOnDisk else {
                 DispatchQueue.main.async {
-                    self.enoughFreeSpace = false
+                    self.detailInformation.enoughFreeSpace = false
                 }
                 return
             }
+            
             if used <  free {
                 DispatchQueue.main.async {
-                    self.enoughFreeSpace = true
+                    self.detailInformation.enoughFreeSpace = true
                 }
             }
         } catch {
-            print("Error occurred")
+            self.logger.error("Obtained an error while attempting to calculate if there was enough free space. \(error.localizedDescription)")
         }
     }
     
@@ -231,7 +238,7 @@ class MigrationController: ObservableObject {
      */
     private func detectPath() {
         logger.info("Attempting to detect user folders on the selected disk.")
-        guard let basePath = self.selectedDisk?.pathURL.path else { return }
+        guard let basePath = self.detailInformation.selectedDisk?.pathURL.path else { return }
         let path = basePath + "/Users/"
         do {
             let folders = try FileManager.default.contentsOfDirectory(atPath: path)
@@ -250,14 +257,14 @@ class MigrationController: ObservableObject {
                 self.logger.debug("Creating folder objects for the folders")
                 var user_folder_urls: Array <Folder> = []
                 user_folder_urls = user_folders.map { user_folder in
-                    var folder_url = URL(fileURLWithPath: self.selectedDisk?.pathURL.path ?? "" + "/Users/" + user_folder)
+                    var folder_url = URL(fileURLWithPath: self.detailInformation.selectedDisk?.pathURL.path ?? "" + "/Users/" + user_folder)
                     folder_url = folder_url.appendingPathComponent("Users/\(user_folder)")
                     
                     return Folder(name: user_folder, urlPath: folder_url)
                 }
                 
                 DispatchQueue.main.async {
-                    self.selectedDiskFolders = user_folder_urls
+                    self.detailInformation.detectedFolders = user_folder_urls
                 }
             }
             
@@ -289,10 +296,10 @@ class MigrationController: ObservableObject {
             }
         }
         
-        if self.detectedDisks != detectedDisks {
+        if self.detailInformation.detectedDisks != detectedDisks {
             print("New disk detected!")
             DispatchQueue.main.async {
-                self.detectedDisks = detectedDisks
+                self.detailInformation.detectedDisks = detectedDisks
             }
         }
     }
@@ -303,7 +310,7 @@ class MigrationController: ObservableObject {
     private func makeMigratorUser() async {
         self.logger.info("Attempting to make migration user")
         do {
-            let result = try await ExecutionService.makeMigratorUser(usingAdmin: self.user)
+            try await ExecutionService.makeMigratorUser(usingAdmin: self.detailInformation.user)
             self.logger.info("Migration user created!")
         } catch {
             self.error = error
@@ -317,7 +324,7 @@ class MigrationController: ObservableObject {
         self.logger.info("Attempting to create launch daemon")
         let currPath = Bundle.main.resourceURL
         let toolPath = currPath?.appendingPathComponent("/Migrator Tool")
-        let _ = try await ExecutionService.createLaunchDaemon(migratorToolPath: toolPath?.path ?? "", withOldUser: self.user.username, withOldHome: self.user.remoteFolder?.urlPath.path ?? "", withOldPass: self.user.remotePassword, forUser: self.user.username)
+        try await ExecutionService.createLaunchDaemon(migratorToolPath: toolPath?.path ?? "", withOldUser: self.detailInformation.user.username, withOldHome: self.detailInformation.user.remoteFolder?.urlPath.path ?? "", withOldPass: self.detailInformation.user.remotePassword, forUser: self.detailInformation.user.username)
     }
     
     /**
@@ -337,10 +344,10 @@ class MigrationController: ObservableObject {
     private func migrateFolder(from srcFolder: URL, to destFolder: URL) async throws {
         logger.info("Attempting to copy \(srcFolder.debugDescription) to \(destFolder.debugDescription)")
         
-        self.targetSize = try self.user.remoteFolder?.urlPath.directoryTotalAllocatedSize(includingSubfolders: true) ?? 0
+        self.detailInformation.targetFolderSize = try self.detailInformation.user.remoteFolder?.urlPath.directoryTotalAllocatedSize(includingSubfolders: true) ?? 0
         self.monitorDestFolder(for: destFolder)
         let _ = try await ExecutionService.moveFolder(from: srcFolder, to: destFolder)
         self.canProceed = true
-        self.currSize = self.targetSize
+        self.detailInformation.currFolderSize = self.detailInformation.targetFolderSize
     }
 }

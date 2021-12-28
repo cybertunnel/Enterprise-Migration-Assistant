@@ -31,15 +31,15 @@ struct VerificationView: View {
                     }
                     HStack {
                         Text("Username:")
-                        Text(self.migrationController.user.username)
+                        Text(self.migrationController.detailInformation.user.username)
                     }
                     HStack {
                         Text("Local Folder:")
-                        Text(self.migrationController.user.localFolder?.urlPath.path ?? "")
+                        Text(self.migrationController.detailInformation.user.localFolder?.urlPath.path ?? "")
                     }
                     HStack {
                         Text("Enough Free:")
-                        Text(self.migrationController.enoughFreeSpace.description)
+                        Text(self.migrationController.detailInformation.enoughFreeSpace.description)
                     }
                 }
                 .padding()
@@ -50,15 +50,15 @@ struct VerificationView: View {
                         .font(.title2)
                     HStack {
                         Text("Remote Folder:")
-                        Text(self.migrationController.user.remoteFolder?.urlPath.path ?? "")
+                        Text(self.migrationController.detailInformation.user.remoteFolder?.urlPath.path ?? "")
                     }
                     HStack {
                         Text("Remote Folder Size:")
-                        Text(self.migrationController.user.remoteFolder?.sizeOnDiskString ?? "")
+                        Text(self.migrationController.detailInformation.user.remoteFolder?.sizeOnDiskString ?? "")
                     }
                     HStack {
                         Text("Remote Password Verified:")
-                        Text(self.migrationController.user.remotePasswordVerified.description)
+                        Text(self.migrationController.detailInformation.user.remotePasswordVerified.description)
                     }
                 }
                 .padding()
@@ -76,9 +76,9 @@ struct VerificationView_Previews: PreviewProvider {
             .frame(width: 800, height: 600)
             .environmentObject({ () -> MigrationController in
                 let controller = MigrationController()
-                controller.user = User("ExampleUser")
-                controller.user.remoteFolder = Folder(name: "Example", urlPath: URL(fileURLWithPath: "/Volumes/Remote Disk/Users/Example"), size: 1000000)
-                controller.user.localFolder = Folder(name: "Example", urlPath: URL(fileURLWithPath: "/Users/exampleUser"))
+                controller.detailInformation.user = User("ExampleUser")
+                controller.detailInformation.user.remoteFolder = Folder(name: "Example", urlPath: URL(fileURLWithPath: "/Volumes/Remote Disk/Users/Example"), size: 1000000)
+                controller.detailInformation.user.localFolder = Folder(name: "Example", urlPath: URL(fileURLWithPath: "/Users/exampleUser"))
                 return controller
             }())
     }

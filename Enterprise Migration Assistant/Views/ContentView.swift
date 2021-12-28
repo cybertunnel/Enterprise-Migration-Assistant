@@ -12,6 +12,7 @@ struct ContentView: View {
     @ObservedObject var user: User
     var body: some View {
         VStack {
+            
             if let error = self.migrationController.error {
                 Text(error.localizedDescription)
                     .font(.title2)
@@ -36,9 +37,9 @@ struct ContentView: View {
                 MigrationView()
                     .environmentObject(self.migrationController)
             }
-            else if self.migrationController.currStep == .InformationVerification {
-                InputRequestView(user: self.$migrationController.user)
-                    .environmentObject(self.migrationController.user)
+            else if self.migrationController.currStep == .InputRequest {
+                InputRequestView(user: self.$migrationController.detailInformation.user)
+                    .environmentObject(self.migrationController.detailInformation.user)
             }
             else if self.migrationController.currStep == .Verification {
                 VerificationView()
@@ -67,10 +68,10 @@ struct ContentView: View {
                             self.migrationController.currStep = .DiskSelection
                         case .DiskSelection:
                             self.migrationController.currStep = .Welcome
-                        case .InformationVerification:
+                        case .InputRequest:
                             self.migrationController.currStep = .FolderSelection
                         case .Verification:
-                            self.migrationController.currStep = .InformationVerification
+                            self.migrationController.currStep = .InputRequest
                         default:
                             print("Error")
                         }
@@ -91,8 +92,8 @@ struct ContentView: View {
                             self.migrationController.stopDiskDetection()
                             self.migrationController.currStep = .FolderSelection
                         case .FolderSelection:
-                            self.migrationController.currStep = .InformationVerification
-                        case .InformationVerification:
+                            self.migrationController.currStep = .InputRequest
+                        case .InputRequest:
                             self.migrationController.currStep = .Verification
                         case .Verification:
                             self.migrationController.startMigration()
@@ -103,7 +104,7 @@ struct ContentView: View {
                             print("Error")
                         }
                     }
-                    .disabled(!self.migrationController.canProceed && !(self.user.remotePasswordVerified && self.user.localPasswordVerified && self.migrationController.currStep == .InformationVerification))
+                    .disabled(!self.migrationController.canProceed && !(self.user.remotePasswordVerified && self.user.localPasswordVerified && self.migrationController.currStep == .InputRequest))
                 } else {
                     Button("Logoff") {
                         try! SendAppleEvent.logout()
@@ -112,6 +113,7 @@ struct ContentView: View {
             }
             .padding()
         }
+        .overlay(TestingView(testingMode: self.migrationController.testingMode), alignment: .topTrailing)
     }
 }
 
@@ -138,8 +140,8 @@ struct ContentView_Previews: PreviewProvider {
                     Disk(name: "Example 1", volumeType: "APFS", pathURL: URL(fileURLWithPath: "/Volumes/Example 1"), capacity: 250000, free: 20000, used: 20000, isEncrypted: true),
                     Disk(name: "Example 2", volumeType: "APFS", pathURL: URL(fileURLWithPath: "/Volumes/Example 1"), capacity: 250000, free: 20000, used: 20000, isEncrypted: true)
                 ]
-                controller.detectedDisks = disks
-                controller.selectedDisk = disks.first
+                controller.detailInformation.detectedDisks = disks
+                controller.detailInformation.selectedDisk = disks.first
                 return controller
             }())
         
@@ -157,10 +159,10 @@ struct ContentView_Previews: PreviewProvider {
                     Folder(name: "Example 1", urlPath: URL(fileURLWithPath: "/Users/Example 1"), size: 1500000),
                     Folder(name: "Example 2", urlPath: URL(fileURLWithPath: "/Users/Example 1"), size: 1500000)
                 ]
-                controller.detectedDisks = disks
-                controller.selectedDisk = disks.first
-                controller.selectedDiskFolders = folders
-                controller.selectedUserFolder = folders.first
+                controller.detailInformation.detectedDisks = disks
+                controller.detailInformation.selectedDisk = disks.first
+                controller.detailInformation.detectedFolders = folders
+                controller.detailInformation.selectedFolder = folders.first
                 return controller
             }())
         
@@ -168,17 +170,17 @@ struct ContentView_Previews: PreviewProvider {
             .frame(width: 800, height: 600)
             .environmentObject({ () -> MigrationController in
                 let controller = MigrationController()
-                controller.currStep = .InformationVerification
+                controller.currStep = .InputRequest
                 controller.stopDiskDetection()
                 let disks = [
                     Disk(name: "Example 1", volumeType: "APFS", pathURL: URL(fileURLWithPath: "/Volumes/Example 1"), capacity: 250000, free: 20000, used: 20000, isEncrypted: true),
                     Disk(name: "Example 2", volumeType: "APFS", pathURL: URL(fileURLWithPath: "/Volumes/Example 1"), capacity: 250000, free: 20000, used: 20000, isEncrypted: true)
                 ]
-                controller.detectedDisks = disks
-                controller.selectedDisk = disks.first
-                controller.user.remotePassword = "Example"
-                controller.user.remotePasswordVerified = true
-                controller.user.localPassword = "Example"
+                controller.detailInformation.detectedDisks = disks
+                controller.detailInformation.selectedDisk = disks.first
+                controller.detailInformation.user.remotePassword = "Example"
+                controller.detailInformation.user.remotePasswordVerified = true
+                controller.detailInformation.user.localPassword = "Example"
                 return controller
             }())
         
@@ -192,13 +194,13 @@ struct ContentView_Previews: PreviewProvider {
                     Disk(name: "Example 1", volumeType: "APFS", pathURL: URL(fileURLWithPath: "/Volumes/Example 1"), capacity: 250000, free: 20000, used: 20000, isEncrypted: true),
                     Disk(name: "Example 2", volumeType: "APFS", pathURL: URL(fileURLWithPath: "/Volumes/Example 1"), capacity: 250000, free: 20000, used: 20000, isEncrypted: true)
                 ]
-                controller.detectedDisks = disks
-                controller.selectedDisk = disks.first
-                controller.user.remotePassword = "Example"
-                controller.user.remotePasswordVerified = true
-                controller.user.localPassword = "Example"
-                controller.user.remoteFolder = Folder(name: "Example", urlPath: URL(fileURLWithPath: "/Volumes/RemoteDrive/Users/Example"), size: 1500000)
-                controller.user.localFolder = Folder(name: "Example", urlPath: URL(fileURLWithPath: "/Users/Example"), size: 1500000)
+                controller.detailInformation.detectedDisks = disks
+                controller.detailInformation.selectedDisk = disks.first
+                controller.detailInformation.user.remotePassword = "Example"
+                controller.detailInformation.user.remotePasswordVerified = true
+                controller.detailInformation.user.localPassword = "Example"
+                controller.detailInformation.user.remoteFolder = Folder(name: "Example", urlPath: URL(fileURLWithPath: "/Volumes/RemoteDrive/Users/Example"), size: 1500000)
+                controller.detailInformation.user.localFolder = Folder(name: "Example", urlPath: URL(fileURLWithPath: "/Users/Example"), size: 1500000)
                 return controller
             }())
         
@@ -212,13 +214,13 @@ struct ContentView_Previews: PreviewProvider {
                     Disk(name: "Example 1", volumeType: "APFS", pathURL: URL(fileURLWithPath: "/Volumes/Example 1"), capacity: 250000, free: 20000, used: 20000, isEncrypted: true),
                     Disk(name: "Example 2", volumeType: "APFS", pathURL: URL(fileURLWithPath: "/Volumes/Example 1"), capacity: 250000, free: 20000, used: 20000, isEncrypted: true)
                 ]
-                controller.detectedDisks = disks
-                controller.selectedDisk = disks.first
-                controller.user.remotePassword = "Example"
-                controller.user.remotePasswordVerified = true
-                controller.user.localPassword = "Example"
-                controller.user.remoteFolder = Folder(name: "Example", urlPath: URL(fileURLWithPath: "/Volumes/RemoteDrive/Users/Example"), size: 1500000)
-                controller.user.localFolder = Folder(name: "Example", urlPath: URL(fileURLWithPath: "/Users/Example"), size: 1500000)
+                controller.detailInformation.detectedDisks = disks
+                controller.detailInformation.selectedDisk = disks.first
+                controller.detailInformation.user.remotePassword = "Example"
+                controller.detailInformation.user.remotePasswordVerified = true
+                controller.detailInformation.user.localPassword = "Example"
+                controller.detailInformation.user.remoteFolder = Folder(name: "Example", urlPath: URL(fileURLWithPath: "/Volumes/RemoteDrive/Users/Example"), size: 1500000)
+                controller.detailInformation.user.localFolder = Folder(name: "Example", urlPath: URL(fileURLWithPath: "/Users/Example"), size: 1500000)
                 return controller
             }())
         
@@ -232,13 +234,13 @@ struct ContentView_Previews: PreviewProvider {
                     Disk(name: "Example 1", volumeType: "APFS", pathURL: URL(fileURLWithPath: "/Volumes/Example 1"), capacity: 250000, free: 20000, used: 20000, isEncrypted: true),
                     Disk(name: "Example 2", volumeType: "APFS", pathURL: URL(fileURLWithPath: "/Volumes/Example 1"), capacity: 250000, free: 20000, used: 20000, isEncrypted: true)
                 ]
-                controller.detectedDisks = disks
-                controller.selectedDisk = disks.first
-                controller.user.remotePassword = "Example"
-                controller.user.remotePasswordVerified = true
-                controller.user.localPassword = "Example"
-                controller.user.remoteFolder = Folder(name: "Example", urlPath: URL(fileURLWithPath: "/Volumes/RemoteDrive/Users/Example"), size: 1500000)
-                controller.user.localFolder = Folder(name: "Example", urlPath: URL(fileURLWithPath: "/Users/Example"), size: 1500000)
+                controller.detailInformation.detectedDisks = disks
+                controller.detailInformation.selectedDisk = disks.first
+                controller.detailInformation.user.remotePassword = "Example"
+                controller.detailInformation.user.remotePasswordVerified = true
+                controller.detailInformation.user.localPassword = "Example"
+                controller.detailInformation.user.remoteFolder = Folder(name: "Example", urlPath: URL(fileURLWithPath: "/Volumes/RemoteDrive/Users/Example"), size: 1500000)
+                controller.detailInformation.user.localFolder = Folder(name: "Example", urlPath: URL(fileURLWithPath: "/Users/Example"), size: 1500000)
                 return controller
             }())
     }

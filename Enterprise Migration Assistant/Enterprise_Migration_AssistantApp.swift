@@ -13,7 +13,7 @@ struct Enterprise_Migration_AssistantApp: App {
     var body: some Scene {
         WindowGroup {
             let controller = MigrationController()
-            ContentView(user: controller.user)
+            ContentView(user: controller.detailInformation.user)
                 .frame(width: 800, height: 600, alignment: .center)
                 .environmentObject(controller)
         }

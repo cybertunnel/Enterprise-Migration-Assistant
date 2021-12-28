@@ -22,7 +22,7 @@ struct FolderSelectionView: View {
                 if let error = self.migrationController.error {
                     ErrorView(error: error)
                 }
-                else if self.migrationController.selectedDiskFolders.isEmpty {
+                else if self.migrationController.detailInformation.detectedFolders.isEmpty {
                     Spacer()
                     Text("Detecting folders...")
                         .font(.title)
@@ -30,8 +30,8 @@ struct FolderSelectionView: View {
                 Spacer()
             }
             .padding()
-            if !self.migrationController.selectedDiskFolders.isEmpty {
-                FolderViewList(selectedFolder: self.$migrationController.selectedUserFolder, folders: self.migrationController.selectedDiskFolders)
+            if !self.migrationController.detailInformation.detectedFolders.isEmpty {
+                FolderViewList(selectedFolder: self.$migrationController.detailInformation.selectedFolder, folders: self.migrationController.detailInformation.detectedFolders)
             }
         }
     }
@@ -48,12 +48,12 @@ struct FolderSelectionView_Previews: PreviewProvider {
             .frame(width: 800, height: 600)
             .environmentObject({ () -> MigrationController in
                 let controller = MigrationController()
-                controller.selectedDiskFolders = [
+                controller.detailInformation.detectedFolders = [
                     Folder(name: "Example 1", urlPath: URL(fileURLWithPath: "/Users/Example 1"), size: 1500000),
                     Folder(name: "Example 2", urlPath: URL(fileURLWithPath: "/Users/Example 1"), size: 1500000)
                     
                 ]
-                controller.selectedUserFolder = controller.selectedDiskFolders[0]
+                controller.detailInformation.selectedFolder = controller.detailInformation.detectedFolders[0]
                 
                 return controller
             }())

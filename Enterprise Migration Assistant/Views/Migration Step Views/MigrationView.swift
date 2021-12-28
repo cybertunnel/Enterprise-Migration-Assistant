@@ -24,9 +24,9 @@ struct MigrationView: View {
             .padding()
             
             VStack {
-                ProgressBar(totalValue: Double(self.migrationController.targetSize), currValue: Double(self.migrationController.currSize))
+                ProgressBar(totalValue: Double(self.migrationController.detailInformation.targetFolderSize), currValue: Double(self.migrationController.detailInformation.currFolderSize))
                     .frame(height: 16)
-                Text("Progress: \(String(describing: self.migrationController.currSize)) of \(String(describing: self.migrationController.targetSize))")
+                Text("Progress: \(String(describing: self.migrationController.detailInformation.currFolderSize)) of \(String(describing: self.migrationController.detailInformation.targetFolderSize))")
                     .font(.caption)
                 Spacer()
             }
@@ -40,8 +40,8 @@ struct MigrationView_Previews: PreviewProvider {
         MigrationView()
             .environmentObject({ () -> MigrationController in
                 let controller = MigrationController()
-                controller.currSize = 50
-                controller.targetSize = 75
+                controller.detailInformation.currFolderSize = 50
+                controller.detailInformation.targetFolderSize = 75
                 return controller
             }())
             .frame(width: 800, height: 600)

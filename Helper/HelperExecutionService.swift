@@ -10,7 +10,6 @@ import OSLog
 
 class HelperExecutionService {
     
-    typealias Handler = (Result<String, Error>) -> Void
     static let logger = Logger(subsystem: AppConstants.bundleIdentifier, category: "Helper Execution Service")
     
     /**
@@ -21,7 +20,7 @@ class HelperExecutionService {
         - dest: The place the folder is being copied to as `URL`
         - completion: What to do when data or errors are recieved as `(String?, Error?) -> Void`
      */
-    static func copyFolder(from srcFolder: URL, to dstFolder: URL) async throws -> String? {
+    static func copyFolder(from srcFolder: URL, to dstFolder: URL) async throws {
         if FileManager.default.fileExists(atPath: dstFolder.path) {
             logger.error("File \(dstFolder.path.debugDescription) already exists.")
             throw MigrationError.fileAlreadyExists
@@ -30,7 +29,7 @@ class HelperExecutionService {
                 logger.debug("File/folder at \(srcFolder.path.debugDescription) is confirmed to exist, proceeding.")
                 do {
                     try FileManager.default.copyItem(at: srcFolder, to: dstFolder)
-                    return "Successfully copied \(srcFolder.path.debugDescription) to \(dstFolder.path.debugDescription)"
+                    return
                 } catch {
                     logger.error("Error occurred while attempting to copy folder contents over. Error: \(error.localizedDescription, privacy: .public)")
                     throw error
@@ -47,7 +46,7 @@ class HelperExecutionService {
      - Parameters:
         - completion: The handler for when this function completes as `(Result<String, Error>) -> Void`
      */
-    static func startLaunchDaemon() async throws -> String? {
+    static func startLaunchDaemon() async throws {
         let filePath = URL(fileURLWithPath: "/Library/LaunchDaemons/com.github.cybertunnel.Enterprise-Migration-Assistant.migratorTool.plist")
         if FileManager.default.fileExists(atPath: filePath.path) {
             let process = Process()
@@ -60,12 +59,12 @@ class HelperExecutionService {
             do {
                 try process.run()
             } catch {
-                return nil
+                return
             }
             process.waitUntilExit()
-            return "Launch service started with exit code of \(process.terminationStatus.description)"
+            return
         } else {
-            return nil
+            return
         }
     }
     
@@ -78,7 +77,7 @@ class HelperExecutionService {
         - oldPass: The user's password on their old device as `String`
         - user: The user that will be created as `String`
      */
-    static func createLaunchDaemon(migratorToolPath path: String, withOldUser oldUser: String, withOldHome oldHome: String, withOldPass oldPass: String, forUser user: String) async throws -> String? {
+    static func createLaunchDaemon(migratorToolPath path: String, withOldUser oldUser: String, withOldHome oldHome: String, withOldPass oldPass: String, forUser user: String) async throws {
         let filePath = URL(fileURLWithPath: "/Library/LaunchDaemons/com.github.cybertunnel.Enterprise-Migration-Assistant.migratorTool.plist")
         let contents = """
         <?xml version="1.0" encoding="UTF-8"?>
@@ -102,12 +101,12 @@ class HelperExecutionService {
         """
         
         if FileManager.default.createFile(atPath: filePath.path, contents: contents.data(using: .utf8)) {
-            return "Successfully created LaunchDaemon"
+            return
         }
         else {
             // TODO: Add throwing
         }
-        return nil
+        return
     }
     
     /**
@@ -121,7 +120,7 @@ class HelperExecutionService {
         - adminPass: The password for the admin user being used to create this account as `String`
         - completion: What to do when data or error is recieved as `(String?, Error?) -> Void`
      */
-    static func makeMigratorUser(username: String, withName name: String, withPassword password: String, usingAdmin adminUser: String, withAdminPass adminPass: String) async throws -> String? {
+    static func makeMigratorUser(username: String, withName name: String, withPassword password: String, usingAdmin adminUser: String, withAdminPass adminPass: String) async throws {
         let process = Process()
         process.executableURL = URL(fileURLWithPath: "/usr/sbin/sysadminctl")
         process.arguments = ["-addUser", username, "-fullName", name, "-password", password, "-admin", "-adminUser", adminUser, "-adminPassword", adminPass]
@@ -133,10 +132,10 @@ class HelperExecutionService {
         process.waitUntilExit()
         
         if process.terminationStatus == 0 {
-            return "Migration user created successfully."
+            return
         } else {
             // TODO: Add throwing
         }
-        return nil
+        return
     }
 }

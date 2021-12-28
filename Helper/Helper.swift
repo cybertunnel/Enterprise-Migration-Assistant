@@ -37,10 +37,10 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
         - dest: The place the folder is being copied to as `URL`
         - completion: What to do when data or errors are recieved as `(String?, Error?) -> Void`
      */
-    func copyFolder(from src: URL, to dest: URL) async throws -> String? {
-        let result = try await HelperExecutionService.copyFolder(from: src, to: dest)
-        self.logger.debug("Obtained result of \(result ?? "")")
-        return result
+    func copyFolder(from src: URL, to dest: URL) async throws {
+        try await HelperExecutionService.copyFolder(from: src, to: dest)
+        self.logger.info("Successfully copied \(src.debugDescription) to \(dest.debugDescription).")
+        return
     }
     
     
@@ -72,11 +72,11 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
         - adminPass: The password for the admin user being used to create this account as `String`
         - completion: What to do when data or error is recieved as `(String?, Error?) -> Void`
      */
-    func createMigrationUser(username: String = "migrator", withName name: String = "Please Wait...", withPassword password: String = "migrationisfun", usingAdmin adminUser: String, withAdminPass adminPass: String) async throws -> String? {
+    func createMigrationUser(username: String = "migrator", withName name: String = "Please Wait...", withPassword password: String = "migrationisfun", usingAdmin adminUser: String, withAdminPass adminPass: String) async throws {
         self.logger.info("Attempting to make \(username) user using \(adminUser)'s credentials.")
-        let result = try await HelperExecutionService.makeMigratorUser(username: username, withName: name, withPassword: password, usingAdmin: adminUser, withAdminPass: adminPass)
-        self.logger.info("Output: \(result ?? "Empty")")
-        return result
+        try await HelperExecutionService.makeMigratorUser(username: username, withName: name, withPassword: password, usingAdmin: adminUser, withAdminPass: adminPass)
+        self.logger.info("Successfully created \(username).")
+        return
     }
     
     /**
@@ -89,12 +89,12 @@ class Helper: NSObject, NSXPCListenerDelegate, HelperProtocol {
         - user: The user that will be created as `String`
         - completion: What to do when data or error is recieved as `(String?, Error?) -> Void`
      */
-    func createLaunchDaemon(migratorToolPath path: String, withOldUser oldUser: String, withOldHome oldHome: String, withOldPass oldPass: String, forUser user: String) async throws -> String? {
+    func createLaunchDaemon(migratorToolPath path: String, withOldUser oldUser: String, withOldHome oldHome: String, withOldPass oldPass: String, forUser user: String) async throws {
         self.logger.info("Attempting to create launch daemon to launch the tool at \(path)")
         
-        let result = try await HelperExecutionService.createLaunchDaemon(migratorToolPath: path, withOldUser: oldUser, withOldHome: oldHome, withOldPass: oldPass, forUser: user)
-        self.logger.info("Output: \(result ?? "Empty")")
-        return result
+        try await HelperExecutionService.createLaunchDaemon(migratorToolPath: path, withOldUser: oldUser, withOldHome: oldHome, withOldPass: oldPass, forUser: user)
+        self.logger.info("Successfully created launch daemon.")
+        return
     }
     
     /// Run the helper

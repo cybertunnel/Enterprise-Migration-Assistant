@@ -47,8 +47,6 @@
 		81A2F0042761011400F002F3 /* HelperConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2F0022761011400F002F3 /* HelperConstants.swift */; };
 		81A2F0062761018300F002F3 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2F0052761018300F002F3 /* Helper.swift */; };
 		81A2F0082761018D00F002F3 /* HelperExecutionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2F0072761018D00F002F3 /* HelperExecutionService.swift */; };
-		81A2F00A2761034F00F002F3 /* Result+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2F0092761034F00F002F3 /* Result+Extension.swift */; };
-		81A2F00B2761034F00F002F3 /* Result+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2F0092761034F00F002F3 /* Result+Extension.swift */; };
 		81A2F00D2761038000F002F3 /* MigrationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2F00C2761038000F002F3 /* MigrationError.swift */; };
 		81A2F00E2761038000F002F3 /* MigrationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2F00C2761038000F002F3 /* MigrationError.swift */; };
 		81A2F0102761054E00F002F3 /* HelperRemote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A2F00F2761054E00F002F3 /* HelperRemote.swift */; };
@@ -139,7 +137,6 @@
 		81A2F0022761011400F002F3 /* HelperConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperConstants.swift; sourceTree = "<group>"; };
 		81A2F0052761018300F002F3 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		81A2F0072761018D00F002F3 /* HelperExecutionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperExecutionService.swift; sourceTree = "<group>"; };
-		81A2F0092761034F00F002F3 /* Result+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Result+Extension.swift"; sourceTree = "<group>"; };
 		81A2F00C2761038000F002F3 /* MigrationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationError.swift; sourceTree = "<group>"; };
 		81A2F00F2761054E00F002F3 /* HelperRemote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperRemote.swift; sourceTree = "<group>"; };
 		81A2F0112761081300F002F3 /* Launchd.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Launchd.plist; sourceTree = "<group>"; };
@@ -263,7 +260,6 @@
 				818122462745A74500BBE9A3 /* Assets.xcassets */,
 				8181224B2745A74500BBE9A3 /* Enterprise_Migration_Assistant.entitlements */,
 				818122482745A74500BBE9A3 /* Preview Content */,
-				81A2F0092761034F00F002F3 /* Result+Extension.swift */,
 				816DBD122763EC7A00F65A08 /* AppConstants.swift */,
 				81A2F014276108D200F002F3 /* ExecutionService.swift */,
 				81A2F00F2761054E00F002F3 /* HelperRemote.swift */,
@@ -445,7 +441,6 @@
 				813F4F2827625B8400BDC165 /* MigrationView.swift in Sources */,
 				81A2F0002761010100F002F3 /* RemoteApplicationProtocol.swift in Sources */,
 				812FB1CE276BA2E900CE1993 /* SendAppleEvent.swift in Sources */,
-				81A2F00A2761034F00F002F3 /* Result+Extension.swift in Sources */,
 				818122432745A74300BBE9A3 /* Enterprise_Migration_AssistantApp.swift in Sources */,
 				816DBD172763F5B600F65A08 /* ErrorView.swift in Sources */,
 				8148307F275946E40014F73B /* DiskListView.swift in Sources */,
@@ -466,7 +461,6 @@
 				81A2F0062761018300F002F3 /* Helper.swift in Sources */,
 				81A2EFFE2760FF7000F002F3 /* HelperProtocol.swift in Sources */,
 				81A2F0012761010100F002F3 /* RemoteApplicationProtocol.swift in Sources */,
-				81A2F00B2761034F00F002F3 /* Result+Extension.swift in Sources */,
 				816DBD142763EC7A00F65A08 /* AppConstants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
